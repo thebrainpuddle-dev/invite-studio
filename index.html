@@ -79,10 +79,10 @@
     animation: float 3s ease-in-out infinite;
   }
   .scroll-hint {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    color: var(--text-dim); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    animation: bobDown 2s ease-in-out infinite;
+    position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    color: var(--text-dim); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bobDown 2s ease-in-out infinite; z-index: 3;
   }
   .scroll-hint svg { width: 20px; height: 20px; stroke: var(--gold); opacity: 0.5; }
 
@@ -249,6 +249,7 @@
   /* ===== COUNTER ===== */
   .countdown-row {
     display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.5rem;
+    padding-bottom: 3rem;
   }
   .cd-unit { text-align: center; }
   .cd-num {
@@ -564,17 +565,35 @@
 
   // ===== MUSIC =====
   const musicBtn = document.getElementById('music-btn');
-  let audio = null;
+  const audio = new Audio('Tum Mile (Slowed  Reverb)  Javed Ali, Pritam  SR Lofi.mp3');
+  audio.loop = true;
+  audio.volume = 0.3;
   let isPlaying = false;
-  musicBtn.addEventListener('click', () => {
-    if (!audio) {
-      audio = new Audio('https://cdn.pixabay.com/audio/2022/02/22/audio_d1718ab41b.mp3');
-      audio.loop = true;
-      audio.volume = 0.3;
-    }
-    if (isPlaying) { audio.pause(); musicBtn.classList.remove('playing'); }
-    else { audio.play().catch(()=>{}); musicBtn.classList.add('playing'); }
-    isPlaying = !isPlaying;
+
+  function startMusic() {
+    audio.play().then(() => {
+      isPlaying = true;
+      musicBtn.classList.add('playing');
+    }).catch(() => {});
+  }
+
+  // autoplay on first user interaction (browsers require gesture)
+  function autoplayOnce() {
+    startMusic();
+    document.removeEventListener('click', autoplayOnce);
+    document.removeEventListener('touchstart', autoplayOnce);
+    document.removeEventListener('scroll', autoplayOnce);
+  }
+  document.addEventListener('click', autoplayOnce);
+  document.addEventListener('touchstart', autoplayOnce);
+  document.addEventListener('scroll', autoplayOnce);
+  // also try immediate play (works in some browsers)
+  startMusic();
+
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isPlaying) { audio.pause(); musicBtn.classList.remove('playing'); isPlaying = false; }
+    else { startMusic(); }
   });
 })();
 </script>

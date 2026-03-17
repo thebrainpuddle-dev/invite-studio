@@ -107,17 +107,76 @@
 
   /* ===== ABOUT / TRIBUTE ===== */
   .tribute-sec { background: var(--bg2); }
+  .tribute-card {
+    max-width: 650px; margin: 0 auto;
+    background: var(--card); border-radius: 12px; padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.04);
+    border: 1px solid rgba(192,139,62,0.1);
+  }
+  .tribute-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
   .tribute-text {
-    font-family: var(--font-display); font-size: 1.15rem; line-height: 2;
+    font-family: var(--font-display); font-size: 1.1rem; line-height: 2;
     text-align: center; color: var(--text); font-style: italic;
-    max-width: 650px; margin: 0 auto 2rem;
+    margin-bottom: 1.5rem;
   }
   .tribute-text .highlight {
     color: var(--gold); font-style: normal; font-weight: 600;
   }
   .tribute-sig {
-    text-align: center; color: var(--text-dim); font-size: 0.8rem;
+    text-align: center;
     font-family: var(--font-script); font-size: 1.3rem; color: var(--gold);
+  }
+
+  /* ===== PHOTO GALLERY ===== */
+  .gallery-sec { background: var(--bg); }
+  .gallery-grid {
+    columns: 3; column-gap: 0.8rem;
+    max-width: 800px; margin: 0 auto;
+  }
+  .gallery-item {
+    break-inside: avoid; margin-bottom: 0.8rem;
+    border-radius: 8px; overflow: hidden;
+    position: relative; cursor: pointer;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+  .gallery-item img {
+    width: 100%; display: block;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.03); }
+  .gallery-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.5));
+    padding: 2rem 0.8rem 0.6rem; opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gallery-item:hover .gallery-caption { opacity: 1; }
+  .gallery-caption span {
+    font-family: var(--font-body); font-size: 0.6rem;
+    color: #fff; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  /* lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 900; background: rgba(0,0,0,0.9);
+    display: none; align-items: center; justify-content: center;
+    cursor: zoom-out; backdrop-filter: blur(8px);
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw; max-height: 90vh; border-radius: 8px;
+    box-shadow: 0 0 60px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid { columns: 2; }
+    .tribute-card { padding: 2rem 1.5rem; }
   }
 
   /* ===== JOURNEY TIMELINE ===== */
@@ -331,17 +390,60 @@
 <!-- TRIBUTE -->
 <section class="sec tribute-sec">
   <div class="sec-inner">
-    <p class="sec-label r">A Few Words</p>
-    <h2 class="sec-title r">More Than a Bava</h2>
-    <p class="tribute-text r">
-      Some people enter your life and quietly become the <span class="highlight">foundation</span> you build upon — like the reinforced concrete you once studied, strong and unseen. You've been that for us. A <span class="highlight">silent inspiration</span>, the person we look up to when crossroads appear and decisions feel heavy. Before TCS, during TCS, and every chapter since — your guidance has been the compass we didn't know we needed. You never made noise about it, you just <span class="highlight">showed up</span>. And that meant everything.
-    </p>
-    <p class="tribute-text r" style="font-size: 0.95rem; color: var(--text-dim);">
-      From the lecture halls of Civil Engineering, to the war rooms of TCS, to the strategy tables at Accenture, to the trading floors of Franklin Templeton — you've proven that <span class="highlight">reinvention is a superpower</span>. And yet, through it all, you never stopped teaching, never stopped caring.
-    </p>
-    <p class="tribute-sig r">We like you. A lot. ❤️</p>
+    <p class="sec-label r">From The Heart</p>
+    <h2 class="sec-title r">To Someone Special</h2>
+    <div class="tribute-card r">
+      <p class="tribute-text">
+        You have been nothing but caring, patient and extremely responsible of me through our journey right from being best friends to life partners. I could not imagined even in my best of dreams to share my life with someone like you. I cannot thank you enough for the life you have given me, the times you have held on and those that you have let go, and for the kind of love you shower for me every single day.
+      </p>
+      <p class="tribute-text">
+        Your quirks and idiosyncrasies aside, you are like my <span class="highlight">warm blanket on a rainy day</span>.
+      </p>
+      <p class="tribute-text" style="margin-bottom: 0;">
+        Wish you many more great birthdays ahead, and hope I am in each and every one of them.
+      </p>
+      <br>
+      <p class="tribute-sig">With all my love ❤️</p>
+    </div>
   </div>
 </section>
+
+<!-- PHOTO GALLERY -->
+<section class="sec gallery-sec">
+  <div class="sec-inner">
+    <p class="sec-label r">Through The Years</p>
+    <h2 class="sec-title r">Moments That Matter</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item r"><img src="images/baby.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Where it all began</span></div></div>
+      <div class="gallery-item r"><img src="images/WhatsApp Image 2026-03-17 at 23.40.06.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Adventures together</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_4221.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Celebrations</span></div></div>
+      <div class="gallery-item r"><img src="images/WhatsApp Image 2026-03-17 at 23.40.07.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Exploring the world</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1999.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>The cool one</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_0584.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Temple visits</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_6393.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Family pooja</span></div></div>
+      <div class="gallery-item r"><img src="images/eva.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Best friends</span></div></div>
+      <div class="gallery-item r"><img src="images/105de858-f9b3-4ddd-a8da-ef69b93f1118.JPG" alt="" loading="lazy"><div class="gallery-caption"><span>Boat rides</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_2235.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Above the clouds</span></div></div>
+      <div class="gallery-item r"><img src="images/WhatsApp Image 2026-03-17 at 23.40.05.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Beach vibes</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_0347.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Family time</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1553.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Quality time</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_4069.JPG" alt="" loading="lazy"><div class="gallery-caption"><span>The gang</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1852.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Temple architecture</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1890.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Night out</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1924.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Sacred places</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_0223.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Brothers</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_0277.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Scenic roads</span></div></div>
+      <div class="gallery-item r"><img src="images/WhatsApp Image 2026-03-17 at 23.40.08.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>The hustle</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_2162.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Ride on</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1036.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Airport farewell</span></div></div>
+      <div class="gallery-item r"><img src="images/IMG_1775.jpg" alt="" loading="lazy"><div class="gallery-caption"><span>Heritage</span></div></div>
+      <div class="gallery-item r"><img src="images/index.jpeg" alt="" loading="lazy"><div class="gallery-caption"><span>Finding peace</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox"><img src="" alt=""></div>
 
 <!-- JOURNEY -->
 <section class="sec journey-sec">
@@ -492,17 +594,15 @@
 <!-- BIRTHDAY WISH -->
 <section class="sec wish-sec">
   <div class="sec-inner">
-    <p class="sec-label r">Our Wish For You</p>
-    <h2 class="sec-title r">From Us, With Love</h2>
+    <p class="sec-label r">Happy Birthday</p>
+    <h2 class="sec-title r">Here's To Many More</h2>
     <div class="wish-card r">
       <p class="wish-msg">
-        You have been nothing but caring, patient and extremely responsible through our journey — right from being family to becoming each other's biggest supporters. We could not have imagined even in our best of dreams to have someone like you in our lives. We cannot thank you enough for the times you have held on and those that you have let go, and for the kind of love you shower every single day.
+        From the blueprints of civil engineering to the product roadmaps of Franklin Templeton — every chapter has been extraordinary. May this next year bring even grander designs, bolder moves, and all the happiness you deserve.
         <br><br>
-        Your quirks and idiosyncrasies aside, you are like a warm blanket on a rainy day.
-        <br><br>
-        Wish you many more great birthdays ahead, and hope we are in each and every one of them.
+        Happy Birthday, Srikar. The world is better with you in it.
       </p>
-      <p class="wish-from">— With all our love ❤️</p>
+      <p class="wish-from">— Your Family ❤️</p>
     </div>
   </div>
 </section>
@@ -648,6 +748,17 @@
   }
   updateCounter();
   setInterval(updateCounter, 1000);
+
+  // ===== LIGHTBOX =====
+  const lb = document.getElementById('lightbox');
+  const lbImg = lb.querySelector('img');
+  document.querySelectorAll('.gallery-item img').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lb.classList.add('open');
+    });
+  });
+  lb.addEventListener('click', () => { lb.classList.remove('open'); });
 
   // ===== MUSIC =====
   const musicBtn = document.getElementById('music-btn');

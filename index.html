@@ -179,70 +179,7 @@
     .tribute-card { padding: 2rem 1.5rem; }
   }
 
-  /* ===== JOURNEY TIMELINE ===== */
-  .journey-sec { background: var(--bg); }
-  .timeline {
-    position: relative; max-width: 700px; margin: 0 auto;
-    padding-left: 2.5rem;
-  }
-  .timeline::before {
-    content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0;
-    width: 2px; background: linear-gradient(180deg, var(--gold), var(--accent2), var(--accent));
-    opacity: 0.3; border-radius: 2px;
-  }
-  .tl-item {
-    position: relative; margin-bottom: 2.5rem; padding-bottom: 0.5rem;
-  }
-  .tl-dot {
-    position: absolute; left: -2.15rem; top: 0.3rem; width: 14px; height: 14px;
-    border-radius: 50%; border: 2px solid var(--gold); background: var(--bg);
-    z-index: 1;
-  }
-  .tl-dot.active { background: var(--gold); box-shadow: 0 0 12px rgba(192,139,62,0.3); }
-  .tl-phase {
-    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 0.3rem;
-  }
-  .tl-role {
-    font-family: var(--font-display); font-size: 1.1rem; color: var(--text);
-    margin-bottom: 0.15rem;
-  }
-  .tl-company {
-    font-size: 0.8rem; color: var(--gold); margin-bottom: 0.3rem;
-  }
-  .tl-year {
-    font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.15em;
-  }
-  .tl-note {
-    font-size: 0.75rem; color: var(--text-dim); margin-top: 0.4rem; line-height: 1.6;
-  }
-  .tl-icon {
-    position: absolute; right: 0; top: 0; font-size: 1.5rem; opacity: 0.15;
-  }
-
-  /* ===== ACHIEVEMENTS ===== */
-  .achieve-sec { background: var(--bg2); }
-  .achieve-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
-    max-width: 700px; margin: 0 auto;
-  }
-  .achieve-card {
-    background: var(--card); border-radius: 8px; padding: 2rem 1.2rem;
-    text-align: center; border: 1px solid rgba(192,139,62,0.12);
-    box-shadow: 0 2px 15px rgba(0,0,0,0.04);
-    transition: transform 0.4s ease, border-color 0.4s ease;
-  }
-  .achieve-card:hover { transform: translateY(-4px); border-color: rgba(192,139,62,0.25); }
-  .achieve-num {
-    font-family: var(--font-display); font-size: 2.5rem; color: var(--gold);
-    font-weight: 700; line-height: 1;
-  }
-  .achieve-label {
-    font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.15em;
-    text-transform: uppercase; margin-top: 0.5rem;
-  }
-
-  /* ===== FUN FACTS / CE-to-IT ===== */
+  /* ===== FUN FACTS ===== */
   .facts-sec { background: var(--bg); }
   .facts-grid {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
@@ -302,15 +239,6 @@
     text-transform: uppercase;
   }
 
-  /* ===== BLUEPRINT DECORATION ===== */
-  .blueprint-bg {
-    position: absolute; inset: 0; opacity: 0.04; pointer-events: none;
-    background-image:
-      linear-gradient(rgba(192,139,62,0.25) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(192,139,62,0.25) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
   /* ===== KEYFRAMES ===== */
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
@@ -348,7 +276,6 @@
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .achieve-grid { grid-template-columns: 1fr; gap: 1rem; }
     .facts-grid { grid-template-columns: 1fr; }
     .countdown-row { gap: 0.8rem; }
     .cd-num { font-size: 1.5rem; }
@@ -445,147 +372,41 @@
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox"><img src="" alt=""></div>
 
-<!-- JOURNEY -->
-<section class="sec journey-sec">
-  <div class="blueprint-bg"></div>
-  <div class="sec-inner">
-    <p class="sec-label r">The Blueprint</p>
-    <h2 class="sec-title r">A Journey Like No Other</h2>
-    <div class="timeline">
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">🏗️</div>
-        <div class="tl-phase">The Foundation</div>
-        <div class="tl-role">Civil Engineering</div>
-        <div class="tl-company">Where It All Began</div>
-        <div class="tl-year">The Early Years</div>
-        <div class="tl-note">They say civil engineers build the world. You went a step further — you used that structured thinking to build an extraordinary career. The blueprint mindset never left you.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">💻</div>
-        <div class="tl-phase">The Pivot</div>
-        <div class="tl-role">Business Analyst</div>
-        <div class="tl-company">Tata Consultancy Services</div>
-        <div class="tl-year">2015 — 2016</div>
-        <div class="tl-note">From concrete to code. Most people are afraid of reinvention — you made it look effortless. Breaking into IT from Civil Engineering? That takes courage.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">🎓</div>
-        <div class="tl-phase">The Teacher</div>
-        <div class="tl-role">Corporate Trainer</div>
-        <div class="tl-company">Tata Consultancy Services</div>
-        <div class="tl-year">2016 — 2017</div>
-        <div class="tl-note">700+ associates trained. That's not a job — that's a calling. Your passion for teaching found its first major stage here.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">📊</div>
-        <div class="tl-phase">The Rise</div>
-        <div class="tl-role">Lead Business Analyst</div>
-        <div class="tl-company">Tata Consultancy Services</div>
-        <div class="tl-year">2017 — 2019</div>
-        <div class="tl-note">Leading analysis for Fortune 100 clients, navigating BFSI and Healthcare — domains that don't tolerate mistakes. You thrived.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">🚀</div>
-        <div class="tl-phase">The Product Mind</div>
-        <div class="tl-role">Product Owner</div>
-        <div class="tl-company">Tata Consultancy Services</div>
-        <div class="tl-year">2019 — 2021</div>
-        <div class="tl-note">From analyzing products to owning them. Digital transformation, legacy modernization, enterprise agility — your toolkit was growing fast.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot"></div>
-        <div class="tl-icon">🎯</div>
-        <div class="tl-phase">The Strategist</div>
-        <div class="tl-role">Consultant</div>
-        <div class="tl-company">Accenture Strategy & Consulting</div>
-        <div class="tl-year">2022 — 2024</div>
-        <div class="tl-note">Strategy. Consulting. The big leagues. Cross-cultural teams, global clients, and decisions that move millions.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot active"></div>
-        <div class="tl-icon">🏆</div>
-        <div class="tl-phase">IIM Kozhikode</div>
-        <div class="tl-role">MBA — IIM K</div>
-        <div class="tl-company">Indian Institute of Management</div>
-        <div class="tl-year">The Game Changer</div>
-        <div class="tl-note">Because a Civil Engineer turned IT professional turned consultant thought "why not add IIM to the mix?" Absolute legend.</div>
-      </div>
-      <div class="tl-item r">
-        <div class="tl-dot active"></div>
-        <div class="tl-icon">🇺🇸</div>
-        <div class="tl-phase">The New Chapter</div>
-        <div class="tl-role">Product Manager</div>
-        <div class="tl-company">Franklin Templeton — United States</div>
-        <div class="tl-year">2024 — Present</div>
-        <div class="tl-note">New country. New horizons. Same relentless drive. Managing products at one of the world's largest investment management firms. The blueprint keeps expanding.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section class="sec achieve-sec">
-  <div class="sec-inner">
-    <p class="sec-label r">By The Numbers</p>
-    <h2 class="sec-title r">Impact in Digits</h2>
-    <div class="achieve-grid">
-      <div class="achieve-card r">
-        <div class="achieve-num" data-count="700">0</div>
-        <div class="achieve-label">Associates Mentored</div>
-      </div>
-      <div class="achieve-card r">
-        <div class="achieve-num" data-count="11">0</div>
-        <div class="achieve-label">Years in Industry</div>
-      </div>
-      <div class="achieve-card r">
-        <div class="achieve-num" data-count="4">0</div>
-        <div class="achieve-label">Organizations Shaped</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FUN FACTS -->
+<!-- THE MANY HATS -->
 <section class="sec facts-sec">
-  <div class="blueprint-bg"></div>
   <div class="sec-inner">
-    <p class="sec-label r">Fun Facts</p>
-    <h2 class="sec-title r">Things We Love About You</h2>
+    <p class="sec-label r">The Many Roles You Play</p>
+    <h2 class="sec-title r">Why Everyone Loves You</h2>
     <div class="facts-grid">
       <div class="fact-card r">
-        <div class="fact-emoji">🏗️ → 💻</div>
-        <div class="fact-title">The Ultimate Pivot</div>
-        <div class="fact-desc">Civil Engineer to IT Professional. Because building bridges between systems is just as important as building physical ones.</div>
+        <div class="fact-emoji">👑</div>
+        <div class="fact-title">The Big Brother</div>
+        <div class="fact-desc">Even though technically you're the younger one — you've always been the bigger person. The one who guides, protects, and shows up when it matters most.</div>
       </div>
       <div class="fact-card r">
-        <div class="fact-emoji">🎤</div>
-        <div class="fact-title">Toastmasters Champion</div>
-        <div class="fact-desc">Multiple awards. The stage fears you, not the other way around. Public speaking became your superpower.</div>
+        <div class="fact-emoji">💛</div>
+        <div class="fact-title">Best Son</div>
+        <div class="fact-desc">The pride of the family. Every parent dreams of a child who balances ambition with humility, and you do it effortlessly.</div>
       </div>
       <div class="fact-card r">
-        <div class="fact-emoji">🧠</div>
-        <div class="fact-title">Frugal Innovation Believer</div>
-        <div class="fact-desc">Doing more with less. The jugaad mindset meets enterprise thinking — that's a rare combination.</div>
+        <div class="fact-emoji">💍</div>
+        <div class="fact-title">Best Husband</div>
+        <div class="fact-desc">Patient, caring, and always present. The kind of partner who makes every day feel safe and every challenge feel small.</div>
       </div>
       <div class="fact-card r">
-        <div class="fact-emoji">🌍</div>
-        <div class="fact-title">The Global Citizen</div>
-        <div class="fact-desc">From India to the US, managing cross-cultural teams across time zones. The world is quite literally your workspace.</div>
+        <div class="fact-emoji">🐕</div>
+        <div class="fact-title">Best Dog Dad</div>
+        <div class="fact-desc">The way you love your furry friend says everything about the size of your heart. Pure, unconditional, no questions asked.</div>
       </div>
       <div class="fact-card r">
-        <div class="fact-emoji">📐</div>
-        <div class="fact-title">Blueprint Thinker</div>
-        <div class="fact-desc">You can take the engineer out of civil engineering, but you can't take the structured thinking out of the engineer. Every product roadmap is a blueprint.</div>
+        <div class="fact-emoji">🧭</div>
+        <div class="fact-title">The Silent Guide</div>
+        <div class="fact-desc">Never loud, never boastful. Just there — with the right advice, at the right time. You helped shape decisions that changed lives, including mine.</div>
       </div>
       <div class="fact-card r">
-        <div class="fact-emoji">❤️</div>
-        <div class="fact-title">The Silent Mentor</div>
-        <div class="fact-desc">Never loud, never boastful. Just there — with the right advice, at the right time. That's the rarest kind of mentor.</div>
+        <div class="fact-emoji">🌏</div>
+        <div class="fact-title">The Adventurer</div>
+        <div class="fact-desc">From temples to beaches, mountains to new countries — you explore the world with the same curiosity you bring to everything in life.</div>
       </div>
     </div>
   </div>
@@ -598,9 +419,9 @@
     <h2 class="sec-title r">Here's To Many More</h2>
     <div class="wish-card r">
       <p class="wish-msg">
-        From the blueprints of civil engineering to the product roadmaps of Franklin Templeton — every chapter has been extraordinary. May this next year bring even grander designs, bolder moves, and all the happiness you deserve.
+        May this year bring you everything your heart desires — more adventures, more laughter, more memories, and all the happiness you truly deserve. You make the world a better place just by being you.
         <br><br>
-        Happy Birthday, Srikar. The world is better with you in it.
+        Happy Birthday, Srikar. Here's to many, many more.
       </p>
       <p class="wish-from">— Your Family ❤️</p>
     </div>
@@ -702,25 +523,6 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); obs.unobserve(e.target); }});
   }, { threshold: 0.15 });
   document.querySelectorAll('.r').forEach(el => obs.observe(el));
-
-  // ===== COUNTING ANIMATION =====
-  const countObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      const target = parseInt(el.dataset.count);
-      const suffix = el.dataset.suffix || '';
-      let current = 0;
-      const step = Math.max(1, Math.floor(target / 60));
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(timer); }
-        el.textContent = current + suffix;
-      }, 30);
-      countObs.unobserve(el);
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
 
   // ===== AGE COUNTER (fun) =====
   const bday = new Date('2026-03-18T00:00:00');

@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinematic Preview — invite.studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c9942a;
+      --gold-light: #e8b84b;
+      --gold-dim: rgba(201,148,42,0.3);
+      --dark: #050505;
+      --bar-h: 60px;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--dark);
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+
+    /* ── Letterbox bars ── */
+    #bar-top, #bar-bottom {
+      position: fixed;
+      left: 0; right: 0;
+      height: var(--bar-h);
+      background: #000;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+    #bar-top { top: 0; justify-content: space-between; padding: 0 18px; }
+    #bar-bottom { bottom: 0; justify-content: space-between; padding: 0 18px; }
+
+    /* top bar internals */
+    #logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    #progress-wrap {
+      flex: 1;
+      margin: 0 16px;
+      height: 2px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 0.25s linear;
+    }
+
+    #top-controls {
+      display: flex; gap: 6px; flex-shrink: 0;
+    }
+
+    /* bottom bar internals */
+    #scene-label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+    }
+
+    #bottom-controls {
+      display: flex; gap: 6px; align-items: center;
+    }
+
+    #template-label {
+      font-size: 11px;
+      color: rgba(201,148,42,0.6);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* icon buttons */
+    .icon-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.75);
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .icon-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,148,42,0.1);
+    }
+    .icon-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── Stage area ── */
+    #stage {
+      position: fixed;
+      top: var(--bar-h);
+      bottom: var(--bar-h);
+      left: 0; right: 0;
+      overflow: hidden;
+      background: var(--dark);
+    }
+
+    /* Background canvas */
+    #bg-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Vignette */
+    #vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        transparent 40%,
+        rgba(0,0,0,0.55) 100%);
+    }
+
+    /* ── Scenes ── */
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 60px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+      will-change: opacity, transform;
+    }
+    .scene.active {
+      pointer-events: auto;
+    }
+
+    /* ── Scene typography animations ── */
+    @keyframes sceneTextIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes sceneTextInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(1.15); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(201,148,42,0.4); }
+      50%       { text-shadow: 0 0 60px rgba(201,148,42,0.9), 0 0 100px rgba(201,148,42,0.4); }
+    }
+    @keyframes lineExpand {
+      from { width: 0; }
+      to   { width: 80px; }
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes ringsPulse {
+      0%, 100% { transform: scale(1) rotate(-15deg); }
+      50%       { transform: scale(1.08) rotate(-15deg); }
+    }
+    @keyframes counterUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.8); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes flashCaption {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    .anim-1 { animation: sceneTextIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+    .anim-2 { animation: sceneTextIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.8s both; }
+    .anim-3 { animation: sceneTextIn 0.9s cubic-bezier(0.22,1,0.36,1) 1.3s both; }
+    .anim-4 { animation: sceneTextIn 0.9s cubic-bezier(0.22,1,0.36,1) 1.8s both; }
+    .anim-scale { animation: scaleIn 1s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+
+    /* Scene element styles */
+    .eyebrow {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .title-great-vibes {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(52px, 10vw, 96px);
+      color: #fff;
+      line-height: 1.15;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+    .title-playfair {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .title-cormorant {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 5.5vw, 58px);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.35;
+    }
+    .gold-text {
+      color: var(--gold);
+    }
+    .gold-shimmer {
+      background: linear-gradient(90deg, var(--gold) 0%, #fff6d6 40%, var(--gold-light) 60%, var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+    .divider-line {
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      margin: 16px auto;
+      animation: lineExpand 0.8s ease-out 1s both;
+    }
+    .body-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(13px, 2vw, 16px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+    .huge-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(100px, 22vw, 200px);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 0.85;
+      animation: counterUp 1s cubic-bezier(0.22,1,0.36,1) 0.3s both;
+    }
+    .name-badge {
+      display: inline-block;
+      border: 1px solid var(--gold-dim);
+      padding: 6px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    .ornament { color: var(--gold); font-size: 22px; letter-spacing: 8px; margin: 8px 0; }
+    .quote-mark {
+      font-family: 'Great Vibes', cursive;
+      font-size: 80px;
+      color: var(--gold-dim);
+      line-height: 0.5;
+      display: block;
+    }
+    .rings-svg {
+      animation: ringsPulse 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(201,148,42,0.5));
+    }
+    .house-silhouette { filter: drop-shadow(0 0 30px rgba(201,148,42,0.35)); }
+    .split-row { display: flex; align-items: center; gap: 30px; justify-content: center; flex-wrap: wrap; }
+    .split-side { flex: 1; min-width: 160px; max-width: 280px; }
+    .connector { font-family: 'Great Vibes', cursive; font-size: 52px; color: var(--gold); }
+
+    /* Decorative border for quotes */
+    .quote-box {
+      border: 1px solid rgba(201,148,42,0.25);
+      padding: 30px 40px;
+      max-width: 560px;
+      position: relative;
+    }
+    .quote-box::before, .quote-box::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .quote-box::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .quote-box::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    /* Confetti particles */
+    .confetti-piece {
+      position: absolute;
+      width: 8px; height: 12px;
+      border-radius: 2px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      animation: confettiFall linear forwards;
+    }
+
+    /* Ambient particles on bg */
+    /* rendered via canvas */
+
+    /* Flash captions */
+    .flash-caption {
+      display: inline-block;
+      margin: 4px 0;
+      animation: flashCaption 1.4s ease-in-out infinite;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(201,148,42,0.95);
+      color: #000;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 200;
+      pointer-events: none;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* mobile swipe hint */
+    #swipe-hint {
+      position: fixed;
+      bottom: 70px;
+      right: 16px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 1px;
+      z-index: 50;
+    }
+
+    @media (max-width: 600px) {
+      .scene { padding: 30px 24px; }
+      #bar-top, #bar-bottom { padding: 0 10px; }
+      #logo { font-size: 12px; letter-spacing: 1px; }
+      .icon-btn { width: 28px; height: 28px; font-size: 11px; }
+      .quote-box { padding: 20px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top letterbox -->
+<div id="bar-top">
+  <div id="logo">invite.studio</div>
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="top-controls">
+    <button class="icon-btn" id="btn-mute" title="Mute">🔊</button>
+    <button class="icon-btn" id="btn-close" title="Close">✕</button>
+  </div>
+</div>
+
+<!-- Stage -->
+<div id="stage">
+  <canvas id="bg-canvas"></canvas>
+  <div id="vignette"></div>
+  <!-- scenes injected here -->
+</div>
+
+<!-- Bottom letterbox -->
+<div id="bar-bottom">
+  <div id="scene-label">Scene <span id="scene-current">1</span> / <span id="scene-total">8</span></div>
+  <div id="bottom-controls">
+    <button class="icon-btn" id="btn-restart" title="Restart">↺</button>
+    <button class="icon-btn" id="btn-prev" title="Previous">‹</button>
+    <button class="icon-btn" id="btn-playpause" title="Pause">⏸</button>
+    <button class="icon-btn" id="btn-next" title="Next">›</button>
+    <button class="icon-btn" id="btn-share" title="Share">🔗</button>
+  </div>
+  <div id="template-label">Loading…</div>
+</div>
+
+<!-- Toast -->
+<div id="toast">Copied!</div>
+<div id="swipe-hint">swipe to navigate</div>
+
+<script src="js/payment.js" defer></script>
+<script>
+/* ══════════════════════════════════════════
+   DATA & DEFAULTS
+══════════════════════════════════════════ */
+const DEFAULTS = {
+  'birthday-1':    {name:'Srikar', age:'30', date:'March 18, 2026', time:'7:00 PM', venue:'The Grand Ballroom, Jubilee Hills, Hyderabad', message:'Join us for an evening of royal joy!', host:'The Kumar Family'},
+  'birthday-2':    {name:'Arya', age:'5', date:'April 12, 2026', time:'3:00 PM', venue:'Rainbow Garden, Banjara Hills', message:"Let's party!", host:'Priya & Ravi'},
+  'wedding-1':     {groom:'Arjun Kumar', bride:'Meghana Reddy', weddingDate:'April 18, 2026', weddingTime:'10:30 AM', venue:'Sri Venkateswara Kalyana Mandapam, Hyderabad', message:'With blessings of the Almighty'},
+  'wedding-2':     {groom:'Aryan Sharma', bride:'Priya Agarwal', weddingDate:'May 5, 2026', weddingTime:'11:00 AM', venue:'Umaid Bhawan Palace, Jodhpur', message:'Shubh Vivah!'},
+  'housewarming-1':{family:'The Sharma Family', date:'June 15, 2026', time:'9:30 AM', address:'Plot 42, Manikonda, Hyderabad', ceremony:'Griha Pravesham', host:'Rajesh & Meena'},
+  'housewarming-2':{family:'The Mehta Family', date:'July 20, 2026', time:'11:00 AM', address:'3B Prestige Towers, Bangalore', ceremony:'Housewarming', host:'Anil & Divya'},
+  'babyshower-1':  {motherName:'Priya Reddy', date:'August 10, 2026', time:'10:00 AM', venue:'Sri Lakshmi Mandapam, Hyderabad', ceremony:'Seemantham'},
+  'babyshower-2':  {motherName:'Ananya Mehta', date:'September 5, 2026', time:'2:00 PM', venue:'The Bloom Garden, Bangalore', theme:'Twinkle Little Star', babyGender:'Girl'},
+  'engagement-1':  {groomName:'Vikram Nair', brideName:'Divya Pillai', date:'October 12, 2026', time:'11:00 AM', venue:'Sri Padmanabha Temple Hall', message:'A sacred promise'},
+  'engagement-2':  {groomName:'Rohan Kapoor', brideName:'Simran Singh', date:'November 8, 2026', time:'6:00 PM', venue:'The Taj Hotel, Mumbai', message:'Love is the beginning'},
+  'anniversary-1': {name1:'Rajesh', name2:'Sunita', years:'25', date:'December 20, 2026', time:'7:00 PM', venue:'The Leela Palace, Bengaluru'},
+  'anniversary-2': {name1:'Arun', name2:'Kavitha', years:'10', date:'January 15, 2027', time:'7:30 PM', venue:'ITC Grand Chola, Chennai'}
+};
+
+const TEMPLATE_NAMES = {
+  'birthday-1':'Birthday Celebration','birthday-2':'Kids Birthday Party',
+  'wedding-1':'South Indian Wedding','wedding-2':'Royal Wedding',
+  'housewarming-1':'Griha Pravesham','housewarming-2':'Housewarming',
+  'babyshower-1':'Seemantham','babyshower-2':'Baby Shower',
+  'engagement-1':'Engagement Ceremony','engagement-2':'Engagement Soiree',
+  'anniversary-1':'Silver Jubilee','anniversary-2':'Anniversary'
+};
+
+function getParams() {
+  const sp = new URLSearchParams(location.search);
+  return { template: sp.get('template') || 'birthday-1', id: sp.get('id') };
+}
+
+function loadData(template, id) {
+  if (id) {
+    try {
+      const store = JSON.parse(localStorage.getItem('is_invites') || '{}');
+      if (store[id]) return store[id];
+    } catch(e) {}
+  }
+  return DEFAULTS[template] || DEFAULTS['birthday-1'];
+}
+
+/* ══════════════════════════════════════════
+   SCENE BUILDERS
+══════════════════════════════════════════ */
+function sc(bg, content, duration, transition) {
+  return { bg, content, duration, transition };
+}
+
+/* helpers */
+const pin = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9942a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-7.3-8-12a8 8 0 0116 0c0 4.7-8 12-8 12z"/><circle cx="12" cy="9" r="2.5"/></svg>`;
+
+const ringsHTML = `<svg class="rings-svg" width="90" height="60" viewBox="0 0 90 60">
+  <circle cx="30" cy="30" r="22" fill="none" stroke="#c9942a" stroke-width="3"/>
+  <circle cx="60" cy="30" r="22" fill="none" stroke="#c9942a" stroke-width="3"/>
+  <circle cx="30" cy="30" r="18" fill="none" stroke="rgba(201,148,42,0.3)" stroke-width="1"/>
+  <circle cx="60" cy="30" r="18" fill="none" stroke="rgba(201,148,42,0.3)" stroke-width="1"/>
+</svg>`;
+
+const houseHTML = `<svg class="house-silhouette" width="110" height="90" viewBox="0 0 110 90" fill="none" stroke="#c9942a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="5,45 55,5 105,45"/>
+  <polyline points="15,45 15,85 95,85 95,45"/>
+  <rect x="40" y="58" width="22" height="27" rx="1"/>
+  <rect x="22" y="52" width="16" height="16" rx="1"/>
+  <rect x="72" y="52" width="16" height="16" rx="1"/>
+</svg>`;
+
+const babyHTML = `<div style="font-size:70px;line-height:1;filter:drop-shadow(0 0 30px rgba(201,148,42,0.5))">🍼</div>`;
+
+const omHTML = `<div style="font-family:'Playfair Display',serif;font-size:80px;color:var(--gold);line-height:1;filter:drop-shadow(0 0 30px rgba(201,148,42,0.6));animation:glowPulse 3s ease-in-out infinite">ॐ</div>`;
+
+function darkBg(extra) {
+  return `linear-gradient(135deg,#080808 0%,#0e0e0e 100%)${extra||''}`;
+}
+function gradBg(a,b) { return `linear-gradient(135deg,${a} 0%,${b} 100%)`; }
+
+/* ── BIRTHDAY ── */
+function buildBirthdayScenes(d) {
+  const particlesHTML = `<div style="position:relative;width:200px;height:200px;overflow:hidden;pointer-events:none">
+    ${Array.from({length:20},(_,i)=>`<div style="position:absolute;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;border-radius:50%;background:var(--gold);top:${Math.random()*100}%;left:${Math.random()*100}%;animation:sceneTextIn ${0.5+Math.random()}s ease ${Math.random()*2}s both;opacity:0.6"></div>`).join('')}
+  </div>`;
+  return [
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">An Invitation</div>
+      ${particlesHTML}
+      <div class="title-great-vibes anim-2">Happy Birthday</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">A celebration crafted just for you</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#100a00','#1c1100'), `
+      <div class="eyebrow anim-1">Celebrating</div>
+      <div class="title-playfair gold-shimmer anim-2" style="font-size:clamp(44px,9vw,88px)">${d.name}</div>
+      <div class="divider-line"></div>
+      <div class="anim-3" style="display:inline-flex;align-items:center;gap:12px;margin-top:8px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.5vw,32px);color:rgba(255,255,255,0.7)">Turning</span>
+        <span class="huge-number" style="font-size:clamp(60px,12vw,110px);line-height:1">${d.age}</span>
+      </div>
+      <div class="name-badge anim-4">The Guest of Honour</div>
+    `, 6000, 'zoom'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Mark Your Calendar</div>
+      <div class="ornament anim-1">✦ ✦ ✦</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(30px,6vw,56px)">${d.date}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.time}</div>
+    `, 5000, 'slide-up'),
+
+    sc(gradBg('#060a0a','#0a1010'), `
+      <div class="anim-1" style="margin-bottom:14px">${pin}</div>
+      <div class="eyebrow anim-1">Venue</div>
+      <div class="title-playfair anim-2" style="font-size:clamp(22px,4.5vw,42px);max-width:540px;line-height:1.3">${d.venue}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">Your presence is our greatest gift</div>
+    `, 5500, 'fade'),
+
+    sc(darkBg(), `
+      <div class="quote-box anim-scale">
+        <span class="quote-mark">"</span>
+        <div class="title-cormorant anim-2" style="font-size:clamp(20px,3.8vw,36px);margin-top:-10px">${d.message}</div>
+        <span class="quote-mark" style="transform:rotate(180deg);display:block;margin-top:4px">"</span>
+      </div>
+    `, 5000, 'dissolve'),
+
+    sc(gradBg('#0a0800','#150f00'), `
+      <div class="eyebrow anim-1">Hosted With Love By</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(40px,8vw,76px)">${d.host}</div>
+      <div class="divider-line"></div>
+      <div class="ornament anim-3">❧</div>
+    `, 4500, 'slide-left'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Precious Memories</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(26px,5vw,50px)">An evening of stories,<br>laughter & love awaits</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">Come be part of a memory that lasts forever</div>
+    `, 4500, 'fade'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">You Are Invited</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(46px,9vw,88px)">Join the Celebration</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(18px,3.5vw,32px)">${d.date}</div>
+      <div class="body-text anim-4" style="margin-top:8px">${d.venue}</div>
+    `, 6000, 'zoom'),
+  ];
+}
+
+/* ── WEDDING ── */
+function buildWeddingScenes(d) {
+  return [
+    sc(darkBg(), `
+      <div class="anim-1">${omHTML}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-2" style="color:rgba(255,255,255,0.55);letter-spacing:2px;font-size:12px;text-transform:uppercase">May the Almighty bless this union</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0a0600','#150e00'), `
+      <div class="eyebrow anim-1">Together with their families</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(46px,9vw,88px)">A Wedding Invitation</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.message}</div>
+    `, 5500, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Groom</div>
+      <div class="title-playfair gold-shimmer anim-2" style="font-size:clamp(36px,7vw,70px)">${d.groom}</div>
+      <div class="divider-line"></div>
+      <div class="ornament anim-3">✦</div>
+    `, 4500, 'slide-left'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Bride</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,8.5vw,84px)">${d.bride}</div>
+      <div class="divider-line"></div>
+      <div class="ornament anim-3">✦</div>
+    `, 4500, 'slide-left'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="split-row anim-scale">
+        <div class="split-side">
+          <div class="title-playfair" style="font-size:clamp(24px,4.5vw,44px)">${d.groom}</div>
+        </div>
+        <div class="connector">&</div>
+        <div class="split-side">
+          <div class="title-great-vibes" style="font-size:clamp(36px,6.5vw,64px)">${d.bride}</div>
+        </div>
+      </div>
+    `, 6000, 'zoom'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Muhurtham</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(30px,6vw,56px)">${d.weddingDate}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.weddingTime}</div>
+    `, 5000, 'slide-up'),
+
+    sc(gradBg('#060a0a','#0a1010'), `
+      <div class="anim-1" style="margin-bottom:12px">${pin}</div>
+      <div class="eyebrow anim-1">Venue</div>
+      <div class="title-playfair anim-2" style="font-size:clamp(20px,4vw,40px);max-width:520px;line-height:1.35">${d.venue}</div>
+    `, 5000, 'fade'),
+
+    sc(darkBg(), `
+      <div class="quote-box anim-scale">
+        <div class="eyebrow">Family Blessings</div>
+        <div class="title-cormorant anim-2" style="font-size:clamp(18px,3.5vw,32px);margin-top:12px">May this union be blessed<br>with love, prosperity and joy</div>
+      </div>
+    `, 4500, 'dissolve'),
+
+    sc(gradBg('#0a0600','#1a1000'), `
+      <div class="eyebrow anim-1">Request the pleasure of your company</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(40px,8vw,78px)">You are cordially invited</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">We humbly seek your blessings and presence</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">Save the Date</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(36px,7vw,70px)">${d.groom} & ${d.bride}</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(20px,4vw,38px)">${d.weddingDate}</div>
+      <div class="body-text anim-4">${d.venue}</div>
+    `, 7000, 'zoom'),
+  ];
+}
+
+/* ── HOUSEWARMING ── */
+function buildHousewarmingScenes(d) {
+  return [
+    sc(darkBg(), `
+      <div class="anim-1" style="margin-bottom:12px">${houseHTML}</div>
+      <div class="eyebrow anim-2">A New Beginning</div>
+    `, 4500, 'fade'),
+
+    sc(gradBg('#0a0600','#150e00'), `
+      <div class="eyebrow anim-1">Inviting you to</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(42px,8.5vw,82px)">${d.ceremony}</div>
+      <div class="divider-line"></div>
+      <div class="ornament anim-3">✦ ✦ ✦</div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Your Hosts</div>
+      <div class="title-playfair gold-shimmer anim-2" style="font-size:clamp(32px,6.5vw,66px)">${d.family}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.host}</div>
+    `, 5000, 'zoom'),
+
+    sc(gradBg('#060a0a','#0a1010'), `
+      <div class="eyebrow anim-1">Auspicious Occasion</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(28px,5.5vw,54px)">${d.date}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.time}</div>
+    `, 5000, 'slide-up'),
+
+    sc(darkBg(), `
+      <div class="anim-1" style="margin-bottom:12px">${pin}</div>
+      <div class="eyebrow anim-1">New Home</div>
+      <div class="title-playfair anim-2" style="font-size:clamp(20px,4vw,40px);max-width:500px;line-height:1.4">${d.address}</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="quote-box anim-scale">
+        <div class="eyebrow">Pooja Programme</div>
+        <div class="title-cormorant anim-2" style="margin-top:12px;font-size:clamp(16px,3vw,28px)">Ganapathi Pooja &amp; Homa<br>Griha Pravesham Ceremony<br>Sadhya &amp; Bhojanam</div>
+      </div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">We Seek Your</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,9vw,86px)">Blessings</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">Your presence will fill our home with warmth and joy</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">Join Us</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(38px,7.5vw,74px)">${d.family}</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(20px,4vw,38px)">${d.date} · ${d.time}</div>
+      <div class="body-text anim-4">${d.address}</div>
+    `, 7000, 'zoom'),
+  ];
+}
+
+/* ── BABY SHOWER ── */
+function buildBabyshowerScenes(d) {
+  const isSem = !!d.ceremony;
+  const title = isSem ? d.ceremony : (d.theme || 'Baby Shower');
+  return [
+    sc(darkBg(), `
+      <div class="anim-1">${babyHTML}</div>
+      <div class="eyebrow anim-2" style="margin-top:20px">A Precious Announcement</div>
+      <div class="ornament anim-3">✦ ✦ ✦</div>
+    `, 4500, 'fade'),
+
+    sc(gradBg('#0a0600','#150e00'), `
+      <div class="eyebrow anim-1">Celebrating</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,9vw,86px)">${title}</div>
+      <div class="divider-line"></div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Mother-to-Be</div>
+      <div class="title-playfair gold-shimmer anim-2" style="font-size:clamp(34px,7vw,68px)">${d.motherName}</div>
+      <div class="divider-line"></div>
+      <div class="ornament anim-3">❧</div>
+    `, 5000, 'zoom'),
+
+    sc(gradBg('#060a0a','#0a1010'), `
+      <div class="eyebrow anim-1">Date & Venue</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(26px,5vw,50px)">${d.date} · ${d.time}</div>
+      <div class="divider-line"></div>
+      <div class="anim-3" style="margin-bottom:10px">${pin}</div>
+      <div class="title-playfair anim-3" style="font-size:clamp(18px,3.5vw,34px);max-width:480px;line-height:1.4">${d.venue}</div>
+    `, 5500, 'slide-up'),
+
+    sc(darkBg(), `
+      <div class="quote-box anim-scale">
+        <div class="eyebrow">${isSem ? 'Ceremony' : 'Theme'}</div>
+        <div class="title-cormorant anim-2" style="margin-top:14px;font-size:clamp(18px,3.5vw,34px)">${isSem ? 'Ganapathi Pooja · Seemantham Ritual · Ashirvadam' : title}</div>
+        ${d.babyGender ? `<div class="name-badge anim-3" style="margin-top:14px">It's a ${d.babyGender}!</div>` : ''}
+      </div>
+    `, 5000, 'dissolve'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="quote-box anim-scale">
+        <span class="quote-mark">"</span>
+        <div class="title-cormorant anim-2" style="margin-top:-10px;font-size:clamp(18px,3.5vw,34px)">A tiny heartbeat, a universe of love</div>
+        <span class="quote-mark" style="transform:rotate(180deg);display:block">"</span>
+      </div>
+    `, 4500, 'fade'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Because</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,9vw,86px)">A New Life Begins</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">And every celebration needs the ones we love</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">Join Us to Celebrate</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(40px,8vw,78px)">${d.motherName}</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(20px,4vw,38px)">${d.date} · ${d.time}</div>
+      <div class="body-text anim-4">${d.venue}</div>
+    `, 7000, 'zoom'),
+  ];
+}
+
+/* ── ENGAGEMENT ── */
+function buildEngagementScenes(d) {
+  return [
+    sc(darkBg(), `
+      <div class="anim-1" style="margin-bottom:18px">${ringsHTML}</div>
+      <div class="eyebrow anim-2">A Sacred Promise</div>
+    `, 4500, 'fade'),
+
+    sc(gradBg('#0a0600','#150e00'), `
+      <div class="eyebrow anim-1">You are invited to</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(42px,8.5vw,82px)">Engagement Ceremony</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.message}</div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Groom</div>
+      <div class="title-playfair gold-shimmer anim-2" style="font-size:clamp(34px,7vw,68px)">${d.groomName}</div>
+      <div class="divider-line"></div>
+    `, 4500, 'slide-left'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Bride</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,8.5vw,84px)">${d.brideName}</div>
+      <div class="divider-line"></div>
+    `, 4500, 'slide-left'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="split-row anim-scale">
+        <div class="split-side">
+          <div class="title-playfair" style="font-size:clamp(22px,4.5vw,44px)">${d.groomName}</div>
+        </div>
+        <div style="font-size:40px">❤️</div>
+        <div class="split-side">
+          <div class="title-great-vibes" style="font-size:clamp(34px,6.5vw,64px)">${d.brideName}</div>
+        </div>
+      </div>
+    `, 6000, 'zoom'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Date & Venue</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(28px,5.5vw,54px)">${d.date}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.time}</div>
+      <div class="anim-4" style="margin:12px 0 6px">${pin}</div>
+      <div class="title-playfair anim-4" style="font-size:clamp(18px,3.5vw,34px);max-width:480px;line-height:1.4">${d.venue}</div>
+    `, 5500, 'slide-up'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="quote-box anim-scale">
+        <div class="eyebrow">Family Blessings</div>
+        <div class="title-cormorant anim-2" style="margin-top:14px;font-size:clamp(18px,3.5vw,34px)">With the blessings of our families<br>we embark on this journey together</div>
+      </div>
+    `, 5000, 'dissolve'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">Come Witness</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(40px,8vw,78px)">Our Promise</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(20px,4vw,38px)">${d.date} · ${d.time}</div>
+      <div class="body-text anim-4">${d.venue}</div>
+    `, 7000, 'zoom'),
+  ];
+}
+
+/* ── ANNIVERSARY ── */
+function buildAnniversaryScenes(d) {
+  const memories = ['First glance', 'First smile', 'First home', 'First journey', 'Every sunrise together'];
+  return [
+    sc(darkBg(), `
+      <div class="huge-number anim-1">${d.years}</div>
+      <div class="eyebrow anim-2" style="margin-top:8px">Years of Love</div>
+    `, 5000, 'fade'),
+
+    sc(gradBg('#0a0600','#150e00'), `
+      <div class="eyebrow anim-1">Celebrating</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,9vw,86px)">Years of Love</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">A lifetime of beautiful memories</div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Couple</div>
+      <div class="split-row anim-scale" style="margin-top:16px">
+        <div class="split-side">
+          <div class="title-playfair" style="font-size:clamp(28px,5.5vw,56px)">${d.name1}</div>
+        </div>
+        <div class="connector">&</div>
+        <div class="split-side">
+          <div class="title-great-vibes" style="font-size:clamp(38px,7vw,70px)">${d.name2}</div>
+        </div>
+      </div>
+    `, 5500, 'zoom'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="eyebrow anim-1">Together, Always</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(44px,9vw,86px)">Our Journey</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">Every moment has been a gift</div>
+    `, 4500, 'fade'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">The Celebration</div>
+      <div class="title-cormorant anim-2" style="font-size:clamp(28px,5.5vw,54px)">${d.date}</div>
+      <div class="divider-line"></div>
+      <div class="body-text anim-3">${d.time}</div>
+      <div class="anim-4" style="margin:12px 0 6px">${pin}</div>
+      <div class="title-playfair anim-4" style="font-size:clamp(16px,3.2vw,32px);max-width:480px">${d.venue}</div>
+    `, 5500, 'slide-up'),
+
+    sc(gradBg('#0a0600','#130c00'), `
+      <div class="quote-box anim-scale">
+        <span class="quote-mark">"</span>
+        <div class="title-cormorant anim-2" style="margin-top:-10px;font-size:clamp(18px,3.5vw,34px)">Love is not just looking at each other,<br>it's looking in the same direction</div>
+        <span class="quote-mark" style="transform:rotate(180deg);display:block">"</span>
+      </div>
+    `, 5000, 'dissolve'),
+
+    sc(darkBg(), `
+      <div class="eyebrow anim-1">Memories</div>
+      <div style="margin-top:12px">
+        ${memories.map((m,i)=>`<div class="title-cormorant flash-caption" style="font-size:clamp(16px,3vw,28px);animation-delay:${i*0.7}s;color:rgba(255,255,255,${0.5+i*0.1})">${m}</div>`).join('')}
+      </div>
+    `, 5500, 'fade'),
+
+    sc(gradBg('#0d0800','#1a1000'), `
+      <div class="eyebrow anim-1">Join Our Celebration</div>
+      <div class="title-great-vibes anim-2" style="font-size:clamp(36px,7vw,70px)">${d.name1} & ${d.name2}</div>
+      <div class="name-badge anim-2">${d.years} Years</div>
+      <div class="divider-line"></div>
+      <div class="title-cormorant anim-3" style="font-size:clamp(20px,4vw,38px)">${d.date} · ${d.time}</div>
+      <div class="body-text anim-4">${d.venue}</div>
+    `, 7000, 'zoom'),
+  ];
+}
+
+function buildScenes(template, data) {
+  const t = template.split('-')[0];
+  if (t === 'birthday')    return buildBirthdayScenes(data);
+  if (t === 'wedding')     return buildWeddingScenes(data);
+  if (t === 'housewarming') return buildHousewarmingScenes(data);
+  if (t === 'babyshower')  return buildBabyshowerScenes(data);
+  if (t === 'engagement')  return buildEngagementScenes(data);
+  if (t === 'anniversary') return buildAnniversaryScenes(data);
+  return buildBirthdayScenes(data);
+}
+
+/* ══════════════════════════════════════════
+   BACKGROUND CANVAS — drifting gold particles
+══════════════════════════════════════════ */
+(function initCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+  const N = 20;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (let i = 0; i < N; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 1 + Math.random() * 2,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -0.15 - Math.random() * 0.2,
+      alpha: 0.1 + Math.random() * 0.25,
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,148,42,${p.alpha})`;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+      if (p.x < -5) p.x = canvas.width + 5;
+      if (p.x > canvas.width + 5) p.x = -5;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══════════════════════════════════════════
+   CONFETTI BURST
+══════════════════════════════════════════ */
+function spawnConfetti() {
+  const stage = document.getElementById('stage');
+  const colors = ['#c9942a','#e8b84b','#fff6d6','#f0d060','#ffffff'];
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const size = 6 + Math.random() * 8;
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${-10 - Math.random()*30}%;
+      width:${size}px;height:${size*1.4}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${2+Math.random()*3}s;
+      animation-delay:${Math.random()*1.2}s;
+      transform:rotate(${Math.random()*360}deg);
+    `;
+    stage.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+/* ══════════════════════════════════════════
+   PLAYER ENGINE
+══════════════════════════════════════════ */
+const { template, id } = getParams();
+const data = loadData(template, id);
+const scenes = buildScenes(template, data);
+const stage = document.getElementById('stage');
+
+// inject scenes
+const sceneDivs = scenes.map((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'scene';
+  div.style.background = s.bg;
+  div.innerHTML = s.content;
+  div.dataset.idx = i;
+  stage.appendChild(div);
+  return div;
+});
+
+// update UI labels
+document.getElementById('scene-total').textContent = scenes.length;
+document.getElementById('template-label').textContent = TEMPLATE_NAMES[template] || template;
+
+let currentIdx = 0;
+let isPlaying = true;
+let isMuted = false;
+let timer = null;
+let progressStart = null;
+let progressElapsed = 0;
+let totalDuration = scenes.reduce((a, s) => a + s.duration, 0);
+let cumulativeAt = 0;
+
+/* compute cumulative offsets */
+const sceneOffsets = [];
+let acc = 0;
+scenes.forEach(s => { sceneOffsets.push(acc); acc += s.duration; });
+
+/* ── Transitions ── */
+function applyEnter(div, transition) {
+  div.style.transition = 'none';
+  div.style.opacity = '0';
+  if (transition === 'slide-left') {
+    div.style.transform = 'translateX(80px)';
+  } else if (transition === 'slide-up') {
+    div.style.transform = 'translateY(30px)';
+  } else if (transition === 'zoom') {
+    div.style.transform = 'scale(1.08)';
+  } else if (transition === 'dissolve') {
+    div.style.transform = 'translateY(0) scale(1.02)';
+  } else {
+    div.style.transform = 'none';
+  }
+}
+
+function triggerEnter(div, transition) {
+  requestAnimationFrame(() => {
+    div.style.transition = 'opacity 0.85s cubic-bezier(0.22,1,0.36,1), transform 0.85s cubic-bezier(0.22,1,0.36,1)';
+    div.style.opacity = '1';
+    div.style.transform = 'none';
+    div.classList.add('active');
+  });
+}
+
+function triggerExit(div, transition) {
+  div.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  div.style.opacity = '0';
+  if (transition === 'slide-left') div.style.transform = 'translateX(-60px)';
+  else if (transition === 'slide-up') div.style.transform = 'translateY(-20px)';
+  else if (transition === 'zoom') div.style.transform = 'scale(0.94)';
+  else div.style.transform = 'none';
+  div.classList.remove('active');
+}
+
+function showScene(idx, fromUser) {
+  if (idx < 0 || idx >= scenes.length) return;
+
+  // exit current
+  if (currentIdx !== idx || fromUser) {
+    triggerExit(sceneDivs[currentIdx], scenes[currentIdx].transition);
+  }
+
+  // enter new
+  const s = scenes[idx];
+  applyEnter(sceneDivs[idx], s.transition);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => triggerEnter(sceneDivs[idx], s.transition));
+  });
+
+  currentIdx = idx;
+  document.getElementById('scene-current').textContent = idx + 1;
+
+  // confetti on last scene
+  if (idx === scenes.length - 1) {
+    setTimeout(spawnConfetti, 1200);
+  }
+
+  // progress: reset scene timer
+  if (isPlaying) startTimer();
+}
+
+/* ── Progress bar ── */
+function updateProgressBar() {
+  const elapsed = sceneOffsets[currentIdx] + progressElapsed;
+  const pct = Math.min(100, (elapsed / totalDuration) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function startTimer() {
+  clearTimeout(timer);
+  progressStart = performance.now();
+  progressElapsed = 0;
+
+  function tick(now) {
+    if (!isPlaying) return;
+    progressElapsed = now - progressStart;
+    updateProgressBar();
+    if (progressElapsed >= scenes[currentIdx].duration) {
+      if (currentIdx < scenes.length - 1) {
+        showScene(currentIdx + 1, false);
+      } else {
+        isPlaying = false;
+        document.getElementById('btn-playpause').textContent = '▶';
+      }
+      return;
+    }
+    timer = requestAnimationFrame(tick);
+  }
+  timer = requestAnimationFrame(tick);
+}
+
+function pauseTimer() {
+  cancelAnimationFrame(timer);
+  timer = null;
+}
+
+/* ── Controls ── */
+document.getElementById('btn-playpause').addEventListener('click', () => {
+  if (isPlaying) {
+    isPlaying = false;
+    pauseTimer();
+    document.getElementById('btn-playpause').textContent = '▶';
+  } else {
+    isPlaying = true;
+    progressStart = performance.now() - progressElapsed;
+    document.getElementById('btn-playpause').textContent = '⏸';
+    startTimer();
+  }
+});
+
+document.getElementById('btn-restart').addEventListener('click', () => {
+  pauseTimer();
+  triggerExit(sceneDivs[currentIdx], scenes[currentIdx].transition);
+  currentIdx = 0;
+  progressElapsed = 0;
+  isPlaying = true;
+  document.getElementById('btn-playpause').textContent = '⏸';
+  showScene(0, true);
+});
+
+document.getElementById('btn-prev').addEventListener('click', () => {
+  if (currentIdx > 0) {
+    pauseTimer();
+    const prev = currentIdx - 1;
+    triggerExit(sceneDivs[currentIdx], scenes[currentIdx].transition);
+    currentIdx = prev;
+    progressElapsed = 0;
+    applyEnter(sceneDivs[prev], scenes[prev].transition);
+    requestAnimationFrame(() => requestAnimationFrame(() => triggerEnter(sceneDivs[prev], scenes[prev].transition)));
+    currentIdx = prev;
+    document.getElementById('scene-current').textContent = prev + 1;
+    if (isPlaying) startTimer();
+  }
+});
+
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (currentIdx < scenes.length - 1) {
+    pauseTimer();
+    const next = currentIdx + 1;
+    triggerExit(sceneDivs[currentIdx], scenes[currentIdx].transition);
+    currentIdx = next;
+    progressElapsed = 0;
+    applyEnter(sceneDivs[next], scenes[next].transition);
+    requestAnimationFrame(() => requestAnimationFrame(() => triggerEnter(sceneDivs[next], scenes[next].transition)));
+    document.getElementById('scene-current').textContent = next + 1;
+    if (next === scenes.length - 1) setTimeout(spawnConfetti, 1200);
+    if (isPlaying) startTimer();
+  }
+});
+
+document.getElementById('btn-mute').addEventListener('click', () => {
+  isMuted = !isMuted;
+  window.videoMuted = isMuted;
+  document.getElementById('btn-mute').textContent = isMuted ? '🔇' : '🔊';
+  document.getElementById('btn-mute').classList.toggle('active', isMuted);
+});
+
+document.getElementById('btn-share').addEventListener('click', () => {
+  navigator.clipboard.writeText(location.href).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }).catch(() => {
+    prompt('Copy this link:', location.href);
+  });
+});
+
+document.getElementById('btn-close').addEventListener('click', () => {
+  window.location.href = '../../index.html';
+});
+
+/* ── Touch / swipe ── */
+let touchStartX = 0;
+stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0 && currentIdx < scenes.length - 1) {
+      document.getElementById('btn-next').click();
+    } else if (dx > 0 && currentIdx > 0) {
+      document.getElementById('btn-prev').click();
+    }
+  }
+}, { passive: true });
+
+/* ── Keyboard ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') document.getElementById('btn-next').click();
+  if (e.key === 'ArrowLeft')  document.getElementById('btn-prev').click();
+  if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-playpause').click(); }
+  if (e.key === 'Escape') document.getElementById('btn-close').click();
+});
+
+/* ── Boot ── */
+// hide swipe hint after a moment
+setTimeout(() => {
+  const hint = document.getElementById('swipe-hint');
+  if (hint) hint.style.transition = 'opacity 1s';
+  if (hint) hint.style.opacity = '0';
+}, 4000);
+
+// show first scene
+showScene(0, true);
+</script>
+</body>
+</html>

@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Vault — invite.studio</title>
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Base overrides ───────────────────────────────────────── */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #1a0808;
+      color: #fdf6e3;
+      min-height: 100vh;
+    }
+
+    /* ── Sticky Header ────────────────────────────────────────── */
+    .mv-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1a0808;
+      border-bottom: 1px solid rgba(201,148,42,0.25);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .mv-logo {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: #c9942a;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .mv-event-badge {
+      background: rgba(201,148,42,0.15);
+      border: 1px solid rgba(201,148,42,0.4);
+      color: #c9942a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      flex-shrink: 0;
+    }
+    .mv-header-spacer { flex: 1; }
+    .mv-view-btns {
+      display: flex;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+    .mv-view-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,148,42,0.2);
+      color: #fdf6e3;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: 'Poppins', sans-serif;
+    }
+    .mv-view-btn:hover, .mv-view-btn.active {
+      background: #c9942a;
+      border-color: #c9942a;
+      color: #1a0808;
+    }
+    .mv-upload-btn {
+      background: #c9942a;
+      border: none;
+      color: #1a0808;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: 'Poppins', sans-serif;
+      flex-shrink: 0;
+    }
+    .mv-upload-btn:hover { background: #e8b84b; transform: translateY(-1px); }
+    .mv-share-btn {
+      background: transparent;
+      border: 1px solid rgba(201,148,42,0.35);
+      color: #c9942a;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+      flex-shrink: 0;
+    }
+    .mv-share-btn:hover { background: rgba(201,148,42,0.1); }
+    .mv-back-link {
+      color: rgba(253,246,227,0.5);
+      font-size: 0.7rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+    .mv-back-link:hover { color: #c9942a; }
+    .mv-dl-all-btn {
+      background: transparent;
+      border: 1px solid rgba(201,148,42,0.35);
+      color: #c9942a;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+      flex-shrink: 0;
+    }
+    .mv-dl-all-btn:hover { background: rgba(201,148,42,0.1); }
+
+    /* ── QR Panel ─────────────────────────────────────────────── */
+    .mv-qr-panel {
+      display: none;
+      position: fixed;
+      top: 70px;
+      right: 1rem;
+      z-index: 200;
+      background: #2a0e0e;
+      border: 1px solid rgba(201,148,42,0.4);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+    .mv-qr-panel.open { display: block; }
+    .mv-qr-panel p { font-size: 0.7rem; color: #c9942a; margin-bottom: 0.5rem; }
+    .mv-qr-panel small { font-size: 0.65rem; color: rgba(253,246,227,0.5); display: block; margin-top: 0.4rem; }
+    .mv-qr-copy-btn {
+      margin-top: 0.6rem;
+      background: #c9942a;
+      border: none;
+      color: #1a0808;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Upload Panel Overlay ─────────────────────────────────── */
+    .mv-upload-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(10,0,0,0.85);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .mv-upload-overlay.open { opacity: 1; pointer-events: all; }
+    .mv-upload-panel {
+      background: #1e0808;
+      border: 1px solid rgba(201,148,42,0.3);
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      transform: translateY(-30px);
+      transition: transform 0.3s;
+    }
+    .mv-upload-overlay.open .mv-upload-panel { transform: translateY(0); }
+    .mv-upload-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #c9942a;
+      margin-bottom: 1.25rem;
+    }
+    .mv-drop-zone {
+      border: 2px dashed rgba(201,148,42,0.4);
+      border-radius: 12px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(201,148,42,0.03);
+      margin-bottom: 1rem;
+    }
+    .mv-drop-zone:hover { border-color: #c9942a; background: rgba(201,148,42,0.07); }
+    .mv-drop-zone svg { width: 52px; height: 52px; color: #c9942a; margin: 0 auto 0.75rem; display: block; }
+    .mv-drop-zone p { color: rgba(253,246,227,0.7); font-size: 0.85rem; }
+    .mv-drop-zone p strong { color: #c9942a; }
+    .mv-drop-zone input[type=file] { display: none; }
+    .mv-preview-strip {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      padding-bottom: 0.25rem;
+    }
+    .mv-preview-thumb {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid rgba(201,148,42,0.3);
+      flex-shrink: 0;
+    }
+    .mv-field { margin-bottom: 0.9rem; }
+    .mv-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(253,246,227,0.6);
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .mv-field input[type=text] {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,148,42,0.25);
+      border-radius: 8px;
+      color: #fdf6e3;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.55rem 0.8rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .mv-field input[type=text]:focus { border-color: #c9942a; }
+    .mv-field input[type=text]::placeholder { color: rgba(253,246,227,0.3); }
+    .mv-cat-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .mv-cat-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,148,42,0.2);
+      color: rgba(253,246,227,0.7);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+    }
+    .mv-cat-pill.active { background: #c9942a; border-color: #c9942a; color: #1a0808; font-weight: 600; }
+    .mv-upload-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+    .mv-submit-btn {
+      flex: 1;
+      background: #c9942a;
+      border: none;
+      color: #1a0808;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.7rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mv-submit-btn:hover { background: #e8b84b; }
+    .mv-cancel-btn {
+      background: transparent;
+      border: 1px solid rgba(201,148,42,0.3);
+      color: rgba(253,246,227,0.6);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mv-cancel-btn:hover { background: rgba(255,255,255,0.05); }
+
+    /* ── Most Loved ───────────────────────────────────────────── */
+    .mv-most-loved {
+      padding: 1.25rem 1rem 0.5rem;
+    }
+    .mv-most-loved h3 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #c9942a;
+      margin-bottom: 0.75rem;
+    }
+    .mv-loved-strip {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+    .mv-loved-item { text-align: center; flex-shrink: 0; }
+    .mv-loved-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #c9942a;
+      margin: 0 auto 0.4rem;
+      cursor: pointer;
+    }
+    .mv-loved-circle img { width: 100%; height: 100%; object-fit: cover; }
+    .mv-loved-item p { font-size: 0.7rem; color: rgba(253,246,227,0.7); }
+    .mv-loved-item strong { color: #c9942a; font-size: 0.75rem; }
+
+    /* ── Filter Bar ───────────────────────────────────────────── */
+    .mv-filter-bar {
+      padding: 0.75rem 1rem;
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid rgba(201,148,42,0.12);
+    }
+    .mv-filter-bar::-webkit-scrollbar { display: none; }
+    .mv-filter-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,148,42,0.2);
+      color: rgba(253,246,227,0.65);
+      font-size: 0.73rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    .mv-filter-pill:hover { border-color: #c9942a; color: #c9942a; }
+    .mv-filter-pill.active { background: #c9942a; border-color: #c9942a; color: #1a0808; font-weight: 600; }
+
+    /* ── Gallery ──────────────────────────────────────────────── */
+    #mv-gallery { padding: 1rem; }
+
+    /* Grid View */
+    .mv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    @media (max-width: 600px) {
+      .mv-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    }
+
+    /* Masonry View */
+    .mv-masonry {
+      columns: 3;
+      column-gap: 0.9rem;
+    }
+    @media (max-width: 900px) { .mv-masonry { columns: 2; } }
+    @media (max-width: 480px) { .mv-masonry { columns: 1; } }
+    .mv-masonry .mv-card { break-inside: avoid; margin-bottom: 0.9rem; }
+
+    /* Photo Card */
+    .mv-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #2a0e0e;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .mv-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    .mv-grid .mv-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+    }
+    .mv-masonry .mv-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .mv-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,8,8,0.92) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0.75rem;
+    }
+    .mv-card:hover .mv-card-overlay { opacity: 1; }
+    @media (max-width: 700px) { .mv-card-overlay { opacity: 1; } }
+    .mv-card-caption { font-size: 0.8rem; color: #fdf6e3; font-weight: 500; margin-bottom: 0.15rem; }
+    .mv-card-uploader { font-size: 0.68rem; color: rgba(253,246,227,0.6); margin-bottom: 0.4rem; }
+    .mv-card-actions { display: flex; gap: 0.4rem; }
+    .mv-like-btn, .mv-dl-btn {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .mv-like-btn:hover { background: rgba(220,40,40,0.5); border-color: rgba(220,40,40,0.6); }
+    .mv-like-btn.liked { background: rgba(220,40,40,0.6); border-color: #e03040; color: #fff; }
+    .mv-like-btn.liked .mv-heart { transform: scale(1.3); }
+    .mv-heart { display: inline-block; transition: transform 0.2s; }
+    .mv-dl-btn:hover { background: rgba(201,148,42,0.4); border-color: #c9942a; }
+    .mv-cat-badge {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      background: rgba(26,8,8,0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(201,148,42,0.3);
+      color: #fdf6e3;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+    }
+    .mv-like-count-badge {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      background: rgba(26,8,8,0.75);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(201,148,42,0.25);
+      color: #fdf6e3;
+      font-size: 0.68rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* ── Empty State ──────────────────────────────────────────── */
+    .mv-empty {
+      text-align: center;
+      padding: 4rem 1.5rem;
+    }
+    .mv-empty svg { width: 90px; height: 90px; color: rgba(201,148,42,0.4); margin: 0 auto 1.5rem; }
+    .mv-empty h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: #c9942a;
+      margin-bottom: 0.5rem;
+    }
+    .mv-empty p { color: rgba(253,246,227,0.55); margin-bottom: 1.5rem; font-size: 0.9rem; }
+    .mv-empty-upload-btn {
+      background: #c9942a;
+      border: none;
+      color: #1a0808;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+      margin-bottom: 2.5rem;
+    }
+    .mv-empty-upload-btn:hover { background: #e8b84b; }
+    .mv-how-it-works {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .mv-how-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .mv-how-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(201,148,42,0.15);
+      border: 2px solid rgba(201,148,42,0.4);
+      color: #c9942a;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mv-how-step p { font-size: 0.75rem; color: rgba(253,246,227,0.55); text-align: center; max-width: 90px; }
+
+    /* ── Slideshow ────────────────────────────────────────────── */
+    .mv-slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: #0a0000;
+      display: none;
+      flex-direction: column;
+    }
+    .mv-slideshow.active { display: flex; }
+    .mv-ss-img-wrap {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mv-ss-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: kenburns 6s ease-in-out forwards;
+    }
+    .mv-ss-img.alt1 { animation-name: kenburns1; }
+    .mv-ss-img.alt2 { animation-name: kenburns2; }
+    @keyframes kenburns  { from{transform:scale(1) translate(0,0)}     to{transform:scale(1.15) translate(-2%,2%)}   }
+    @keyframes kenburns1 { from{transform:scale(1) translate(0,0)}     to{transform:scale(1.12) translate(2%,-1.5%)} }
+    @keyframes kenburns2 { from{transform:scale(1.05) translate(-1%,0)} to{transform:scale(1.15) translate(1%,2%)}   }
+    .mv-ss-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      padding: 3rem 2rem 1.5rem;
+      animation: fadeUp 0.6s ease;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .mv-ss-caption h3 { font-size: 1.1rem; color: #fdf6e3; }
+    .mv-ss-caption p { font-size: 0.78rem; color: rgba(253,246,227,0.6); margin-top: 0.2rem; }
+    .mv-ss-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 0.9rem 1rem;
+      background: rgba(0,0,0,0.6);
+    }
+    .mv-ss-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .mv-ss-btn:hover { background: rgba(201,148,42,0.4); border-color: #c9942a; }
+    .mv-ss-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .mv-ss-dots { display: flex; gap: 0.4rem; }
+    .mv-ss-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .mv-ss-dot.active { background: #c9942a; }
+    .mv-ss-like-btn {
+      background: rgba(220,40,40,0.25);
+      border: 1px solid rgba(220,40,40,0.4);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.2s;
+    }
+    .mv-ss-like-btn.liked { background: rgba(220,40,40,0.6); }
+
+    /* ── Photo Book ───────────────────────────────────────────── */
+    .mv-photobook {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: #0a0000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .mv-photobook.active { display: flex; }
+    .mv-pb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .book-scene {
+      perspective: 1500px;
+      width: min(700px, 96vw);
+      height: min(440px, 70vh);
+      position: relative;
+    }
+    .book-spread {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      transform-style: preserve-3d;
+    }
+    .book-page {
+      background: #fdf6e3;
+      overflow: hidden;
+      position: relative;
+      transform-origin: center center;
+    }
+    .book-page:first-child { border-radius: 8px 0 0 8px; box-shadow: inset -4px 0 10px rgba(0,0,0,0.2); }
+    .book-page:last-child  { border-radius: 0 8px 8px 0; box-shadow: inset 4px 0 10px rgba(0,0,0,0.2); }
+    .book-page img { width: 100%; height: 85%; object-fit: cover; }
+    .book-page-info {
+      padding: 0.5rem 0.75rem;
+      background: #fdf6e3;
+    }
+    .book-page-info p { font-size: 0.72rem; color: #2a1200; font-style: italic; }
+    .book-page-info span { font-size: 0.65rem; color: #7a5530; }
+    .book-cover {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #1a0808, #2a0a0a);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    .book-cover h1 { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #c9942a; }
+    .book-cover p { font-size: 0.8rem; color: rgba(253,246,227,0.6); margin-top: 0.5rem; }
+    .book-spread.flipping { animation: pageTurn 0.7s ease; }
+    @keyframes pageTurn { from{transform:rotateY(0)} to{transform:rotateY(-180deg)} }
+    .mv-pb-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .mv-pb-nav-btn {
+      background: rgba(201,148,42,0.15);
+      border: 1px solid rgba(201,148,42,0.35);
+      color: #c9942a;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .mv-pb-nav-btn:hover { background: rgba(201,148,42,0.3); }
+    .mv-pb-nav-btn:disabled { opacity: 0.35; cursor: default; }
+    .mv-pb-page-num { color: rgba(253,246,227,0.5); font-size: 0.78rem; }
+
+    /* ── Toast ────────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #2a0e0e;
+      border: 1px solid rgba(201,148,42,0.4);
+      color: #fdf6e3;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s, transform 0.25s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Footer note ─────────────────────────────────────────── */
+    .mv-footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: rgba(253,246,227,0.25);
+      font-size: 0.7rem;
+    }
+    .mv-footer a { color: rgba(201,148,42,0.5); }
+  </style>
+</head>
+<body>
+
+<!-- ── Sticky Header ─────────────────────────────────────────── -->
+<header class="mv-header">
+  <span class="mv-logo">📸 Memory Vault</span>
+  <span class="mv-event-badge" id="eventBadge">Event: —</span>
+  <div class="mv-header-spacer"></div>
+  <div class="mv-view-btns">
+    <button class="mv-view-btn active" data-view="grid">Grid</button>
+    <button class="mv-view-btn" data-view="masonry">Masonry</button>
+    <button class="mv-view-btn" data-view="slideshow">Slideshow</button>
+    <button class="mv-view-btn" data-view="photobook">Photo Book</button>
+  </div>
+  <button class="mv-share-btn" id="shareBtn">🔗 Share</button>
+  <button class="mv-dl-all-btn" id="dlAllBtn">📥 All</button>
+  <button class="mv-upload-btn" id="openUploadBtn">📷 Add Photo</button>
+  <a class="mv-back-link" href="index.html">← Marketplace</a>
+</header>
+
+<!-- ── QR Share Panel ─────────────────────────────────────────── -->
+<div class="mv-qr-panel" id="qrPanel">
+  <p>Share this vault with guests</p>
+  <img id="qrImg" src="" alt="QR Code" style="border-radius:8px;">
+  <small id="qrUrl"></small>
+  <br>
+  <button class="mv-qr-copy-btn" id="qrCopyBtn">Copy Link</button>
+</div>
+
+<!-- ── Upload Overlay ─────────────────────────────────────────── -->
+<div class="mv-upload-overlay" id="uploadOverlay">
+  <div class="mv-upload-panel">
+    <h2>Add Your Memory 📸</h2>
+    <div class="mv-drop-zone" id="dropZone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+      <p><strong>Tap to choose photos</strong> or take a new one</p>
+      <p style="margin-top:0.3rem;font-size:0.75rem;">JPG, PNG, HEIC — multiple OK</p>
+      <input type="file" accept="image/*" capture="environment" multiple id="photoUpload">
+    </div>
+    <div class="mv-preview-strip" id="previewStrip"></div>
+    <div class="mv-field">
+      <label>Your Name</label>
+      <input type="text" id="uploaderName" placeholder="e.g. Auntie Priya" maxlength="50">
+    </div>
+    <div class="mv-field">
+      <label>Caption</label>
+      <input type="text" id="photoCaption" placeholder="What's happening here? 😊" maxlength="100">
+    </div>
+    <div class="mv-field">
+      <label>Category</label>
+      <div class="mv-cat-pills" id="catPills">
+        <button class="mv-cat-pill active" data-cat="ceremony">🎊 Ceremony</button>
+        <button class="mv-cat-pill" data-cat="reception">🥂 Reception</button>
+        <button class="mv-cat-pill" data-cat="family">👨‍👩‍👧 Family</button>
+        <button class="mv-cat-pill" data-cat="friends">👫 Friends</button>
+        <button class="mv-cat-pill" data-cat="food">🍽️ Food</button>
+        <button class="mv-cat-pill" data-cat="fun">😂 Fun Moments</button>
+      </div>
+    </div>
+    <div class="mv-upload-actions">
+      <button class="mv-submit-btn" id="submitUploadBtn">Upload Photos</button>
+      <button class="mv-cancel-btn" id="cancelUploadBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Most Loved (dynamic) ────────────────────────────────────── -->
+<div class="mv-most-loved" id="mostLovedSection" style="display:none;">
+  <h3>❤️ Most Loved</h3>
+  <div class="mv-loved-strip" id="lovedStrip"></div>
+</div>
+
+<!-- ── Filter Bar ─────────────────────────────────────────────── -->
+<div class="mv-filter-bar" id="filterBar">
+  <button class="mv-filter-pill active" data-cat="all">All</button>
+  <button class="mv-filter-pill" data-cat="ceremony">🎊 Ceremony</button>
+  <button class="mv-filter-pill" data-cat="reception">🥂 Reception</button>
+  <button class="mv-filter-pill" data-cat="family">👨‍👩‍👧 Family</button>
+  <button class="mv-filter-pill" data-cat="friends">👫 Friends</button>
+  <button class="mv-filter-pill" data-cat="food">🍽️ Food</button>
+  <button class="mv-filter-pill" data-cat="fun">😂 Fun</button>
+</div>
+
+<!-- ── Gallery ────────────────────────────────────────────────── -->
+<div id="mv-gallery"></div>
+
+<!-- ── Slideshow ──────────────────────────────────────────────── -->
+<div class="mv-slideshow" id="ssPanel">
+  <button class="mv-ss-close" id="ssClose">✕</button>
+  <div class="mv-ss-img-wrap" id="ssImgWrap"></div>
+  <div class="mv-ss-controls">
+    <button class="mv-ss-btn" id="ssPrev">‹</button>
+    <div class="mv-ss-dots" id="ssDots"></div>
+    <button class="mv-ss-btn" id="ssPlayPause">⏸</button>
+    <button class="mv-ss-btn" id="ssNext">›</button>
+    <button class="mv-ss-like-btn" id="ssLikeBtn">♡ Like</button>
+  </div>
+</div>
+
+<!-- ── Photo Book ─────────────────────────────────────────────── -->
+<div class="mv-photobook" id="pbPanel">
+  <button class="mv-pb-close" id="pbClose">✕</button>
+  <div class="book-scene">
+    <div class="book-spread" id="bookSpread"></div>
+  </div>
+  <div class="mv-pb-nav">
+    <button class="mv-pb-nav-btn" id="pbPrev">← Previous</button>
+    <span class="mv-pb-page-num" id="pbPageNum">Page 1</span>
+    <button class="mv-pb-nav-btn" id="pbNext">Next →</button>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<div class="mv-footer">
+  Powered by <a href="index.html">invite.studio</a> &mdash; your event, beautifully remembered.
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────
+const params     = new URLSearchParams(location.search);
+const EVENT_CODE = (params.get('event') || 'DEMO').toUpperCase();
+let   db         = null;
+let   allPhotos  = [];
+let   filtered   = [];
+let   currentView     = 'grid';
+let   currentFilter   = 'all';
+let   ssIndex    = 0;
+let   ssTimer    = null;
+let   ssPlaying  = true;
+let   pbPage     = 0; // 0 = cover
+
+const SESSION_ID = (() => {
+  let s = localStorage.getItem('mv_session');
+  if (!s) { s = Math.random().toString(36).slice(2); localStorage.setItem('mv_session', s); }
+  return s;
+})();
+
+const CAT_LABELS = {
+  all:'All', ceremony:'🎊 Ceremony', reception:'🥂 Reception',
+  family:'👨‍👩‍👧 Family', friends:'👫 Friends', food:'🍽️ Food', fun:'😂 Fun'
+};
+
+// ── IndexedDB ─────────────────────────────────────────────────────
+function initDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open('MemoryVault', 1);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('photos_' + EVENT_CODE)) {
+        d.createObjectStore('photos_' + EVENT_CODE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = e => res(e.target.result);
+    req.onerror   = e => rej(e.target.error);
+  });
+}
+
+function savePhoto(data) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction('photos_' + EVENT_CODE, 'readwrite');
+    tx.objectStore('photos_' + EVENT_CODE).put(data).onsuccess = () => res();
+    tx.onerror = e => rej(e.target.error);
+  });
+}
+
+function getAllPhotos() {
+  return new Promise((res, rej) => {
+    const tx = db.transaction('photos_' + EVENT_CODE, 'readonly');
+    const req = tx.objectStore('photos_' + EVENT_CODE).getAll();
+    req.onsuccess = e => res(e.target.result);
+    req.onerror   = e => rej(e.target.error);
+  });
+}
+
+function updateLikes(id, newLikes, likedBy) {
+  return new Promise((res, rej) => {
+    const tx = db.transaction('photos_' + EVENT_CODE, 'readwrite');
+    const store = tx.objectStore('photos_' + EVENT_CODE);
+    const getReq = store.get(id);
+    getReq.onsuccess = e => {
+      const photo = e.target.result;
+      if (photo) { photo.likes = newLikes; photo.likedBy = likedBy; store.put(photo); }
+      res();
+    };
+    tx.onerror = e => rej(e.target.error);
+  });
+}
+
+// ── Seed Demo Photos ──────────────────────────────────────────────
+async function seedDemoPhotos() {
+  const demos = [
+    {caption:'The beautiful ceremony',  category:'ceremony',  colors:['#c9942a','#7b1818']},
+    {caption:'Family gathering',        category:'family',    colors:['#1a5a1a','#c9942a']},
+    {caption:'Food was amazing!',       category:'food',      colors:['#c86820','#d4a010']},
+    {caption:'Reception vibes ✨',       category:'reception', colors:['#1a2a8b','#c9942a']},
+    {caption:'Best friends forever',    category:'friends',   colors:['#9b1840','#c9942a']},
+    {caption:'Such a fun moment!',      category:'fun',       colors:['#6a0000','#c9942a']}
+  ];
+  for (let i = 0; i < demos.length; i++) {
+    const d = demos[i];
+    const canvas = document.createElement('canvas');
+    canvas.width = 400; canvas.height = 500;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 400, 500);
+    grad.addColorStop(0, d.colors[0]);
+    grad.addColorStop(1, d.colors[1]);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 400, 500);
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.beginPath(); ctx.arc(200, 150, 80, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+    ctx.beginPath(); ctx.arc(100, 350, 60, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(300, 300, 50, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.beginPath(); ctx.arc(200, 250, 120, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.font = 'bold 18px Poppins, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(d.caption, 200, 460);
+    ctx.font = '13px Poppins, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('invite.studio Demo', 200, 485);
+    await savePhoto({
+      id: 'demo_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      eventCode: EVENT_CODE,
+      uploaderName: 'invite.studio Demo',
+      caption: d.caption,
+      category: d.category,
+      dataUrl: canvas.toDataURL('image/jpeg', 0.8),
+      timestamp: Date.now() - Math.random() * 86400000 * 3,
+      likes: Math.floor(Math.random() * 15),
+      likedBy: []
+    });
+  }
+}
+
+// ── Load & Render ─────────────────────────────────────────────────
+async function loadAndRender() {
+  allPhotos = await getAllPhotos();
+  allPhotos.sort((a, b) => b.timestamp - a.timestamp);
+  renderFilterCounts();
+  renderMostLoved();
+  applyFilter();
+}
+
+function applyFilter() {
+  filtered = currentFilter === 'all' ? [...allPhotos] : allPhotos.filter(p => p.category === currentFilter);
+  renderGallery();
+}
+
+function renderFilterCounts() {
+  document.querySelectorAll('.mv-filter-pill').forEach(pill => {
+    const cat = pill.dataset.cat;
+    if (cat === 'all') {
+      pill.textContent = 'All (' + allPhotos.length + ')';
+    } else {
+      const cnt = allPhotos.filter(p => p.category === cat).length;
+      const base = CAT_LABELS[cat] || cat;
+      pill.textContent = base + (cnt ? ' (' + cnt + ')' : '');
+    }
+  });
+}
+
+function renderMostLoved() {
+  const withLikes = allPhotos.filter(p => p.likes > 0).sort((a, b) => b.likes - a.likes).slice(0, 3);
+  const sec  = document.getElementById('mostLovedSection');
+  const strip = document.getElementById('lovedStrip');
+  if (!withLikes.length) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  strip.innerHTML = withLikes.map(p => `
+    <div class="mv-loved-item" data-id="${p.id}">
+      <div class="mv-loved-circle"><img src="${p.dataUrl}" alt="${p.caption}" loading="lazy"></div>
+      <p>${escHtml(p.uploaderName || 'Guest')}</p>
+      <strong>♥ ${p.likes}</strong>
+    </div>
+  `).join('');
+}
+
+function renderGallery() {
+  const gallery = document.getElementById('mv-gallery');
+  if (!filtered.length) {
+    gallery.innerHTML = emptyStateHTML();
+    gallery.querySelector('.mv-empty-upload-btn')?.addEventListener('click', openUpload);
+    return;
+  }
+  const isMasonry = currentView === 'masonry';
+  gallery.innerHTML = `<div class="${isMasonry ? 'mv-masonry' : 'mv-grid'}" id="photoGrid">
+    ${filtered.map(p => cardHTML(p)).join('')}
+  </div>`;
+  attachCardEvents();
+}
+
+function cardHTML(p) {
+  const liked = p.likedBy && p.likedBy.includes(SESSION_ID);
+  return `<div class="mv-card" data-id="${p.id}">
+    <img src="${p.dataUrl}" alt="${escHtml(p.caption)}" loading="lazy">
+    <span class="mv-cat-badge">${CAT_LABELS[p.category] || p.category}</span>
+    <div class="mv-card-overlay">
+      <p class="mv-card-caption">${escHtml(p.caption)}</p>
+      <p class="mv-card-uploader">by ${escHtml(p.uploaderName || 'Guest')} · ${timeAgo(p.timestamp)}</p>
+      <div class="mv-card-actions">
+        <button class="mv-like-btn ${liked ? 'liked' : ''}" data-id="${p.id}">
+          <span class="mv-heart">${liked ? '♥' : '♡'}</span> ${p.likes}
+        </button>
+        <button class="mv-dl-btn" data-id="${p.id}">↓ Save</button>
+      </div>
+    </div>
+    <span class="mv-like-count-badge">♥ ${p.likes}</span>
+  </div>`;
+}
+
+function attachCardEvents() {
+  document.querySelectorAll('.mv-like-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleLike(btn.dataset.id); });
+  });
+  document.querySelectorAll('.mv-dl-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); downloadPhoto(btn.dataset.id); });
+  });
+}
+
+function emptyStateHTML() {
+  return `<div class="mv-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+      <circle cx="12" cy="13" r="4"/>
+      <path d="M12 5V2M2 2l4 4M22 2l-4 4" stroke-width="0.8" stroke-dasharray="2,2"/>
+    </svg>
+    <h2>No photos yet!</h2>
+    <p>Be the first to share a memory 📸</p>
+    <button class="mv-empty-upload-btn">📷 Upload a Photo</button>
+    <div class="mv-how-it-works">
+      <div class="mv-how-step"><div class="mv-how-num">1</div><p>Take a photo or pick one</p></div>
+      <div class="mv-how-step"><div class="mv-how-num">2</div><p>Add your name & caption</p></div>
+      <div class="mv-how-step"><div class="mv-how-num">3</div><p>Share with everyone!</p></div>
+    </div>
+  </div>`;
+}
+
+// ── Like ──────────────────────────────────────────────────────────
+async function toggleLike(id) {
+  const photo = allPhotos.find(p => p.id === id);
+  if (!photo) return;
+  const alreadyLiked = photo.likedBy && photo.likedBy.includes(SESSION_ID);
+  if (alreadyLiked) {
+    photo.likedBy = photo.likedBy.filter(s => s !== SESSION_ID);
+    photo.likes = Math.max(0, photo.likes - 1);
+  } else {
+    photo.likedBy = [...(photo.likedBy || []), SESSION_ID];
+    photo.likes++;
+    showToast('Liked! ❤️');
+  }
+  await updateLikes(id, photo.likes, photo.likedBy);
+  applyFilter();
+  renderMostLoved();
+  renderFilterCounts();
+}
+
+// ── Download ──────────────────────────────────────────────────────
+function downloadPhoto(id) {
+  const photo = allPhotos.find(p => p.id === id);
+  if (!photo) return;
+  const a = document.createElement('a');
+  a.href = photo.dataUrl;
+  a.download = 'memory-' + id + '.jpg';
+  a.click();
+  showToast('Downloading... 📥');
+}
+
+document.getElementById('dlAllBtn').addEventListener('click', () => {
+  if (!allPhotos.length) { showToast('No photos to download'); return; }
+  showToast('Downloading ' + allPhotos.length + ' photos... 📥');
+  allPhotos.forEach((p, i) => {
+    setTimeout(() => {
+      const a = document.createElement('a');
+      a.href = p.dataUrl;
+      a.download = 'memory-' + (i+1) + '-' + p.category + '.jpg';
+      a.click();
+    }, i * 250);
+  });
+});
+
+// ── Upload Panel ──────────────────────────────────────────────────
+let selectedFiles = [];
+let selectedCat   = 'ceremony';
+
+function openUpload() {
+  document.getElementById('uploadOverlay').classList.add('open');
+  selectedFiles = [];
+  document.getElementById('previewStrip').innerHTML = '';
+  document.getElementById('uploaderName').value = '';
+  document.getElementById('photoCaption').value = '';
+  document.getElementById('photoUpload').value = '';
+}
+function closeUpload() {
+  document.getElementById('uploadOverlay').classList.remove('open');
+}
+
+document.getElementById('openUploadBtn').addEventListener('click', openUpload);
+document.getElementById('cancelUploadBtn').addEventListener('click', closeUpload);
+document.getElementById('dropZone').addEventListener('click', () => document.getElementById('photoUpload').click());
+
+document.querySelectorAll('.mv-cat-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.mv-cat-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    selectedCat = pill.dataset.cat;
+  });
+});
+
+document.getElementById('photoUpload').addEventListener('change', e => {
+  selectedFiles = Array.from(e.target.files);
+  const strip = document.getElementById('previewStrip');
+  strip.innerHTML = '';
+  selectedFiles.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      img.className = 'mv-preview-thumb';
+      strip.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+document.getElementById('submitUploadBtn').addEventListener('click', async () => {
+  if (!selectedFiles.length) { showToast('Please choose at least one photo'); return; }
+  const name    = document.getElementById('uploaderName').value.trim() || 'Guest';
+  const caption = document.getElementById('photoCaption').value.trim() || '';
+  const btn = document.getElementById('submitUploadBtn');
+  btn.textContent = 'Uploading...';
+  btn.disabled = true;
+  for (const file of selectedFiles) {
+    const dataUrl = await fileToDataUrl(file);
+    await savePhoto({
+      id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      eventCode: EVENT_CODE,
+      uploaderName: name,
+      caption,
+      category: selectedCat,
+      dataUrl,
+      timestamp: Date.now(),
+      likes: 0,
+      likedBy: []
+    });
+  }
+  btn.textContent = 'Upload Photos';
+  btn.disabled = false;
+  closeUpload();
+  showToast('Photo uploaded! 📸');
+  await loadAndRender();
+});
+
+function fileToDataUrl(file) {
+  return new Promise(res => {
+    const reader = new FileReader();
+    reader.onload = e => res(e.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── View Toggles ──────────────────────────────────────────────────
+document.querySelectorAll('.mv-view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    document.querySelectorAll('.mv-view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (view === 'slideshow') { startSlideshow(); return; }
+    if (view === 'photobook') { startPhotoBook(); return; }
+    currentView = view;
+    renderGallery();
+  });
+});
+
+// ── Filter Toggles ────────────────────────────────────────────────
+document.querySelectorAll('.mv-filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.mv-filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentFilter = pill.dataset.cat;
+    applyFilter();
+  });
+});
+
+// ── Slideshow ─────────────────────────────────────────────────────
+function startSlideshow() {
+  if (!filtered.length) { showToast('No photos to show'); return; }
+  ssIndex = 0; ssPlaying = true;
+  document.getElementById('ssPanel').classList.add('active');
+  renderSlide();
+  ssTimer = setInterval(nextSlide, 5000);
+  document.getElementById('ssPlayPause').textContent = '⏸';
+}
+
+function stopSlideshow() {
+  clearInterval(ssTimer);
+  document.getElementById('ssPanel').classList.remove('active');
+  document.querySelectorAll('.mv-view-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.mv-view-btn[data-view="' + currentView + '"]').classList.add('active');
+}
+
+function renderSlide() {
+  const photo = filtered[ssIndex];
+  const wrap  = document.getElementById('ssImgWrap');
+  const anims = ['', 'alt1', 'alt2'];
+  const anim  = anims[ssIndex % 3];
+  wrap.innerHTML = `
+    <img class="mv-ss-img ${anim}" src="${photo.dataUrl}" alt="${escHtml(photo.caption)}">
+    <div class="mv-ss-caption">
+      <h3>${escHtml(photo.caption)}</h3>
+      <p>by ${escHtml(photo.uploaderName || 'Guest')} · ${timeAgo(photo.timestamp)}</p>
+    </div>
+  `;
+  const liked = photo.likedBy && photo.likedBy.includes(SESSION_ID);
+  const likeBtn = document.getElementById('ssLikeBtn');
+  likeBtn.textContent = (liked ? '♥' : '♡') + ' ' + photo.likes;
+  likeBtn.className   = 'mv-ss-like-btn' + (liked ? ' liked' : '');
+  // Dots
+  const dotsEl = document.getElementById('ssDots');
+  dotsEl.innerHTML = filtered.slice(0, 12).map((_, i) =>
+    `<span class="mv-ss-dot ${i === ssIndex ? 'active' : ''}"></span>`
+  ).join('');
+  dotsEl.querySelectorAll('.mv-ss-dot').forEach((dot, i) => {
+    dot.addEventListener('click', () => { ssIndex = i; renderSlide(); });
+  });
+}
+
+function nextSlide() { ssIndex = (ssIndex + 1) % filtered.length; renderSlide(); }
+function prevSlide() { ssIndex = (ssIndex - 1 + filtered.length) % filtered.length; renderSlide(); }
+
+document.getElementById('ssClose').addEventListener('click', stopSlideshow);
+document.getElementById('ssNext').addEventListener('click', () => { nextSlide(); resetTimer(); });
+document.getElementById('ssPrev').addEventListener('click', () => { prevSlide(); resetTimer(); });
+document.getElementById('ssPlayPause').addEventListener('click', () => {
+  ssPlaying = !ssPlaying;
+  document.getElementById('ssPlayPause').textContent = ssPlaying ? '⏸' : '▶';
+  if (ssPlaying) { ssTimer = setInterval(nextSlide, 5000); }
+  else           { clearInterval(ssTimer); }
+});
+document.getElementById('ssLikeBtn').addEventListener('click', async () => {
+  await toggleLike(filtered[ssIndex].id);
+  renderSlide();
+});
+document.getElementById('ssImgWrap').addEventListener('mouseenter', () => { if (ssPlaying) clearInterval(ssTimer); });
+document.getElementById('ssImgWrap').addEventListener('mouseleave', () => { if (ssPlaying) ssTimer = setInterval(nextSlide, 5000); });
+
+function resetTimer() {
+  clearInterval(ssTimer);
+  if (ssPlaying) ssTimer = setInterval(nextSlide, 5000);
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('ssPanel').classList.contains('active')) {
+    if (e.key === 'Escape')       stopSlideshow();
+    if (e.key === 'ArrowRight')   { nextSlide(); resetTimer(); }
+    if (e.key === 'ArrowLeft')    { prevSlide(); resetTimer(); }
+  }
+  if (document.getElementById('pbPanel').classList.contains('active')) {
+    if (e.key === 'Escape') stopPhotoBook();
+  }
+});
+
+// ── Photo Book ────────────────────────────────────────────────────
+function startPhotoBook() {
+  if (!filtered.length) { showToast('No photos to show'); return; }
+  pbPage = 0;
+  document.getElementById('pbPanel').classList.add('active');
+  renderBookPage();
+}
+function stopPhotoBook() {
+  document.getElementById('pbPanel').classList.remove('active');
+  document.querySelectorAll('.mv-view-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.mv-view-btn[data-view="' + currentView + '"]').classList.add('active');
+}
+
+function renderBookPage() {
+  const spread = document.getElementById('bookSpread');
+  const totalPages = Math.ceil(filtered.length / 2) + 1; // +1 for cover
+
+  if (pbPage === 0) {
+    spread.style.gridTemplateColumns = '1fr';
+    spread.innerHTML = `<div class="book-cover">
+      <h1>Memory Vault</h1>
+      <p>${EVENT_CODE} · ${new Date().toLocaleDateString('en-US', {month:'long', year:'numeric'})}</p>
+      <p style="margin-top:1rem;font-size:0.75rem;opacity:0.5;">${filtered.length} beautiful memories</p>
+    </div>`;
+  } else {
+    const idx = (pbPage - 1) * 2;
+    const left  = filtered[idx];
+    const right = filtered[idx + 1];
+    spread.style.gridTemplateColumns = '1fr 1fr';
+    spread.innerHTML =
+      pageHTML(left) +
+      (right ? pageHTML(right) : '<div class="book-page" style="background:#f0e8d8;"></div>');
+  }
+
+  document.getElementById('pbPageNum').textContent =
+    pbPage === 0 ? 'Cover' : 'Page ' + pbPage + ' of ' + (totalPages - 1);
+  document.getElementById('pbPrev').disabled = pbPage === 0;
+  document.getElementById('pbNext').disabled = pbPage >= totalPages - 1;
+}
+
+function pageHTML(p) {
+  if (!p) return '<div class="book-page"></div>';
+  return `<div class="book-page">
+    <img src="${p.dataUrl}" alt="${escHtml(p.caption)}">
+    <div class="book-page-info">
+      <p>${escHtml(p.caption)}</p>
+      <span>by ${escHtml(p.uploaderName || 'Guest')}</span>
+    </div>
+  </div>`;
+}
+
+function flipPage(dir) {
+  const spread = document.getElementById('bookSpread');
+  spread.classList.add('flipping');
+  setTimeout(() => {
+    spread.classList.remove('flipping');
+    pbPage += dir;
+    renderBookPage();
+  }, 700);
+}
+
+document.getElementById('pbClose').addEventListener('click', stopPhotoBook);
+document.getElementById('pbNext').addEventListener('click', () => flipPage(1));
+document.getElementById('pbPrev').addEventListener('click', () => flipPage(-1));
+
+// ── QR & Share ────────────────────────────────────────────────────
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const panel = document.getElementById('qrPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    const url     = location.href.includes('?') ? location.href : location.href + '?event=' + EVENT_CODE;
+    const encoded = encodeURIComponent(url);
+    document.getElementById('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' + encoded;
+    document.getElementById('qrUrl').textContent = url.length > 55 ? url.slice(0, 52) + '…' : url;
+  }
+});
+document.getElementById('qrCopyBtn').addEventListener('click', () => {
+  const url = location.href.includes('?') ? location.href : location.href + '?event=' + EVENT_CODE;
+  navigator.clipboard.writeText(url).then(() => showToast('Link copied! 🔗'));
+});
+
+// Close QR panel on outside click
+document.addEventListener('click', e => {
+  const panel = document.getElementById('qrPanel');
+  const shareBtn = document.getElementById('shareBtn');
+  if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== shareBtn) {
+    panel.classList.remove('open');
+  }
+});
+
+// ── Toast ─────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2500);
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function timeAgo(ts) {
+  const diff = Date.now() - ts;
+  const m = Math.floor(diff / 60000);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  if (d > 0)  return d + 'd ago';
+  if (h > 0)  return h + 'h ago';
+  if (m > 0)  return m + 'm ago';
+  return 'just now';
+}
+
+// ── Boot ──────────────────────────────────────────────────────────
+(async () => {
+  document.getElementById('eventBadge').textContent = 'Event: ' + EVENT_CODE;
+  document.title = 'Memory Vault — ' + EVENT_CODE;
+
+  db = await initDB();
+  const existing = await getAllPhotos();
+  if (!existing.length) {
+    await seedDemoPhotos();
+  }
+  await loadAndRender();
+})();
+</script>
+</body>
+</html>

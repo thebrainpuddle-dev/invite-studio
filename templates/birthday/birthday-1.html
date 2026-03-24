@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elegant Birthday Invitation — invite.studio</title>
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    /* ── Page-level overrides for dark maroon theme ── */
+    body {
+      background: var(--maroon2);
+      color: var(--gold-pale);
+      overflow-x: hidden;
+    }
+
+    /* ── Preview Banner ── */
+    .preview-banner {
+      background: linear-gradient(135deg, #1a0800, #2e0a0a);
+      border-bottom: 1px solid rgba(201,148,42,0.3);
+      color: var(--gold-pale);
+      text-align: center;
+      padding: 0.75rem 4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .preview-banner .buy-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--maroon2);
+      padding: 0.4rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+    .preview-banner .buy-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(201,148,42,0.4);
+    }
+
+    /* ── Hero ── */
+    .b1-hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--maroon2) 0%, #3d0c0c 40%, var(--maroon) 70%, #4a1010 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+
+    /* Mandala SVG watermark */
+    .b1-mandala {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(85vw, 650px);
+      height: min(85vw, 650px);
+      opacity: 0.06;
+      pointer-events: none;
+      animation: slowSpin 90s linear infinite;
+    }
+
+    /* Floating petals */
+    .petal {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: petalFall linear infinite;
+      pointer-events: none;
+    }
+
+    .b1-pre-title {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .b1-script {
+      font-family: var(--font-script);
+      font-size: clamp(3.5rem, 10vw, 6.5rem);
+      color: var(--gold-pale);
+      line-height: 1;
+      position: relative;
+      text-shadow: 0 2px 20px rgba(201,148,42,0.3);
+    }
+
+    .b1-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 7vw, 4.5rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.06em;
+      margin: 0.4rem 0 0.6rem;
+      position: relative;
+      text-shadow: 0 0 40px rgba(232,184,75,0.25);
+    }
+
+    .b1-age-badge {
+      display: inline-block;
+      border: 1px solid rgba(201,148,42,0.4);
+      padding: 0.3rem 1.2rem;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    /* Gold ornamental divider */
+    .b1-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: var(--gold);
+      font-size: 1rem;
+      margin: 0.5rem 0 3rem;
+      position: relative;
+    }
+    .b1-ornament .line {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .b1-ornament .line.r { transform: scaleX(-1); }
+    .b1-ornament .diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    .b1-ornament .dot {
+      width: 4px; height: 4px;
+      background: var(--gold-light);
+      border-radius: 50%;
+    }
+
+    .b1-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.5);
+      animation: bobDown 2.5s ease-in-out infinite;
+    }
+
+    /* ── Details Section ── */
+    .b1-details {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, #3d0c0c 0%, var(--maroon2) 100%);
+    }
+
+    .b1-details-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .b1-detail-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(255,253,245,0.06), rgba(201,148,42,0.05));
+      border: 1px solid rgba(201,148,42,0.3);
+      padding: 2.5rem 3rem;
+      text-align: center;
+    }
+    /* Corner brackets */
+    .b1-detail-card::before,
+    .b1-detail-card::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .b1-detail-card::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .b1-detail-card::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+    .b1-detail-card .corner-tr,
+    .b1-detail-card .corner-bl {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .b1-detail-card .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+    .b1-detail-card .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+
+    .b1-detail-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(201,148,42,0.12);
+    }
+    .b1-detail-row:last-child { border-bottom: none; }
+
+    .b1-detail-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .b1-detail-value {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--gold-pale);
+      line-height: 1.4;
+    }
+    .b1-detail-icon {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Message Section ── */
+    .b1-message {
+      padding: var(--section-pad);
+      background: var(--maroon2);
+      text-align: center;
+    }
+
+    .b1-message-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .b1-quote-mark {
+      font-family: var(--font-script);
+      font-size: 8rem;
+      color: rgba(201,148,42,0.12);
+      line-height: 0.6;
+      position: absolute;
+      top: -1rem;
+      left: -1rem;
+      pointer-events: none;
+    }
+
+    .b1-message-text {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 3vw, 1.5rem);
+      color: var(--gold-pale);
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* ── Footer ── */
+    .b1-footer {
+      padding: 3rem 2rem 4rem;
+      background: linear-gradient(180deg, var(--maroon2), #1a0500);
+      text-align: center;
+      border-top: 1px solid rgba(201,148,42,0.15);
+    }
+
+    .b1-hosted-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .b1-hosted-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--gold-pale);
+      margin-bottom: 2rem;
+    }
+
+    .b1-footer-divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(201,148,42,0.3);
+      margin: 0 auto 1.5rem;
+    }
+
+    .b1-footer-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.45);
+      transition: color 0.2s ease;
+    }
+    .b1-footer-link:hover { color: var(--gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .b1-detail-card { padding: 2rem 1.5rem; }
+      .preview-banner { padding: 0.75rem 1rem; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview Banner -->
+  <div class="preview-banner">
+    <span>✨ This is a live preview — Buy for ₹500 to customize with your details</span>
+    <button class="buy-btn" data-buy="birthday-1" data-name="Elegant Birthday" data-customize="birthday-1-customize.html">
+      Buy &amp; Customize →
+    </button>
+  </div>
+
+  <!-- Back Navigation -->
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- Page Stripe (top is above banner in z-order, skip) -->
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section class="b1-hero">
+
+    <!-- Mandala watermark SVG -->
+    <svg class="b1-mandala" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Concentric circles -->
+      <circle cx="250" cy="250" r="240" stroke="#c9942a" stroke-width="1"/>
+      <circle cx="250" cy="250" r="210" stroke="#c9942a" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="180" stroke="#c9942a" stroke-width="1"/>
+      <circle cx="250" cy="250" r="150" stroke="#c9942a" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="120" stroke="#c9942a" stroke-width="1"/>
+      <circle cx="250" cy="250" r="90"  stroke="#c9942a" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="60"  stroke="#c9942a" stroke-width="1"/>
+      <circle cx="250" cy="250" r="30"  stroke="#c9942a" stroke-width="0.5"/>
+      <!-- 8 petals at outer ring -->
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(0   250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(45  250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(90  250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(135 250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(180 250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(225 250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(270 250 250)"/>
+      <ellipse cx="250" cy="70"  rx="14" ry="35" fill="#c9942a" transform="rotate(315 250 250)"/>
+      <!-- 8 petals at inner ring -->
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(22.5  250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(67.5  250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(112.5 250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(157.5 250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(202.5 250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(247.5 250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(292.5 250 250)"/>
+      <ellipse cx="250" cy="140" rx="8"  ry="20" fill="#c9942a" transform="rotate(337.5 250 250)"/>
+      <!-- Radial lines -->
+      <line x1="250" y1="10"  x2="250" y2="490" stroke="#c9942a" stroke-width="0.5"/>
+      <line x1="10"  y1="250" x2="490" y2="250" stroke="#c9942a" stroke-width="0.5"/>
+      <line x1="80"  y1="80"  x2="420" y2="420" stroke="#c9942a" stroke-width="0.5"/>
+      <line x1="420" y1="80"  x2="80"  y2="420" stroke="#c9942a" stroke-width="0.5"/>
+      <!-- Center dot -->
+      <circle cx="250" cy="250" r="6" fill="#c9942a"/>
+    </svg>
+
+    <!-- Content -->
+    <div class="b1-pre-title r">— You Are Invited —</div>
+
+    <div class="b1-script r" style="transition-delay:0.1s">Happy Birthday</div>
+
+    <div class="b1-name r" data-field="name" style="transition-delay:0.2s">Srikar</div>
+
+    <div class="b1-age-badge r" style="transition-delay:0.25s">
+      Turning <span data-field="age">30</span>
+    </div>
+
+    <div class="b1-ornament r" style="transition-delay:0.3s">
+      <span class="line"></span>
+      <span class="dot"></span>
+      <span class="diamond"></span>
+      <span class="dot"></span>
+      <span class="line r"></span>
+    </div>
+
+    <div class="b1-scroll-hint">Scroll to explore ↓</div>
+  </section>
+
+  <!-- ═══════════════════════════════ DETAILS ═══════════════════════════ -->
+  <section class="b1-details">
+    <div class="b1-details-inner">
+
+      <div class="t-center r" style="margin-bottom:2rem;">
+        <div class="sec-tag">Celebration Details</div>
+        <h2 class="sec-title" style="color:var(--gold-pale);">Join the Festivities</h2>
+      </div>
+
+      <div class="b1-detail-card r" style="transition-delay:0.1s">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+
+        <div class="b1-detail-row">
+          <div class="b1-detail-icon">📅</div>
+          <div class="b1-detail-label">Date</div>
+          <div class="b1-detail-value" data-field="date">March 18, 2026</div>
+        </div>
+
+        <div class="b1-detail-row">
+          <div class="b1-detail-icon">🕖</div>
+          <div class="b1-detail-label">Time</div>
+          <div class="b1-detail-value" data-field="time">7:00 PM</div>
+        </div>
+
+        <div class="b1-detail-row">
+          <div class="b1-detail-icon">📍</div>
+          <div class="b1-detail-label">Venue</div>
+          <div class="b1-detail-value" data-field="venue">The Grand Ballroom, Jubilee Hills, Hyderabad</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MESSAGE ═══════════════════════════ -->
+  <section class="b1-message">
+    <div class="b1-message-inner r">
+      <div class="sec-tag" style="margin-bottom:1.5rem;">A Message</div>
+      <div class="b1-quote-mark">"</div>
+      <p class="b1-message-text" data-field="message">Join us for an evening of joy and celebration!</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="b1-footer">
+    <div class="b1-hosted-label r">Hosted By</div>
+    <div class="b1-hosted-name r" data-field="host" style="transition-delay:0.1s">The Kumar Family</div>
+    <div class="b1-footer-divider r" style="transition-delay:0.15s"></div>
+    <a href="../../index.html" class="b1-footer-link r" style="transition-delay:0.2s">invite.studio</a>
+  </footer>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Petal animation ──────────────────────────────────────────────────
+    (function spawnPetals() {
+      const colors = ['#c9942a','#e8b84b','#f5dfa0','#9b1a1a','#e07070'];
+      const container = document.querySelector('.b1-hero');
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.style.cssText = [
+          `left:${Math.random() * 100}%`,
+          `background:${colors[Math.floor(Math.random() * colors.length)]}`,
+          `width:${6 + Math.random() * 8}px`,
+          `height:${6 + Math.random() * 8}px`,
+          `animation-duration:${8 + Math.random() * 14}s`,
+          `animation-delay:${Math.random() * 12}s`,
+          `opacity:0`
+        ].join(';');
+        container.appendChild(p);
+      }
+    })();
+
+    // ── initPreview ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.initPreview({
+        name:    "Srikar",
+        age:     "30",
+        date:    "March 18, 2026",
+        time:    "7:00 PM",
+        venue:   "The Grand Ballroom, Jubilee Hills, Hyderabad",
+        message: "Join us for an evening of joy and celebration!",
+        host:    "The Kumar Family"
+      });
+    });
+  </script>
+
+</body>
+</html>

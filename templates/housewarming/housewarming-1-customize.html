@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customize — Griha Pravesham</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron:      #c86820;
+      --saffron-deep: #7a3408;
+      --turmeric:     #e8a020;
+      --turmeric-pale:#f5cc80;
+      --temple-green: #2a7020;
+      --green-dark:   #1a4e14;
+      --cream:        #fdf6e3;
+      --text:         #3a1a00;
+    }
+
+    body {
+      background: var(--saffron-deep);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Purchase banner (top) ── */
+    .purchase-banner {
+      background: linear-gradient(90deg, #5a2005, #3a1000);
+      border-bottom: 2px solid var(--turmeric);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--turmeric-pale); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--turmeric); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--turmeric), var(--turmeric-pale));
+      color: #3a1a00; border: none; padding: 10px 22px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(232,160,32,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,160,32,.55); }
+
+    /* ── Layout ── */
+    .page-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid rgba(232,160,32,.2);
+    }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--turmeric); margin-bottom: 4px; }
+    .page-header p { font-size: 0.85rem; color: var(--turmeric-pale); opacity: .75; }
+
+    .customize-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: calc(100vh - 140px);
+    }
+    @media (max-width: 768px) {
+      .customize-layout { grid-template-columns: 1fr; }
+      .preview-panel { border-left: none; border-top: 1px solid rgba(232,160,32,.2); }
+    }
+
+    /* ── Form panel ── */
+    .form-panel {
+      padding: 28px 32px;
+      overflow-y: auto;
+      background: var(--saffron-deep);
+    }
+
+    .form-section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--turmeric); margin: 24px 0 14px;
+      padding-bottom: 6px; border-bottom: 1px solid rgba(232,160,32,.25);
+    }
+    .form-section-heading:first-child { margin-top: 0; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 0.78rem; letter-spacing: 1px;
+      color: var(--turmeric-pale); margin-bottom: 6px; text-transform: uppercase;
+    }
+    .form-input, .form-textarea {
+      width: 100%; background: rgba(90,32,5,.55);
+      border: 1px solid rgba(232,160,32,.35);
+      color: var(--cream); padding: 10px 14px;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      border-radius: 4px; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--turmeric);
+      background: rgba(90,32,5,.9);
+    }
+    .form-textarea { resize: vertical; min-height: 72px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #5a2005, #8a3810);
+      border: 1px solid var(--turmeric); color: var(--turmeric-pale);
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      cursor: pointer; margin-top: 24px; letter-spacing: 1px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: linear-gradient(135deg, #8a3810, #aa4820); transform: translateY(-1px); }
+
+    .btn-gold {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--turmeric), var(--turmeric-pale));
+      border: none; color: #3a1a00;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; margin-top: 10px;
+      box-shadow: 0 4px 18px rgba(232,160,32,.4);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,160,32,.55); }
+
+    /* ── Preview panel ── */
+    .preview-panel {
+      border-left: 1px solid rgba(232,160,32,.2);
+      background: #3a1000;
+      padding: 28px 24px;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .preview-label {
+      font-size: 0.7rem; letter-spacing: 3px; color: var(--turmeric); text-transform: uppercase;
+      margin-bottom: 16px; text-align: center;
+    }
+
+    /* ── Mini invite card ── */
+    .orn-card {
+      background: var(--cream); color: var(--text);
+      border: 2px solid var(--saffron);
+      padding: 28px 22px; text-align: center; position: relative;
+      flex: 1;
+    }
+    .orn-card::before {
+      content: ''; position: absolute; inset: 6px;
+      border: 1px solid rgba(200,104,32,.3); pointer-events: none;
+    }
+    .orn-card-corner {
+      position: absolute; width: 20px; height: 20px;
+      border-color: var(--saffron); border-style: solid; border-width: 0;
+    }
+    .orn-card-corner.tl { top:4px;left:4px;border-top-width:2px;border-left-width:2px; }
+    .orn-card-corner.tr { top:4px;right:4px;border-top-width:2px;border-right-width:2px; }
+    .orn-card-corner.bl { bottom:4px;left:4px;border-bottom-width:2px;border-left-width:2px; }
+    .orn-card-corner.br { bottom:4px;right:4px;border-bottom-width:2px;border-right-width:2px; }
+
+    .preview-kalash { font-size: 2rem; display: block; margin-bottom: 8px; }
+    .preview-intro { font-size: 0.58rem; letter-spacing: 2px; color: #7a4010; text-transform: uppercase; margin-bottom: 8px; }
+    .preview-ceremony {
+      font-family: 'Great Vibes', cursive; font-size: clamp(1.4rem, 4vw, 2rem);
+      color: var(--saffron); line-height: 1.2; margin-bottom: 10px;
+    }
+    .preview-family {
+      font-family: 'Playfair Display', serif; font-size: 0.82rem;
+      color: var(--green-dark); font-weight: 700; margin-bottom: 14px;
+    }
+    .preview-detail { font-size: 0.72rem; color: #5a2800; margin-bottom: 5px; line-height: 1.5; }
+    .preview-detail strong { color: #3a1000; }
+    .preview-priest { font-size: 0.65rem; color: #7a4010; font-style: italic; margin-top: 10px; }
+
+    .preview-bottom {
+      margin-top: 16px; text-align: center;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.68rem; color: var(--turmeric-pale); opacity: .8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Purchase banner -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Customizing: <span>Griha Pravesham</span> — ₹500</p>
+    <button class="btn-buy" id="topBuyBtn">Complete Purchase →</button>
+  </div>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <h1>Customize Your Invitation</h1>
+    <p>Fill in your details — the preview updates live as you type.</p>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="customize-layout">
+
+    <!-- ── FORM PANEL ── -->
+    <div class="form-panel">
+
+      <p class="form-section-heading">Family</p>
+      <div class="form-group">
+        <label class="form-label" for="f-family">Family Name</label>
+        <input class="form-input" id="f-family" type="text" data-preview="family" value="The Sharma Family" placeholder="e.g. The Sharma Family" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-host">Hosts (names)</label>
+        <input class="form-input" id="f-host" type="text" data-preview="host" value="Rajesh &amp; Meena Sharma" placeholder="e.g. Rajesh &amp; Meena Sharma" />
+      </div>
+
+      <p class="form-section-heading">Ceremony</p>
+      <div class="form-group">
+        <label class="form-label" for="f-ceremony">Ceremony Name</label>
+        <input class="form-input" id="f-ceremony" type="text" data-preview="ceremony" value="Griha Pravesham Pooja" placeholder="e.g. Griha Pravesham Pooja" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-priest">Priest / Officiant</label>
+        <input class="form-input" id="f-priest" type="text" data-preview="priest" value="Pandit Suresh Sharma" placeholder="Priest's name" />
+      </div>
+
+      <p class="form-section-heading">Date &amp; Time</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-date">Date</label>
+          <input class="form-input" id="f-date" type="date" data-preview="date" value="2026-06-15" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-time">Time</label>
+          <input class="form-input" id="f-time" type="time" data-preview="time" value="09:30" />
+        </div>
+      </div>
+
+      <p class="form-section-heading">Venue</p>
+      <div class="form-group">
+        <label class="form-label" for="f-address">Address</label>
+        <textarea class="form-textarea" id="f-address" data-preview="address" placeholder="Full address">Plot 42, Manikonda, Hyderabad 500089</textarea>
+      </div>
+
+      <p class="form-section-heading">Message</p>
+      <div class="form-group">
+        <label class="form-label" for="f-message">Invitation Message</label>
+        <textarea class="form-textarea" id="f-message" data-preview="message" placeholder="Your personal message" style="min-height:90px;">We are blessed to move into our new home and seek your blessings on this auspicious occasion</textarea>
+      </div>
+
+      <button class="btn-primary" id="previewBtn">Preview Full Invitation ↗</button>
+      <button class="btn-gold" id="purchaseBtn">Purchase &amp; Download — ₹500</button>
+
+    </div>
+
+    <!-- ── PREVIEW PANEL ── -->
+    <div class="preview-panel">
+      <p class="preview-label">Live Preview</p>
+      <div class="orn-card">
+        <div class="orn-card-corner tl"></div>
+        <div class="orn-card-corner tr"></div>
+        <div class="orn-card-corner bl"></div>
+        <div class="orn-card-corner br"></div>
+
+        <span class="preview-kalash">🏺</span>
+        <p class="preview-intro">Shubha Griha Pravesham</p>
+        <p class="preview-ceremony" id="pv-ceremony">Griha Pravesham Pooja</p>
+        <p class="preview-family" id="pv-family">The Sharma Family</p>
+
+        <p class="preview-detail"><strong>Date:</strong> <span id="pv-date">June 15, 2026</span></p>
+        <p class="preview-detail"><strong>Time:</strong> <span id="pv-time">9:30 AM</span></p>
+        <p class="preview-detail"><strong>📍</strong> <span id="pv-address">Plot 42, Manikonda, Hyderabad 500089</span></p>
+        <p class="preview-priest">Officiated by <span id="pv-priest">Pandit Suresh Sharma</span></p>
+      </div>
+
+      <p class="preview-bottom" id="pv-message">We are blessed to move into our new home and seek your blessings on this auspicious occasion</p>
+    </div>
+
+  </div><!-- end customize-layout -->
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    function formatDate(val) {
+      if (!val) return '';
+      const d = new Date(val + 'T12:00:00');
+      if (isNaN(d)) return val;
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function formatTime(val) {
+      if (!val) return '';
+      const [h, m] = val.split(':').map(Number);
+      if (isNaN(h)) return val;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hr = h % 12 || 12;
+      return `${hr}:${String(m).padStart(2,'0')} ${ampm}`;
+    }
+
+    const fieldMap = {
+      'f-family':   { id: 'pv-family',   type: 'text' },
+      'f-ceremony': { id: 'pv-ceremony', type: 'text' },
+      'f-priest':   { id: 'pv-priest',   type: 'text' },
+      'f-date':     { id: 'pv-date',     type: 'date' },
+      'f-time':     { id: 'pv-time',     type: 'time' },
+      'f-address':  { id: 'pv-address',  type: 'text' },
+      'f-message':  { id: 'pv-message',  type: 'text' },
+    };
+
+    Object.entries(fieldMap).forEach(([inputId, { id, type }]) => {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(id);
+      if (!input || !preview) return;
+      const update = () => {
+        preview.textContent = type === 'date' ? formatDate(input.value)
+                            : type === 'time' ? formatTime(input.value)
+                            : input.value;
+      };
+      input.addEventListener('input', update);
+      update();
+    });
+
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      window.open('housewarming-1.html', '_blank');
+    });
+
+    function triggerPurchase() {
+      if (window.InvitePayment && InvitePayment.initiate) {
+        InvitePayment.initiate('housewarming-1', 'Griha Pravesham', 'housewarming-1.html');
+      } else {
+        alert('Payment system loading — please try again.');
+      }
+    }
+    document.getElementById('purchaseBtn').addEventListener('click', triggerPurchase);
+    document.getElementById('topBuyBtn').addEventListener('click', triggerPurchase);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.init('housewarming-1', 'housewarming-1.html', '../../index.html');
+    });
+  </script>
+</body>
+</html>

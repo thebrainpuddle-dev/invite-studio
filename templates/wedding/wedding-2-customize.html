@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customize — Rajasthani Wedding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0a0820;
+      --navy2:   #0f1035;
+      --royal:   #1a3a8b;
+      --saffron: #c86820;
+      --saffron2:#e07830;
+      --pink:    #d4185a;
+      --gold:    #c9942a;
+      --gold-l:  #e8b84b;
+      --gold-p:  #f5dfa0;
+      --cream:   #fdf6e3;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Purchase banner ── */
+    .purchase-banner {
+      background: linear-gradient(90deg, var(--navy), #0f0c3a);
+      border-bottom: 2px solid var(--gold);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--gold-p); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--gold-l); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--gold), var(--gold-l));
+      color: #2a1200; border: none; padding: 10px 22px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(201,148,42,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,148,42,.55); }
+
+    /* ── Page header ── */
+    .page-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid rgba(201,148,42,.2);
+    }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold-l); margin-bottom: 4px; }
+    .page-header p { font-size: 0.85rem; color: var(--gold-p); opacity: .75; }
+
+    /* ── Layout ── */
+    .customize-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: calc(100vh - 140px);
+    }
+    @media (max-width: 768px) {
+      .customize-layout { grid-template-columns: 1fr; }
+      .preview-panel { border-left: none; border-top: 1px solid rgba(201,148,42,.2); }
+    }
+
+    /* ── Form panel ── */
+    .form-panel {
+      padding: 28px 32px;
+      overflow-y: auto;
+      background: var(--navy);
+    }
+
+    .form-section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--saffron); margin: 24px 0 14px;
+      padding-bottom: 6px; border-bottom: 1px solid rgba(200,104,32,.25);
+    }
+    .form-section-heading:first-child { margin-top: 0; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 0.78rem; letter-spacing: 1px;
+      color: var(--gold-p); margin-bottom: 6px; text-transform: uppercase;
+    }
+    .form-input, .form-textarea {
+      width: 100%; background: rgba(15,16,53,.7);
+      border: 1px solid rgba(201,148,42,.3);
+      color: var(--cream); padding: 10px 14px;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      border-radius: 4px; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--gold);
+      background: rgba(15,16,53,.95);
+    }
+    .form-textarea { resize: vertical; min-height: 72px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--navy2), var(--royal));
+      border: 1px solid var(--gold); color: var(--gold-p);
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      cursor: pointer; margin-top: 24px; letter-spacing: 1px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: linear-gradient(135deg, var(--royal), #2a4fa8); transform: translateY(-1px); }
+
+    .btn-gold {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-l));
+      border: none; color: #2a1200;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; margin-top: 10px;
+      box-shadow: 0 4px 18px rgba(201,148,42,.4);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,148,42,.55); }
+
+    /* ── Preview panel ── */
+    .preview-panel {
+      border-left: 1px solid rgba(201,148,42,.2);
+      background: #080618;
+      padding: 28px 24px;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .preview-label {
+      font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
+      margin-bottom: 16px; text-align: center;
+    }
+
+    /* ── Mini preview card ── */
+    .orn-card {
+      background: linear-gradient(160deg, #0a0820 0%, #0f1035 100%);
+      border: 1px solid rgba(201,148,42,.45);
+      padding: 28px 24px; text-align: center; position: relative;
+      flex: 1;
+    }
+    .orn-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent, transparent 24px,
+        rgba(201,148,42,.04) 24px, rgba(201,148,42,.04) 26px
+      );
+    }
+    .orn-card-corner {
+      position: absolute; width: 20px; height: 20px;
+      border-color: var(--saffron); border-style: solid; border-width: 0;
+      z-index: 1;
+    }
+    .orn-card-corner.tl { top:4px;left:4px;border-top-width:2px;border-left-width:2px; }
+    .orn-card-corner.tr { top:4px;right:4px;border-top-width:2px;border-right-width:2px; }
+    .orn-card-corner.bl { bottom:4px;left:4px;border-bottom-width:2px;border-left-width:2px; }
+    .orn-card-corner.br { bottom:4px;right:4px;border-bottom-width:2px;border-right-width:2px; }
+
+    .orn-card > * { position: relative; z-index: 1; }
+
+    .preview-icon { font-size: 2.4rem; margin-bottom: 8px; display: block; }
+    .preview-blessing { font-size: 0.65rem; letter-spacing: 2px; color: var(--saffron2); margin-bottom: 4px; }
+    .preview-shubh {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--saffron2); margin-bottom: 8px; display: block;
+    }
+    .preview-names {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-l), var(--gold-p));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.2; margin: 4px 0;
+    }
+    .preview-amp {
+      font-family: 'Great Vibes', cursive; font-size: 1.1rem;
+      display: block; -webkit-text-fill-color: var(--pink); color: var(--pink); margin: -2px 0;
+    }
+    .preview-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem; color: var(--gold-p); letter-spacing: 2px; margin-top: 10px;
+      border: 1px solid rgba(201,148,42,.3); padding: 6px 12px; display: inline-block;
+    }
+    .preview-venue { font-size: 0.68rem; color: var(--cream); opacity: .75; margin-top: 8px; line-height: 1.5; }
+
+    .preview-divider {
+      border: none; border-top: 1px solid rgba(201,148,42,.25); margin: 14px 0;
+    }
+
+    .preview-family { font-size: 0.68rem; color: var(--gold-p); opacity: .8; line-height: 1.6; }
+    .preview-family-label { font-size: 0.58rem; letter-spacing: 2px; color: var(--saffron); text-transform: uppercase; margin-bottom: 3px; }
+
+    .preview-bottom {
+      margin-top: 16px; text-align: center;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.7rem; color: var(--gold-p); opacity: .75;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Purchase banner -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Customizing: <span>Rajasthani Wedding</span> — ₹500</p>
+    <button class="btn-buy" id="topBuyBtn">Complete Purchase →</button>
+  </div>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <h1>Customize Your Invitation</h1>
+    <p>Fill in your details — the preview updates live as you type.</p>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="customize-layout">
+
+    <!-- ── FORM PANEL ── -->
+    <div class="form-panel">
+
+      <p class="form-section-heading">Couple</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-groom">Groom's Name</label>
+          <input class="form-input" id="f-groom" type="text" data-preview="groom" value="Aryan Sharma" placeholder="Groom's full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-bride">Bride's Name</label>
+          <input class="form-input" id="f-bride" type="text" data-preview="bride" value="Priya Agarwal" placeholder="Bride's full name" />
+        </div>
+      </div>
+
+      <p class="form-section-heading">Wedding Ceremony</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-weddingDate">Wedding Date</label>
+          <input class="form-input" id="f-weddingDate" type="date" data-preview="weddingDate" value="2026-05-05" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-weddingTime">Wedding Time</label>
+          <input class="form-input" id="f-weddingTime" type="time" data-preview="weddingTime" value="11:00" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-venue">Wedding Venue</label>
+        <textarea class="form-textarea" id="f-venue" data-preview="venue" placeholder="Full venue name and address">Umaid Bhawan Palace, Jodhpur</textarea>
+      </div>
+
+      <p class="form-section-heading">Reception</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-receptionDate">Reception Date</label>
+          <input class="form-input" id="f-receptionDate" type="date" data-preview="receptionDate" value="2026-05-05" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-receptionTime">Reception Time</label>
+          <input class="form-input" id="f-receptionTime" type="time" data-preview="receptionTime" value="19:00" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-receptionVenue">Reception Venue</label>
+        <textarea class="form-textarea" id="f-receptionVenue" data-preview="receptionVenue" placeholder="Reception venue name and address">Royal Heritage Banquet, Jaipur</textarea>
+      </div>
+
+      <p class="form-section-heading">Families</p>
+      <div class="form-group">
+        <label class="form-label" for="f-groomFamily">Groom's Parents / Family</label>
+        <input class="form-input" id="f-groomFamily" type="text" data-preview="groomFamily" value="Shri Vikram Sharma &amp; Smt. Kavita Sharma" placeholder="Groom's parents' names" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-brideFamily">Bride's Parents / Family</label>
+        <input class="form-input" id="f-brideFamily" type="text" data-preview="brideFamily" value="Shri Mahesh Agarwal &amp; Smt. Sunita Agarwal" placeholder="Bride's parents' names" />
+      </div>
+
+      <p class="form-section-heading">Personal Message</p>
+      <div class="form-group">
+        <label class="form-label" for="f-message">Invitation Message</label>
+        <textarea class="form-textarea" id="f-message" data-preview="message" placeholder="Your personal invitation message" style="min-height:90px;">Shubh Vivah! With joy in our hearts, we invite you to witness this divine union</textarea>
+      </div>
+
+      <button class="btn-primary" id="previewBtn">Preview Full Invitation ↗</button>
+      <button class="btn-gold" id="purchaseBtn">Purchase &amp; Download — ₹500</button>
+
+    </div>
+
+    <!-- ── PREVIEW PANEL ── -->
+    <div class="preview-panel">
+      <p class="preview-label">Live Preview</p>
+
+      <div class="orn-card">
+        <div class="orn-card-corner tl"></div>
+        <div class="orn-card-corner tr"></div>
+        <div class="orn-card-corner bl"></div>
+        <div class="orn-card-corner br"></div>
+
+        <span class="preview-icon">🦚</span>
+        <p class="preview-blessing">॥ शुभ विवाह ॥</p>
+        <span class="preview-shubh">Shubh Vivah</span>
+
+        <div class="preview-names">
+          <span id="pv-groom">Aryan Sharma</span>
+          <span class="preview-amp">&amp;</span>
+          <span id="pv-bride">Priya Agarwal</span>
+        </div>
+
+        <div class="preview-date">
+          <span id="pv-weddingDate">May 5, 2026</span>
+          &nbsp;·&nbsp;
+          <span id="pv-weddingTime">11:00 AM</span>
+        </div>
+
+        <p class="preview-venue" id="pv-venue">Umaid Bhawan Palace, Jodhpur</p>
+
+        <hr class="preview-divider" />
+
+        <p class="preview-family-label">Reception</p>
+        <p style="font-size:.68rem;color:var(--gold-p);margin-bottom:4px;">
+          <span id="pv-receptionDate">May 5, 2026</span>
+          &nbsp;·&nbsp;
+          <span id="pv-receptionTime">7:00 PM</span>
+        </p>
+        <p class="preview-venue" id="pv-receptionVenue">Royal Heritage Banquet, Jaipur</p>
+
+        <hr class="preview-divider" />
+
+        <p class="preview-family-label">Families</p>
+        <p class="preview-family" id="pv-groomFamily">Shri Vikram Sharma &amp; Smt. Kavita Sharma</p>
+        <p style="font-size:.6rem;color:var(--saffron);margin:3px 0;">— &amp; —</p>
+        <p class="preview-family" id="pv-brideFamily">Shri Mahesh Agarwal &amp; Smt. Sunita Agarwal</p>
+      </div>
+
+      <p class="preview-bottom" id="pv-message">Shubh Vivah! With joy in our hearts, we invite you to witness this divine union</p>
+    </div>
+
+  </div><!-- end customize-layout -->
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Live preview sync ──
+    function formatDate(val) {
+      if (!val) return '';
+      const d = new Date(val + 'T12:00:00');
+      if (isNaN(d)) return val;
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function formatTime(val) {
+      if (!val) return '';
+      const [h, m] = val.split(':').map(Number);
+      if (isNaN(h)) return val;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hr = h % 12 || 12;
+      return `${hr}:${String(m).padStart(2,'0')} ${ampm}`;
+    }
+
+    const fieldMap = {
+      'f-groom':          { id: 'pv-groom',          type: 'text' },
+      'f-bride':          { id: 'pv-bride',          type: 'text' },
+      'f-weddingDate':    { id: 'pv-weddingDate',    type: 'date' },
+      'f-weddingTime':    { id: 'pv-weddingTime',    type: 'time' },
+      'f-receptionDate':  { id: 'pv-receptionDate',  type: 'date' },
+      'f-receptionTime':  { id: 'pv-receptionTime',  type: 'time' },
+      'f-venue':          { id: 'pv-venue',          type: 'text' },
+      'f-receptionVenue': { id: 'pv-receptionVenue', type: 'text' },
+      'f-groomFamily':    { id: 'pv-groomFamily',    type: 'text' },
+      'f-brideFamily':    { id: 'pv-brideFamily',    type: 'text' },
+      'f-message':        { id: 'pv-message',        type: 'text' },
+    };
+
+    Object.entries(fieldMap).forEach(([inputId, { id, type }]) => {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(id);
+      if (!input || !preview) return;
+      const update = () => {
+        preview.textContent = type === 'date' ? formatDate(input.value)
+                            : type === 'time' ? formatTime(input.value)
+                            : input.value;
+      };
+      input.addEventListener('input', update);
+      update();
+    });
+
+    // ── Button handlers ──
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      window.open('wedding-2.html', '_blank');
+    });
+
+    function triggerPurchase() {
+      if (window.InvitePayment && InvitePayment.initiate) {
+        InvitePayment.initiate('wedding-2', 'Rajasthani Wedding', 'wedding-2.html');
+      } else {
+        alert('Payment system loading — please try again.');
+      }
+    }
+    document.getElementById('purchaseBtn').addEventListener('click', triggerPurchase);
+    document.getElementById('topBuyBtn').addEventListener('click', triggerPurchase);
+
+    // ── Init ──
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.init('wedding-2', 'wedding-2.html', '../../index.html');
+    });
+  </script>
+</body>
+</html>

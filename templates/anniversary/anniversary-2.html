@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silver Anniversary — invite.studio</title>
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #080820;
+      color: #e0e0f0;
+      overflow-x: hidden;
+    }
+
+    /* ── Preview Banner ── */
+    .preview-banner {
+      background: linear-gradient(135deg, #080820, #12122e);
+      border-bottom: 1px solid rgba(144,144,192,0.3);
+      color: #e0e0f0;
+      text-align: center;
+      padding: 0.75rem 4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .preview-banner .buy-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #080820;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+    .preview-banner .buy-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(201,148,42,0.4);
+    }
+
+    /* ── Constellation canvas ── */
+    #constellation-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── Hero ── */
+    .a2-hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #080820 0%, #0d0d28 40%, #1a1a3a 70%, #10102a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* SVG Diamond shape */
+    .a2-diamond-svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(70vw, 560px);
+      height: min(70vw, 560px);
+      opacity: 0.06;
+      pointer-events: none;
+      animation: slowSpin 80s linear infinite;
+    }
+
+    /* Gradient line dividers */
+    .a2-line-divider {
+      width: min(320px, 80vw);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #9090c0, var(--gold), #9090c0, transparent);
+      margin: 1rem auto;
+      position: relative;
+    }
+
+    .a2-year-numeral {
+      font-family: var(--font-display);
+      font-size: clamp(6.5rem, 20vw, 13rem);
+      font-weight: 700;
+      line-height: 0.9;
+      background: linear-gradient(160deg, #d0d0e8 0%, #9090c0 30%, var(--gold) 60%, #e8b84b 80%, #c8c8e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 40px rgba(144,144,192,0.35));
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .a2-years-label {
+      font-family: var(--font-display);
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-weight: 600;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: #9090c0;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .a2-names {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+    .a2-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+    }
+    .a2-ampersand {
+      font-family: var(--font-script);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      background: linear-gradient(135deg, #9090c0, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .a2-badge {
+      display: inline-block;
+      border: 1px solid rgba(144,144,192,0.4);
+      padding: 0.3rem 1.4rem;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.45em;
+      color: #9090c0;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .a2-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(144,144,192,0.4);
+      animation: bobDown 2.5s ease-in-out infinite;
+    }
+
+    /* ── Details Card ── */
+    .a2-details {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, #080820 0%, #0d0d28 100%);
+      position: relative;
+      z-index: 1;
+    }
+    .a2-details-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .a2-glass-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(144,144,192,0.25);
+      padding: 2.8rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+    .a2-glass-card::before,
+    .a2-glass-card::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: #9090c0;
+      border-style: solid;
+      opacity: 0.4;
+    }
+    .a2-glass-card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+    .a2-glass-card::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+    .a2-glass-card .corner-tr,
+    .a2-glass-card .corner-bl {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: #9090c0;
+      border-style: solid;
+      opacity: 0.4;
+    }
+    .a2-glass-card .corner-tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+    .a2-glass-card .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+
+    .a2-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(144,144,192,0.1);
+      text-align: left;
+    }
+    .a2-detail-row:last-child { border-bottom: none; }
+    .a2-detail-icon-wrap {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(144,144,192,0.15), rgba(201,148,42,0.1));
+      border: 1px solid rgba(144,144,192,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .a2-detail-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: #9090c0;
+      margin-bottom: 0.2rem;
+    }
+    .a2-detail-value {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: #e0e0f0;
+      line-height: 1.4;
+    }
+
+    /* ── Decade Highlights ── */
+    .a2-decade {
+      padding: var(--section-pad);
+      background: #080820;
+      position: relative;
+      z-index: 1;
+    }
+    .a2-decade-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .a2-decade-strip {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      margin-top: 2.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(144,144,192,0.3) transparent;
+    }
+    .a2-decade-strip::-webkit-scrollbar { height: 4px; }
+    .a2-decade-strip::-webkit-scrollbar-track { background: transparent; }
+    .a2-decade-strip::-webkit-scrollbar-thumb { background: rgba(144,144,192,0.3); border-radius: 2px; }
+
+    .a2-milestone-card {
+      flex: 0 0 180px;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(144,144,192,0.18);
+      padding: 1.8rem 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+    .a2-milestone-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #080820;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.8rem;
+    }
+    .a2-milestone-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #9090c0;
+      margin-bottom: 0.4rem;
+    }
+    .a2-milestone-title {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      color: #e0e0f0;
+      line-height: 1.4;
+    }
+
+    /* ── Toast Section ── */
+    .a2-toast {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, #0d0d28, #080820);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .a2-toast-inner {
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    .a2-toast-emoji {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .a2-toast-headline {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.2rem;
+    }
+    .a2-toast-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(224,224,240,0.8);
+      line-height: 1.75;
+      position: relative;
+    }
+    .a2-quote-mark {
+      font-family: var(--font-script);
+      font-size: 8rem;
+      color: rgba(144,144,192,0.08);
+      line-height: 0.6;
+      position: absolute;
+      top: -1.5rem;
+      left: -1rem;
+      pointer-events: none;
+    }
+
+    /* ── Footer ── */
+    .a2-footer {
+      padding: 3rem 2rem 4.5rem;
+      background: linear-gradient(180deg, #0d0d28, #040410);
+      text-align: center;
+      border-top: 1px solid rgba(144,144,192,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .a2-footer-names {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: #e0e0f0;
+      margin-bottom: 0.4rem;
+    }
+    .a2-footer-years {
+      font-family: var(--font-script);
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #9090c0, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .a2-footer-date {
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(144,144,192,0.45);
+      margin-bottom: 2rem;
+    }
+    .a2-footer-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, #9090c0, var(--gold));
+      margin: 0 auto 1.5rem;
+    }
+    .a2-footer-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(144,144,192,0.35);
+      transition: color 0.2s ease;
+    }
+    .a2-footer-link:hover { color: #9090c0; }
+
+    @media (max-width: 600px) {
+      .a2-glass-card { padding: 2rem 1.5rem; }
+      .preview-banner { padding: 0.75rem 1rem; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Constellation Canvas -->
+  <canvas id="constellation-canvas" aria-hidden="true"></canvas>
+
+  <!-- Preview Banner -->
+  <div class="preview-banner">
+    <span>✨ Live Preview — Buy for ₹500 to customize</span>
+    <button class="buy-btn" data-buy="anniversary-2" data-name="Silver Anniversary" data-customize="anniversary-2-customize.html">
+      Buy &amp; Customize →
+    </button>
+  </div>
+
+  <!-- Back Navigation -->
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section class="a2-hero">
+
+    <!-- SVG Diamond/Star -->
+    <svg class="a2-diamond-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Large diamond outline -->
+      <polygon points="250,20 480,250 250,480 20,250" stroke="white" stroke-width="1.5" fill="none"/>
+      <!-- Inner diamond -->
+      <polygon points="250,100 400,250 250,400 100,250" stroke="white" stroke-width="1" fill="none"/>
+      <!-- Inner star -->
+      <polygon points="250,150 275,225 355,225 292,270 315,350 250,305 185,350 208,270 145,225 225,225" stroke="white" stroke-width="0.8" fill="none"/>
+      <!-- Facet lines -->
+      <line x1="250" y1="20"  x2="250" y2="480" stroke="white" stroke-width="0.5"/>
+      <line x1="20"  y1="250" x2="480" y2="250" stroke="white" stroke-width="0.5"/>
+      <line x1="250" y1="20"  x2="480" y2="250" stroke="white" stroke-width="0.4"/>
+      <line x1="480" y1="250" x2="250" y2="480" stroke="white" stroke-width="0.4"/>
+      <line x1="250" y1="480" x2="20"  y2="250" stroke="white" stroke-width="0.4"/>
+      <line x1="20"  y1="250" x2="250" y2="20"  stroke="white" stroke-width="0.4"/>
+      <!-- Outer ring -->
+      <circle cx="250" cy="250" r="240" stroke="white" stroke-width="0.5"/>
+      <!-- Center -->
+      <circle cx="250" cy="250" r="6" fill="white"/>
+    </svg>
+
+    <div class="a2-line-divider r" style="transition-delay:0s"></div>
+
+    <div class="a2-year-numeral r" style="transition-delay:0.05s" data-field="years">10</div>
+    <div class="a2-years-label r" style="transition-delay:0.1s">Years Together</div>
+
+    <div class="a2-line-divider r" style="transition-delay:0.12s"></div>
+
+    <div class="a2-names r" style="transition-delay:0.15s">
+      <span class="a2-name" data-field="name1">Arun</span>
+      <span class="a2-ampersand">&amp;</span>
+      <span class="a2-name" data-field="name2">Kavitha</span>
+    </div>
+
+    <div class="a2-badge r" style="transition-delay:0.2s" data-field="anniversary">Diamond Anniversary</div>
+
+    <div class="a2-scroll-hint">Scroll to explore ↓</div>
+  </section>
+
+  <!-- ═══════════════════════════════ DETAILS CARD ════════════════════════ -->
+  <section class="a2-details">
+    <div class="a2-details-inner">
+
+      <div class="t-center r" style="margin-bottom:2rem;">
+        <div class="sec-tag" style="color:#9090c0; border-color:rgba(144,144,192,0.3);">The Celebration</div>
+        <h2 class="sec-title" style="color:#e0e0f0;">Join the Evening</h2>
+      </div>
+
+      <div class="a2-glass-card r" style="transition-delay:0.1s">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+
+        <div class="a2-detail-row">
+          <div class="a2-detail-icon-wrap">📅</div>
+          <div>
+            <div class="a2-detail-label">Date</div>
+            <div class="a2-detail-value" data-field="date">January 15, 2027</div>
+          </div>
+        </div>
+        <div class="a2-detail-row">
+          <div class="a2-detail-icon-wrap">🕖</div>
+          <div>
+            <div class="a2-detail-label">Time</div>
+            <div class="a2-detail-value" data-field="time">7:30 PM</div>
+          </div>
+        </div>
+        <div class="a2-detail-row">
+          <div class="a2-detail-icon-wrap">📍</div>
+          <div>
+            <div class="a2-detail-label">Venue</div>
+            <div class="a2-detail-value" data-field="venue">ITC Grand Chola, Chennai</div>
+          </div>
+        </div>
+        <div class="a2-detail-row">
+          <div class="a2-detail-icon-wrap">💎</div>
+          <div>
+            <div class="a2-detail-label">Milestone</div>
+            <div class="a2-detail-value"><span data-field="years">10</span> Years of Love</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ DECADE HIGHLIGHTS ══════════════════ -->
+  <section class="a2-decade">
+    <div class="a2-decade-inner">
+      <div class="t-center r" style="margin-bottom:0.5rem;">
+        <div class="sec-tag" style="color:#9090c0; border-color:rgba(144,144,192,0.3);">The Journey</div>
+        <h2 class="sec-title" style="color:#e0e0f0;">A Decade of Milestones</h2>
+      </div>
+
+      <div class="a2-decade-strip">
+        <div class="a2-milestone-card r">
+          <div class="a2-milestone-num">1</div>
+          <div class="a2-milestone-label">Year One</div>
+          <div class="a2-milestone-title">A New Beginning</div>
+        </div>
+        <div class="a2-milestone-card r" style="transition-delay:0.05s">
+          <div class="a2-milestone-num">3</div>
+          <div class="a2-milestone-label">Year Three</div>
+          <div class="a2-milestone-title">Growing Roots</div>
+        </div>
+        <div class="a2-milestone-card r" style="transition-delay:0.1s">
+          <div class="a2-milestone-num">5</div>
+          <div class="a2-milestone-label">Year Five</div>
+          <div class="a2-milestone-title">Halfway &amp; Thriving</div>
+        </div>
+        <div class="a2-milestone-card r" style="transition-delay:0.15s">
+          <div class="a2-milestone-num">7</div>
+          <div class="a2-milestone-label">Year Seven</div>
+          <div class="a2-milestone-title">Deeper Bonds</div>
+        </div>
+        <div class="a2-milestone-card r" style="transition-delay:0.2s">
+          <div class="a2-milestone-num">10</div>
+          <div class="a2-milestone-label">Year Ten</div>
+          <div class="a2-milestone-title">A Golden Decade</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ TOAST ══════════════════════════════ -->
+  <section class="a2-toast">
+    <div class="a2-toast-inner r">
+      <span class="a2-toast-emoji">🥂</span>
+      <div class="a2-toast-headline">Here's to 10 More!</div>
+      <div class="a2-quote-mark">"</div>
+      <p class="a2-toast-quote" data-field="message">A decade of love, partnership, and beautiful memories. Celebrate with us!</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer class="a2-footer">
+    <div class="a2-footer-names r">
+      <span data-field="name1">Arun</span> &amp; <span data-field="name2">Kavitha</span>
+    </div>
+    <div class="a2-footer-years r"><span data-field="years">10</span> Years</div>
+    <div class="a2-footer-date r" data-field="date">January 15, 2027</div>
+    <div class="a2-footer-divider r"></div>
+    <a href="../../index.html" class="a2-footer-link r">invite.studio</a>
+  </footer>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Constellation / Starfield ─────────────────────────────────────────
+    (function initConstellation() {
+      const canvas = document.getElementById('constellation-canvas');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Create stars
+      for (let i = 0; i < 160; i++) {
+        stars.push({
+          x: Math.random(),
+          y: Math.random(),
+          r: 0.5 + Math.random() * 1.2,
+          alpha: 0.2 + Math.random() * 0.7,
+          speed: 0.0003 + Math.random() * 0.0006,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          const a = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed * 1000 + s.phase));
+          ctx.beginPath();
+          ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,200,240,${a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    // ── initPreview ───────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.initPreview({
+        name1:       "Arun",
+        name2:       "Kavitha",
+        years:       "10",
+        date:        "January 15, 2027",
+        time:        "7:30 PM",
+        venue:       "ITC Grand Chola, Chennai",
+        message:     "A decade of love, partnership, and beautiful memories. Celebrate with us!",
+        host:        "The Krishnan Family",
+        anniversary: "Diamond"
+      });
+    });
+  </script>
+
+</body>
+</html>

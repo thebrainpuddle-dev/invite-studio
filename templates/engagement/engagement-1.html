@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traditional Engagement — Vikram &amp; Divya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose-deep: #4a0820;
+      --rose-mid:  #8b1840;
+      --rose-gold: #c9507a;
+      --gold:      #c9942a;
+      --gold-light:#e8b84b;
+      --gold-pale: #f5dfa0;
+      --cream:     #fdf6e3;
+      --cream-dark:#f0e6c8;
+    }
+
+    body { background: var(--rose-deep); color: var(--cream); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* ── Back nav ── */
+    .back-nav {
+      position: fixed; top: 14px; left: 16px; z-index: 1000;
+      color: var(--gold-pale); text-decoration: none; font-size: 0.85rem;
+      background: rgba(74,8,32,.8); border: 1px solid rgba(201,148,42,.4);
+      padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px);
+      transition: background .2s;
+    }
+    .back-nav:hover { background: rgba(74,8,32,.98); }
+
+    /* ── Purchase banner ── */
+    .purchase-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      background: linear-gradient(90deg, var(--rose-deep), #6b1030);
+      border-top: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--gold-pale); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--gold-light); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #2a1200; border: none; padding: 10px 24px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(201,148,42,.45);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,148,42,.6); }
+
+    /* ── Flowers ── */
+    .flowers-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+    .flower {
+      position: absolute; top: -40px; font-size: 1.3rem; opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #4a0820 0%, #8b1840 50%, #5a0a28 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 120px;
+    }
+    .mandala-wrap {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .mandala-svg { opacity: 0.07; animation: spin 60s linear infinite; width: min(85vw, 620px); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-eyebrow {
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold-pale); margin-bottom: 10px; opacity: .85;
+    }
+    .hero-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      color: var(--rose-gold); margin-bottom: 6px; letter-spacing: 1px;
+    }
+    .hero-names {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6.5vw, 4.2rem);
+      font-weight: 700;
+      color: var(--gold-pale);
+      line-height: 1.15; margin-bottom: 8px;
+    }
+    .hero-heart { color: var(--rose-gold); margin: 0 10px; font-style: normal; }
+    .hero-date-box {
+      margin: 22px auto 0;
+      border: 2px solid var(--gold);
+      padding: 12px 32px; display: inline-block;
+      background: rgba(201,148,42,.08);
+      letter-spacing: 3px; color: var(--gold-pale);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+    }
+    .hero-nischayam {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: rgba(245,223,160,.65); margin-top: 18px; letter-spacing: 1px;
+    }
+
+    /* ── Gold divider ── */
+    .gold-divider { display: flex; align-items: center; gap: 12px; margin: 0 auto 40px; max-width: 360px; }
+    .gold-divider::before, .gold-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .gold-divider-icon { color: var(--gold); font-size: 1.1rem; }
+
+    /* ── Section base ── */
+    section { padding: 60px 24px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3.5vw, 2.2rem); color: var(--gold-light); text-align: center; margin-bottom: 6px; }
+    .section-title-script { font-family: 'Great Vibes', cursive; font-size: clamp(1rem, 2.5vw, 1.5rem); color: var(--gold-pale); text-align: center; margin-bottom: 34px; }
+
+    /* ── Invitation card section ── */
+    .invite-card-section { background: var(--cream-dark); }
+    .invite-card {
+      max-width: 560px; margin: 0 auto;
+      background: var(--cream); color: #2a0010;
+      border: 1px solid var(--gold);
+      padding: 40px 32px; text-align: center; position: relative;
+    }
+    .corner-bracket {
+      position: absolute; width: 30px; height: 30px;
+      border-color: var(--gold); border-style: solid; border-width: 0;
+    }
+    .corner-bracket.tl { top: 6px; left: 6px; border-top-width: 2px; border-left-width: 2px; }
+    .corner-bracket.tr { top: 6px; right: 6px; border-top-width: 2px; border-right-width: 2px; }
+    .corner-bracket.bl { bottom: 6px; left: 6px; border-bottom-width: 2px; border-left-width: 2px; }
+    .corner-bracket.br { bottom: 6px; right: 6px; border-bottom-width: 2px; border-right-width: 2px; }
+    .card-symbol { font-size: 2.2rem; color: var(--rose-gold); margin-bottom: 12px; display: block; }
+    .invite-card-msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.82rem; color: #7a3050; margin-bottom: 14px; line-height: 1.6; }
+    .invite-card-family { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #5c2030; margin-bottom: 4px; }
+    .invite-card-and { color: var(--gold); margin: 8px 0; font-size: 0.78rem; letter-spacing: 2px; }
+    .invite-card-names { font-family: 'Great Vibes', cursive; font-size: clamp(1.8rem, 5.5vw, 2.8rem); color: var(--rose-deep); line-height: 1.2; margin: 16px 0; }
+    .invite-card-heart { color: var(--rose-gold); font-style: normal; margin: 0 6px; }
+    .invite-card-date { font-family: 'Playfair Display', serif; font-size: 0.92rem; color: #6b0830; margin-top: 10px; letter-spacing: 1px; }
+    .invite-card-venue { font-size: 0.8rem; color: #7a3050; margin-top: 8px; line-height: 1.5; }
+    .invite-card-host { font-size: 0.75rem; color: #7a3050; margin-top: 12px; letter-spacing: 1px; opacity: .8; }
+
+    /* ── Ceremony details ── */
+    .ceremony-section { background: linear-gradient(160deg, #3a0618 0%, #6a1030 100%); }
+    .ceremony-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 860px; margin: 0 auto; }
+    .ceremony-card {
+      border: 1px solid rgba(201,148,42,.45); background: rgba(201,148,42,.06);
+      padding: 26px 20px; text-align: center; transition: border-color .3s, background .3s;
+      position: relative; overflow: hidden;
+    }
+    .ceremony-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rose-gold), transparent);
+    }
+    .ceremony-card:hover { border-color: var(--gold-light); background: rgba(201,148,42,.12); }
+    .ceremony-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .ceremony-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold-light); margin-bottom: 4px; }
+    .ceremony-desc { font-size: 0.8rem; color: var(--gold-pale); opacity: .8; line-height: 1.5; margin-top: 6px; }
+
+    /* ── Love story ── */
+    .love-section { background: var(--rose-deep); }
+    .milestones { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; max-width: 860px; margin: 0 auto; }
+    .milestone-card {
+      background: rgba(139,24,64,.25); border: 1px solid rgba(201,80,122,.35);
+      padding: 28px 22px; text-align: center; transition: border-color .3s;
+    }
+    .milestone-card:hover { border-color: var(--rose-gold); }
+    .milestone-heart { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+    .milestone-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--rose-gold); margin-bottom: 8px; }
+    .milestone-text { font-size: 0.82rem; color: var(--gold-pale); opacity: .75; line-height: 1.6; }
+
+    /* ── Footer ── */
+    .footer {
+      background: #2a0414; border-top: 1px solid rgba(201,148,42,.3);
+      text-align: center; padding: 40px 24px 100px;
+    }
+    .footer-names { font-family: 'Great Vibes', cursive; font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--rose-gold); margin-bottom: 8px; }
+    .footer-date { font-family: 'Playfair Display', serif; font-size: 0.88rem; color: var(--gold-pale); letter-spacing: 2px; margin-bottom: 20px; }
+    .footer-link { color: var(--gold); font-size: 0.8rem; text-decoration: none; opacity: .7; }
+    .footer-link:hover { opacity: 1; }
+
+    /* ── Scroll reveal ── */
+    .r, .v { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .r.visible, .v.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- Floating jasmine flowers -->
+  <div class="flowers-wrap" id="flowersWrap"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="mandala-wrap">
+      <svg class="mandala-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Concentric rings -->
+        <circle cx="250" cy="250" r="240" stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="200" stroke="white" stroke-width="0.6"/>
+        <circle cx="250" cy="250" r="160" stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="120" stroke="white" stroke-width="0.6"/>
+        <circle cx="250" cy="250" r="80"  stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="40"  stroke="white" stroke-width="1.5"/>
+        <!-- 12-petal flower -->
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(0 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(30 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(60 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(90 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(120 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(150 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(180 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(210 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(240 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(270 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(300 250 250)"/>
+        <ellipse cx="250" cy="140" rx="16" ry="42" fill="white" transform="rotate(330 250 250)"/>
+        <!-- Spoke lines -->
+        <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.4" opacity="0.5"/>
+        <line x1="10" y1="250" x2="490" y2="250" stroke="white" stroke-width="0.4" opacity="0.5"/>
+        <line x1="75" y1="75" x2="425" y2="425" stroke="white" stroke-width="0.4" opacity="0.5"/>
+        <line x1="425" y1="75" x2="75" y2="425" stroke="white" stroke-width="0.4" opacity="0.5"/>
+        <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.4" opacity="0.5" transform="rotate(30 250 250)"/>
+        <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.4" opacity="0.5" transform="rotate(60 250 250)"/>
+        <!-- Outer diamonds -->
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(0 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(30 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(60 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(90 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(120 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(150 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(180 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(210 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(240 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(270 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(300 250 250)"/>
+        <polygon points="250,12 257,22 250,32 243,22" fill="white" transform="rotate(330 250 250)"/>
+      </svg>
+    </div>
+
+    <p class="hero-eyebrow">~ Nischayathartham ~</p>
+    <h2 class="hero-title">Engagement Ceremony</h2>
+    <h1 class="hero-names">
+      <span data-field="groomName">Vikram Nair</span>
+      <em class="hero-heart">♥</em>
+      <span data-field="brideName">Divya Pillai</span>
+    </h1>
+    <div class="hero-date-box">
+      <span data-field="date">October 12, 2026</span>
+    </div>
+    <p class="hero-nischayam">Nischayathartham · നിശ്ചയതാർത്ഥം</p>
+  </section>
+
+  <!-- ═══ INVITATION CARD ═══ -->
+  <section class="invite-card-section">
+    <div style="max-width:680px;margin:0 auto;padding:60px 24px;">
+      <h2 class="section-title r">The Engagement</h2>
+      <p class="section-title-script r">ആശംസകളോടെ</p>
+      <div class="invite-card r">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        <span class="card-symbol">💍</span>
+        <p class="invite-card-msg" data-field="message">With the blessings of our elders, we joyfully announce the engagement of our beloved children</p>
+        <p class="invite-card-family" data-field="groomFamily">Shri Krishnan Nair &amp; Smt. Sumathi Nair</p>
+        <p class="invite-card-and">— AND —</p>
+        <p class="invite-card-family" data-field="brideFamily">Shri Rajan Pillai &amp; Smt. Radha Pillai</p>
+        <p style="font-size:.75rem;color:#7a3050;margin:14px 0 4px;letter-spacing:1.5px;text-transform:uppercase;">with great joy announce the engagement of</p>
+        <div class="invite-card-names">
+          <span data-field="groomName">Vikram Nair</span>
+          <em class="invite-card-heart">♥</em>
+          <span data-field="brideName">Divya Pillai</span>
+        </div>
+        <p class="invite-card-date">
+          <span data-field="date">October 12, 2026</span>
+          &nbsp;·&nbsp;
+          <span data-field="time">11:00 AM</span>
+        </p>
+        <p class="invite-card-venue" data-field="venue">Sri Padmanabha Swamy Temple Hall, Thiruvananthapuram</p>
+        <p class="invite-card-host" data-field="host">— The Nair &amp; Pillai Families —</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CEREMONY DETAILS ═══ -->
+  <section class="ceremony-section">
+    <h2 class="section-title r">Ceremony Details</h2>
+    <p class="section-title-script r">ചടങ്ങ് വിശദാംശങ്ങൾ</p>
+    <div class="ceremony-grid">
+      <div class="ceremony-card v">
+        <span class="ceremony-icon">💍</span>
+        <p class="ceremony-name">Ring Ceremony</p>
+        <p class="ceremony-desc">Exchange of rings as the couple begin their journey together with the blessings of family.</p>
+      </div>
+      <div class="ceremony-card v">
+        <span class="ceremony-icon">🙏</span>
+        <p class="ceremony-name">Elder's Blessings</p>
+        <p class="ceremony-desc">Seek the blessings of elders from both families for a lifetime of happiness and prosperity.</p>
+      </div>
+      <div class="ceremony-card v">
+        <span class="ceremony-icon">🍽️</span>
+        <p class="ceremony-name">Grand Feast</p>
+        <p class="ceremony-desc">A traditional Kerala feast served to all guests following the auspicious ceremony.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LOVE STORY ═══ -->
+  <section class="love-section">
+    <h2 class="section-title r">How It All Began</h2>
+    <p class="section-title-script r">Our love story</p>
+    <div class="milestones">
+      <div class="milestone-card v">
+        <span class="milestone-heart">💛</span>
+        <p class="milestone-title">First Meeting</p>
+        <p class="milestone-text">Two families, one destiny. Our paths crossed and hearts recognised each other in the most beautiful way.</p>
+      </div>
+      <div class="milestone-card v">
+        <span class="milestone-heart">🌸</span>
+        <p class="milestone-title">Growing Together</p>
+        <p class="milestone-text">Through shared dreams and quiet conversations, a friendship blossomed into something extraordinary.</p>
+      </div>
+      <div class="milestone-card v">
+        <span class="milestone-heart">💍</span>
+        <p class="milestone-title">Forever Begins</p>
+        <p class="milestone-text">With the blessings of our loved ones, we now take this joyful step toward a lifetime together.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-names">
+      <span data-field="groomName">Vikram Nair</span>
+      <em style="color:var(--rose-gold);font-style:normal;margin:0 8px;">♥</em>
+      <span data-field="brideName">Divya Pillai</span>
+    </div>
+    <p class="footer-date" data-field="date">October 12, 2026</p>
+    <a href="../../index.html" class="footer-link">← Back to Marketplace</a>
+  </footer>
+
+  <!-- ═══ PURCHASE BANNER ═══ -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Live Preview — Buy for <span>₹500</span> to customize</p>
+    <button
+      class="btn-buy"
+      data-buy="engagement-1"
+      data-name="Traditional Engagement"
+      data-customize="engagement-1-customize.html"
+    >Buy &amp; Customize →</button>
+  </div>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Floating jasmine flowers ──
+    (function() {
+      const emojis = ['🌼','🌸','🌼','🌸','🌺'];
+      const wrap = document.getElementById('flowersWrap');
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('span');
+        el.className = 'flower';
+        el.textContent = emojis[i % emojis.length];
+        const left = Math.random() * 100;
+        const dur  = 9 + Math.random() * 10;
+        const delay = Math.random() * 14;
+        el.style.cssText = `left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;font-size:${0.9+Math.random()*.8}rem;`;
+        wrap.appendChild(el);
+      }
+    })();
+
+    // ── Scroll reveal ──
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.r,.v').forEach(el => observer.observe(el));
+    })();
+
+    // ── Init preview ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaults = {
+        groomName:   "Vikram Nair",
+        brideName:   "Divya Pillai",
+        date:        "October 12, 2026",
+        time:        "11:00 AM",
+        venue:       "Sri Padmanabha Swamy Temple Hall, Thiruvananthapuram",
+        groomFamily: "Shri Krishnan Nair & Smt. Sumathi Nair",
+        brideFamily: "Shri Rajan Pillai & Smt. Radha Pillai",
+        message:     "With the blessings of our elders, we joyfully announce the engagement of our beloved children",
+        host:        "The Nair & Pillai Families"
+      };
+      if (window.InviteCustomize && InviteCustomize.initPreview) {
+        InviteCustomize.initPreview(defaults);
+      }
+    });
+  </script>
+</body>
+</html>

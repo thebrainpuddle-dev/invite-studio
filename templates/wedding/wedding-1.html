@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>South Indian Wedding — Arjun &amp; Meghana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon-deep: #3d0a00;
+      --maroon-mid: #6b1300;
+      --maroon-light: #8b2000;
+      --gold: #c9942a;
+      --gold-light: #e8b84b;
+      --gold-pale: #f5dfa0;
+      --cream: #fdf6e3;
+      --cream-dark: #f0e6c8;
+    }
+
+    body { background: var(--maroon-deep); color: var(--cream); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* ── Back nav ── */
+    .back-nav {
+      position: fixed; top: 14px; left: 16px; z-index: 1000;
+      color: var(--gold-pale); text-decoration: none; font-size: 0.85rem;
+      background: rgba(61,10,0,.75); border: 1px solid rgba(201,148,42,.4);
+      padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px);
+      transition: background .2s;
+    }
+    .back-nav:hover { background: rgba(61,10,0,.95); }
+
+    /* ── Purchase banner ── */
+    .purchase-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      background: linear-gradient(90deg, var(--maroon-deep), #5c1010);
+      border-top: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--gold-pale); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--gold-light); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #2a1200; border: none; padding: 10px 24px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(201,148,42,.45);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,148,42,.6); }
+
+    /* ── Petals ── */
+    .petals-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+    .petal {
+      position: absolute; top: -40px; font-size: 1.4rem; opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #3d0a00 0%, #6b1300 50%, #4a0e00 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 100px;
+    }
+    .mandala-wrap {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .mandala-svg { opacity: 0.08; animation: spin 60s linear infinite; width: min(80vw, 600px); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-subtitle { font-family: 'Great Vibes', cursive; font-size: clamp(1.4rem, 4vw, 2.2rem); color: var(--gold-pale); margin-bottom: 8px; letter-spacing: 1px; }
+    .hero-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.8rem, 9vw, 6rem);
+      line-height: 1.15;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-pale) 50%, var(--gold-light) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-shadow: none; margin-bottom: 6px;
+    }
+    .hero-ampersand { font-size: clamp(1.8rem, 5vw, 3.5rem); display: block; margin: -8px 0; }
+    .hero-date-box {
+      margin: 24px auto 0;
+      border: 2px solid var(--gold);
+      padding: 14px 36px; display: inline-block;
+      background: rgba(201,148,42,.08);
+      letter-spacing: 4px; color: var(--gold-pale);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+    .hero-subhamasthu { font-family: 'Great Vibes', cursive; font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--gold-light); margin-top: 20px; }
+
+    /* ── Gold divider ── */
+    .gold-divider { display: flex; align-items: center; gap: 12px; margin: 0 auto 40px; max-width: 360px; }
+    .gold-divider::before, .gold-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .gold-divider-icon { color: var(--gold); font-size: 1.2rem; }
+
+    /* ── Section base ── */
+    section { padding: 60px 24px; }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--gold-light); text-align: center; margin-bottom: 8px;
+    }
+    .section-title-script { font-family: 'Great Vibes', cursive; font-size: clamp(1.1rem, 3vw, 1.6rem); color: var(--gold-pale); text-align: center; margin-bottom: 36px; }
+
+    /* ── Invitation card section ── */
+    .invite-card-section { background: var(--cream-dark); }
+    .invite-card {
+      max-width: 560px; margin: 0 auto;
+      background: var(--cream); color: #2a0800;
+      border: 1px solid var(--gold);
+      padding: 40px 32px; text-align: center; position: relative;
+    }
+    .corner-bracket {
+      position: absolute; width: 30px; height: 30px;
+      border-color: var(--gold); border-style: solid; border-width: 0;
+    }
+    .corner-bracket.tl { top: 6px; left: 6px; border-top-width: 2px; border-left-width: 2px; }
+    .corner-bracket.tr { top: 6px; right: 6px; border-top-width: 2px; border-right-width: 2px; }
+    .corner-bracket.bl { bottom: 6px; left: 6px; border-bottom-width: 2px; border-left-width: 2px; }
+    .corner-bracket.br { bottom: 6px; right: 6px; border-bottom-width: 2px; border-right-width: 2px; }
+    .om-symbol { font-size: 2.4rem; color: var(--gold); margin-bottom: 12px; display: block; }
+    .invite-card-family { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #5c3010; margin-bottom: 4px; }
+    .invite-card-and { color: var(--gold); margin: 8px 0; font-size: 0.8rem; letter-spacing: 2px; }
+    .invite-card-names { font-family: 'Great Vibes', cursive; font-size: clamp(2rem, 6vw, 3rem); color: var(--maroon-deep); line-height: 1.2; margin: 16px 0; }
+    .invite-card-date { font-family: 'Playfair Display', serif; font-size: 1rem; color: #6b1300; margin-top: 12px; letter-spacing: 1px; }
+
+    /* ── Events section ── */
+    .events-section { background: linear-gradient(160deg, #2a0600 0%, #4a0c00 100%); }
+    .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+    .event-card {
+      border: 1px solid rgba(201,148,42,.45); background: rgba(201,148,42,.06);
+      padding: 24px 20px; text-align: center; transition: border-color .3s, background .3s;
+    }
+    .event-card:hover { border-color: var(--gold-light); background: rgba(201,148,42,.12); }
+    .event-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .event-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold-light); margin-bottom: 4px; }
+    .event-telugu { font-size: 0.8rem; color: var(--gold-pale); opacity: .7; margin-bottom: 10px; }
+    .event-time { font-size: 0.85rem; color: var(--cream); letter-spacing: 1px; }
+    .event-date-small { font-size: 0.75rem; color: var(--gold-pale); opacity: .8; margin-top: 4px; }
+
+    /* ── Venue section ── */
+    .venue-section { background: #1e0400; }
+    .venue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+    .venue-card {
+      border: 1px solid rgba(201,148,42,.4); background: rgba(61,10,0,.5);
+      padding: 28px 24px; position: relative; overflow: hidden;
+    }
+    .venue-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .venue-label { font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+    .venue-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+    .venue-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold-pale); margin-bottom: 8px; line-height: 1.4; }
+    .venue-time { font-size: 0.85rem; color: var(--cream); opacity: .85; }
+
+    /* ── Message section ── */
+    .message-section {
+      background: linear-gradient(160deg, #3d0a00, #5c1000);
+      text-align: center;
+    }
+    .message-quote {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--gold-pale); line-height: 1.8;
+      max-width: 640px; margin: 0 auto;
+    }
+    .message-quote::before, .message-quote::after { content: '"'; color: var(--gold); font-size: 2rem; vertical-align: -8px; }
+
+    /* ── Footer ── */
+    .footer {
+      background: #1a0300; border-top: 1px solid rgba(201,148,42,.3);
+      text-align: center; padding: 40px 24px 100px;
+    }
+    .footer-names { font-family: 'Great Vibes', cursive; font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--gold-light); margin-bottom: 8px; }
+    .footer-date { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--gold-pale); letter-spacing: 2px; margin-bottom: 20px; }
+    .footer-link { color: var(--gold); font-size: 0.8rem; text-decoration: none; opacity: .7; }
+    .footer-link:hover { opacity: 1; }
+
+    /* ── Scroll reveal ── */
+    .r, .v { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .r.visible, .v.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- Falling petals -->
+  <div class="petals-wrap" id="petals"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="mandala-wrap">
+      <svg class="mandala-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Concentric rings -->
+        <circle cx="250" cy="250" r="240" stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="200" stroke="white" stroke-width="0.7"/>
+        <circle cx="250" cy="250" r="160" stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="120" stroke="white" stroke-width="0.7"/>
+        <circle cx="250" cy="250" r="80" stroke="white" stroke-width="1"/>
+        <circle cx="250" cy="250" r="40" stroke="white" stroke-width="1.5"/>
+        <!-- 8 petals -->
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(0 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(45 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(90 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(135 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(180 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(225 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(270 250 250)"/>
+        <ellipse cx="250" cy="130" rx="22" ry="50" fill="white" transform="rotate(315 250 250)"/>
+        <!-- Outer spoke lines -->
+        <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.5" opacity="0.5"/>
+        <line x1="10" y1="250" x2="490" y2="250" stroke="white" stroke-width="0.5" opacity="0.5"/>
+        <line x1="75" y1="75" x2="425" y2="425" stroke="white" stroke-width="0.5" opacity="0.5"/>
+        <line x1="425" y1="75" x2="75" y2="425" stroke="white" stroke-width="0.5" opacity="0.5"/>
+        <!-- Decorative diamonds on ring -->
+        <polygon points="250,11 258,25 250,39 242,25" fill="white"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(45 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(90 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(135 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(180 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(225 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(270 250 250)"/>
+        <polygon points="250,11 258,25 250,39 242,25" fill="white" transform="rotate(315 250 250)"/>
+      </svg>
+    </div>
+
+    <p class="hero-subtitle">~ With Great Joy ~</p>
+    <h1 class="hero-names">
+      <span data-field="groom">Arjun Kumar</span>
+      <span class="hero-ampersand">&amp;</span>
+      <span data-field="bride">Meghana Reddy</span>
+    </h1>
+    <div class="hero-date-box">
+      <span data-field="weddingDate">April 18, 2026</span>
+    </div>
+    <p class="hero-subhamasthu">శుభమస్తు · Subhamasthu</p>
+  </section>
+
+  <!-- ═══ INVITATION CARD ═══ -->
+  <section class="invite-card-section">
+    <div style="max-width:700px;margin:0 auto;padding:60px 24px;">
+      <h2 class="section-title r">The Sacred Union</h2>
+      <p class="section-title-script r">శుభకార్యానికి ఆహ్వానం</p>
+      <div class="invite-card r">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+        <span class="om-symbol">ॐ</span>
+        <p class="invite-card-family" data-field="groomFamily">Sri Ramamurthy &amp; Smt. Savitridevi</p>
+        <p class="invite-card-and">— AND —</p>
+        <p class="invite-card-family" data-field="brideFamily">Sri Venkateshwara Rao &amp; Smt. Lakshmi Devi</p>
+        <p style="font-size:.8rem;color:#7a5530;margin:14px 0 4px;letter-spacing:1px;">JOYFULLY ANNOUNCE THE WEDDING OF THEIR CHILDREN</p>
+        <div class="invite-card-names">
+          <span data-field="groom">Arjun Kumar</span><br/>
+          <span style="font-size:1.2rem;color:#c9942a;">&amp;</span><br/>
+          <span data-field="bride">Meghana Reddy</span>
+        </div>
+        <p class="invite-card-date"><span data-field="weddingDate">April 18, 2026</span> &nbsp;·&nbsp; <span data-field="weddingTime">10:30 AM</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EVENTS ═══ -->
+  <section class="events-section">
+    <h2 class="section-title r">Wedding Ceremonies</h2>
+    <p class="section-title-script r">వివాహ కార్యక్రమాలు</p>
+    <div class="events-grid">
+      <div class="event-card v">
+        <span class="event-icon">🌺</span>
+        <p class="event-name">Pellikuthuru</p>
+        <p class="event-telugu">పెళ్లి కుతురు</p>
+        <p class="event-time">April 17, 2026</p>
+        <p class="event-date-small">Morning Rituals</p>
+      </div>
+      <div class="event-card v">
+        <span class="event-icon">🪔</span>
+        <p class="event-name">Subhamuhurtham</p>
+        <p class="event-telugu">శుభముహుర్తం</p>
+        <p class="event-time" data-field="weddingTime">10:30 AM</p>
+        <p class="event-date-small" data-field="weddingDate">April 18, 2026</p>
+      </div>
+      <div class="event-card v">
+        <span class="event-icon">💛</span>
+        <p class="event-name">Mangalasutra</p>
+        <p class="event-telugu">మంగళసూత్రం</p>
+        <p class="event-time">Following Muhurtham</p>
+        <p class="event-date-small">Sacred Ceremony</p>
+      </div>
+      <div class="event-card v">
+        <span class="event-icon">🎊</span>
+        <p class="event-name">Reception</p>
+        <p class="event-telugu">రిసెప్షన్</p>
+        <p class="event-time" data-field="receptionTime">6:00 PM</p>
+        <p class="event-date-small" data-field="receptionDate">April 18, 2026</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VENUE ═══ -->
+  <section class="venue-section">
+    <h2 class="section-title r">Venue</h2>
+    <p class="section-title-script r">వేదిక</p>
+    <div class="venue-grid">
+      <div class="venue-card r">
+        <p class="venue-label">Wedding Ceremony</p>
+        <span class="venue-icon">🏛️</span>
+        <p class="venue-name" data-field="venue">Sri Venkateswara Kalyana Mandapam, Jubilee Hills, Hyderabad</p>
+        <p class="venue-time"><span data-field="weddingDate">April 18, 2026</span> · <span data-field="weddingTime">10:30 AM</span></p>
+      </div>
+      <div class="venue-card r">
+        <p class="venue-label">Reception</p>
+        <span class="venue-icon">✨</span>
+        <p class="venue-name" data-field="receptionVenue">The Grand Kakatiya Hall, Begumpet, Hyderabad</p>
+        <p class="venue-time"><span data-field="receptionDate">April 18, 2026</span> · <span data-field="receptionTime">6:00 PM</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MESSAGE ═══ -->
+  <section class="message-section">
+    <div class="gold-divider r"><span class="gold-divider-icon">🌸</span></div>
+    <p class="message-quote r" data-field="message">With blessings of the Almighty, we invite you to celebrate this sacred union</p>
+    <div class="gold-divider r" style="margin-top:40px;"><span class="gold-divider-icon">🌸</span></div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-names">
+      <span data-field="groom">Arjun Kumar</span> &amp; <span data-field="bride">Meghana Reddy</span>
+    </div>
+    <p class="footer-date" data-field="weddingDate">April 18, 2026</p>
+    <a href="../../index.html" class="footer-link">← Back to Marketplace</a>
+  </footer>
+
+  <!-- ═══ PURCHASE BANNER ═══ -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Live Preview — Buy for <span>₹500</span> to customize</p>
+    <button
+      class="btn-buy"
+      data-buy="wedding-1"
+      data-name="South Indian Wedding"
+      data-customize="wedding-1-customize.html"
+    >Buy &amp; Customize →</button>
+  </div>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Falling petals ──
+    (function() {
+      const emojis = ['🌺','🌸','🌼','🌺','🌸'];
+      const wrap = document.getElementById('petals');
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('span');
+        p.className = 'petal';
+        p.textContent = emojis[i % emojis.length];
+        const left = Math.random() * 100;
+        const dur  = 8 + Math.random() * 10;
+        const delay = Math.random() * 12;
+        p.style.cssText = `left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;font-size:${1+Math.random()*.8}rem;`;
+        wrap.appendChild(p);
+      }
+    })();
+
+    // ── Scroll reveal ──
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.r,.v').forEach(el => observer.observe(el));
+    })();
+
+    // ── Init preview ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaults = {
+        groom: "Arjun Kumar",
+        bride: "Meghana Reddy",
+        weddingDate: "April 18, 2026",
+        weddingTime: "10:30 AM",
+        receptionDate: "April 18, 2026",
+        receptionTime: "6:00 PM",
+        venue: "Sri Venkateswara Kalyana Mandapam, Jubilee Hills, Hyderabad",
+        receptionVenue: "The Grand Kakatiya Hall, Begumpet, Hyderabad",
+        groomFamily: "Sri Ramamurthy & Smt. Savitridevi",
+        brideFamily: "Sri Venkateshwara Rao & Smt. Lakshmi Devi",
+        message: "With blessings of the Almighty, we invite you to celebrate this sacred union"
+      };
+      if (window.InviteCustomize && InviteCustomize.initPreview) {
+        InviteCustomize.initPreview(defaults);
+      }
+    });
+  </script>
+</body>
+</html>

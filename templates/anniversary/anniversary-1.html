@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Anniversary — invite.studio</title>
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #1a0000;
+      color: var(--gold-pale);
+      overflow-x: hidden;
+    }
+
+    /* ── Preview Banner ── */
+    .preview-banner {
+      background: linear-gradient(135deg, #1a0000, #2e0505);
+      border-bottom: 1px solid rgba(201,148,42,0.3);
+      color: var(--gold-pale);
+      text-align: center;
+      padding: 0.75rem 4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .preview-banner .buy-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a0000;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+    .preview-banner .buy-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(201,148,42,0.4);
+    }
+
+    /* ── Hero ── */
+    .a1-hero {
+      min-height: 100vh;
+      background: #1a0000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+
+    /* SVG Medallion watermark */
+    .a1-medallion {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(90vw, 700px);
+      height: min(90vw, 700px);
+      opacity: 0.07;
+      pointer-events: none;
+      animation: slowSpin 120s linear infinite;
+    }
+
+    /* Floating hearts */
+    .float-heart {
+      position: absolute;
+      font-size: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      animation: heartFloat linear infinite;
+    }
+
+    @keyframes heartFloat {
+      0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+      15%  { opacity: 0.7; }
+      85%  { opacity: 0.5; }
+      100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    .a1-year-numeral {
+      font-family: var(--font-display);
+      font-size: clamp(7rem, 22vw, 14rem);
+      font-weight: 700;
+      line-height: 0.9;
+      background: linear-gradient(160deg, var(--gold-light) 0%, var(--gold) 40%, #a06810 70%, var(--gold-pale) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      text-shadow: none;
+      filter: drop-shadow(0 0 40px rgba(201,148,42,0.3));
+      margin-bottom: 0;
+    }
+
+    .a1-years-label {
+      font-family: var(--font-script);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      color: var(--gold-pale);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .a1-names {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .a1-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+    }
+    .a1-ampersand {
+      font-family: var(--font-script);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .a1-badge {
+      display: inline-block;
+      border: 1px solid rgba(201,148,42,0.5);
+      padding: 0.35rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.45em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .a1-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: var(--gold);
+      margin: 0.5rem 0;
+      position: relative;
+    }
+    .a1-ornament .line {
+      width: 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .a1-ornament .line.r { transform: scaleX(-1); }
+    .a1-ornament .diamond {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    .a1-ornament .dot {
+      width: 3px; height: 3px;
+      background: var(--gold-light);
+      border-radius: 50%;
+    }
+
+    .a1-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.45);
+      animation: bobDown 2.5s ease-in-out infinite;
+    }
+
+    /* ── Journey Card ── */
+    .a1-journey {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, #1a0000 0%, #2a0505 100%);
+    }
+    .a1-journey-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .a1-detail-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(253,246,227,0.07), rgba(201,148,42,0.05));
+      border: 1px solid rgba(201,148,42,0.35);
+      padding: 2.8rem 3rem;
+      text-align: center;
+    }
+    .a1-detail-card::before,
+    .a1-detail-card::after {
+      content: '';
+      position: absolute;
+      width: 30px; height: 30px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.55;
+    }
+    .a1-detail-card::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .a1-detail-card::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+    .a1-detail-card .corner-tr,
+    .a1-detail-card .corner-bl {
+      position: absolute;
+      width: 30px; height: 30px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.55;
+    }
+    .a1-detail-card .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+    .a1-detail-card .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+
+    .a1-anni-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a0000;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.3rem 1.2rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .a1-detail-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid rgba(201,148,42,0.12);
+    }
+    .a1-detail-row:last-child { border-bottom: none; }
+    .a1-detail-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.35rem;
+    }
+    .a1-detail-value {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--gold-pale);
+      line-height: 1.4;
+    }
+    .a1-detail-icon { font-size: 1rem; margin-bottom: 0.25rem; }
+
+    /* ── Memory Lane ── */
+    .a1-memory {
+      padding: var(--section-pad);
+      background: #1a0000;
+    }
+    .a1-memory-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .a1-milestones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 640px) {
+      .a1-milestones { grid-template-columns: 1fr; }
+    }
+    .a1-milestone-card {
+      background: linear-gradient(145deg, rgba(139,0,0,0.25), rgba(60,0,0,0.4));
+      border: 1px solid rgba(201,148,42,0.2);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .a1-milestone-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .a1-milestone-year {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .a1-milestone-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--gold-pale);
+      line-height: 1.4;
+    }
+
+    /* ── Message Section ── */
+    .a1-message {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, #1a0000, #2a0505);
+      text-align: center;
+    }
+    .a1-message-inner {
+      max-width: 620px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .a1-quote-mark {
+      font-family: var(--font-script);
+      font-size: 9rem;
+      color: rgba(201,148,42,0.1);
+      line-height: 0.6;
+      position: absolute;
+      top: -1.5rem;
+      left: -1.5rem;
+      pointer-events: none;
+    }
+    .a1-message-text {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+      color: var(--gold-pale);
+      line-height: 1.75;
+      position: relative;
+    }
+
+    /* ── Photo Gallery Placeholders ── */
+    .a1-gallery {
+      padding: var(--section-pad);
+      background: #1a0000;
+    }
+    .a1-gallery-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .a1-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 640px) {
+      .a1-photos { grid-template-columns: 1fr; }
+    }
+    .a1-photo-placeholder {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border: 1px solid rgba(201,148,42,0.2);
+    }
+    .a1-photo-placeholder:nth-child(1) {
+      background: linear-gradient(145deg, #5c0000, #8b0000, #3d0000);
+    }
+    .a1-photo-placeholder:nth-child(2) {
+      background: linear-gradient(145deg, #3d0000, #6b1010, #c9942a33);
+    }
+    .a1-photo-placeholder:nth-child(3) {
+      background: linear-gradient(145deg, #7b1818, #c9942a44, #1a0000);
+    }
+    .a1-photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: linear-gradient(transparent, rgba(26,0,0,0.8));
+      font-family: var(--font-script);
+      font-size: 1.5rem;
+      color: var(--gold-pale);
+      text-align: center;
+    }
+
+    /* ── Footer ── */
+    .a1-footer {
+      padding: 3rem 2rem 4.5rem;
+      background: linear-gradient(180deg, #2a0505, #0d0000);
+      text-align: center;
+      border-top: 1px solid rgba(201,148,42,0.15);
+    }
+    .a1-footer-names {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .a1-footer-years {
+      font-family: var(--font-script);
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .a1-footer-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.5);
+      margin-bottom: 2rem;
+    }
+    .a1-footer-divider {
+      width: 60px; height: 1px;
+      background: rgba(201,148,42,0.3);
+      margin: 0 auto 1.5rem;
+    }
+    .a1-footer-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.4);
+      transition: color 0.2s ease;
+    }
+    .a1-footer-link:hover { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .a1-detail-card { padding: 2rem 1.5rem; }
+      .preview-banner { padding: 0.75rem 1rem; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview Banner -->
+  <div class="preview-banner">
+    <span>✨ Live Preview — Buy for ₹500 to customize</span>
+    <button class="buy-btn" data-buy="anniversary-1" data-name="Golden Anniversary" data-customize="anniversary-1-customize.html">
+      Buy &amp; Customize →
+    </button>
+  </div>
+
+  <!-- Back Navigation -->
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section class="a1-hero">
+
+    <!-- SVG Medallion Watermark -->
+    <svg class="a1-medallion" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Concentric rings -->
+      <circle cx="250" cy="250" r="240" stroke="white" stroke-width="1"/>
+      <circle cx="250" cy="250" r="200" stroke="white" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="160" stroke="white" stroke-width="1"/>
+      <circle cx="250" cy="250" r="120" stroke="white" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="80"  stroke="white" stroke-width="1"/>
+      <circle cx="250" cy="250" r="40"  stroke="white" stroke-width="0.5"/>
+      <!-- 8 diamond shapes at compass points (N,NE,E,SE,S,SW,W,NW) -->
+      <polygon points="250,10 265,50 250,90 235,50"   fill="white"/>
+      <polygon points="430,70 460,95 440,130 410,105"  fill="white"/>
+      <polygon points="490,250 450,235 410,250 450,265" fill="white"/>
+      <polygon points="430,430 410,395 440,370 460,405" fill="white"/>
+      <polygon points="250,490 265,450 250,410 235,450" fill="white"/>
+      <polygon points="70,430 90,405 120,430 90,455"   fill="white"/>
+      <polygon points="10,250 50,265 90,250 50,235"    fill="white"/>
+      <polygon points="70,70 105,90 80,120 45,100"     fill="white"/>
+      <!-- Radial lines -->
+      <line x1="250" y1="10" x2="250" y2="490" stroke="white" stroke-width="0.5"/>
+      <line x1="10" y1="250" x2="490" y2="250" stroke="white" stroke-width="0.5"/>
+      <line x1="74" y1="74" x2="426" y2="426" stroke="white" stroke-width="0.5"/>
+      <line x1="426" y1="74" x2="74" y2="426" stroke="white" stroke-width="0.5"/>
+      <!-- Inner ring decorative diamonds -->
+      <polygon points="250,170 258,200 250,230 242,200" fill="white"/>
+      <polygon points="330,250 300,242 270,250 300,258" fill="white"/>
+      <polygon points="250,330 258,300 250,270 242,300" fill="white"/>
+      <polygon points="170,250 200,242 230,250 200,258" fill="white"/>
+      <!-- Center -->
+      <circle cx="250" cy="250" r="8" fill="white"/>
+      <circle cx="250" cy="250" r="18" stroke="white" stroke-width="1.5"/>
+    </svg>
+
+    <!-- Content -->
+    <div class="a1-year-numeral r" data-field="years">25</div>
+    <div class="a1-years-label r" style="transition-delay:0.1s">Years of Love</div>
+
+    <div class="a1-ornament r" style="transition-delay:0.15s">
+      <span class="line r"></span>
+      <span class="dot"></span>
+      <span class="diamond"></span>
+      <span class="dot"></span>
+      <span class="line"></span>
+    </div>
+
+    <div class="a1-names r" style="transition-delay:0.2s">
+      <span class="a1-name" data-field="name1">Rajesh</span>
+      <span class="a1-ampersand">&amp;</span>
+      <span class="a1-name" data-field="name2">Sunita</span>
+    </div>
+
+    <div class="a1-badge r" style="transition-delay:0.25s" data-field="anniversary">Silver Anniversary</div>
+
+    <div class="a1-scroll-hint">Scroll to explore ↓</div>
+  </section>
+
+  <!-- ═══════════════════════════════ JOURNEY CARD ═══════════════════════ -->
+  <section class="a1-journey">
+    <div class="a1-journey-inner">
+
+      <div class="t-center r" style="margin-bottom:2rem;">
+        <div class="sec-tag">The Celebration</div>
+        <h2 class="sec-title" style="color:var(--gold-pale);">You Are Invited</h2>
+      </div>
+
+      <div class="a1-detail-card r" style="transition-delay:0.1s">
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+
+        <div class="a1-anni-badge" data-field="anniversary">Silver Anniversary</div>
+
+        <div class="a1-detail-row">
+          <div class="a1-detail-icon">📅</div>
+          <div class="a1-detail-label">Date</div>
+          <div class="a1-detail-value" data-field="date">December 20, 2026</div>
+        </div>
+        <div class="a1-detail-row">
+          <div class="a1-detail-icon">🕖</div>
+          <div class="a1-detail-label">Time</div>
+          <div class="a1-detail-value" data-field="time">7:00 PM</div>
+        </div>
+        <div class="a1-detail-row">
+          <div class="a1-detail-icon">📍</div>
+          <div class="a1-detail-label">Venue</div>
+          <div class="a1-detail-value" data-field="venue">The Leela Palace, Bengaluru</div>
+        </div>
+        <div class="a1-detail-row">
+          <div class="a1-detail-icon">🎊</div>
+          <div class="a1-detail-label">Years Together</div>
+          <div class="a1-detail-value"><span data-field="years">25</span> Beautiful Years</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MEMORY LANE ═══════════════════════ -->
+  <section class="a1-memory">
+    <div class="a1-memory-inner">
+      <div class="t-center r" style="margin-bottom:0.5rem;">
+        <div class="sec-tag">Memory Lane</div>
+        <h2 class="sec-title" style="color:var(--gold-pale);">A Journey of Love</h2>
+      </div>
+
+      <div class="a1-milestones">
+        <div class="a1-milestone-card r">
+          <div class="a1-milestone-icon">💍</div>
+          <div class="a1-milestone-year">Year 1</div>
+          <div class="a1-milestone-title">The Beginning</div>
+        </div>
+        <div class="a1-milestone-card r" style="transition-delay:0.1s">
+          <div class="a1-milestone-icon">❤️</div>
+          <div class="a1-milestone-year">Year 10</div>
+          <div class="a1-milestone-title">Growing Together</div>
+        </div>
+        <div class="a1-milestone-card r" style="transition-delay:0.2s">
+          <div class="a1-milestone-icon">✨</div>
+          <div class="a1-milestone-year">Year 25</div>
+          <div class="a1-milestone-title">Golden Love</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MESSAGE ═══════════════════════════ -->
+  <section class="a1-message">
+    <div class="a1-message-inner r">
+      <div class="sec-tag" style="margin-bottom:1.5rem;">A Message</div>
+      <div class="a1-quote-mark">"</div>
+      <p class="a1-message-text" data-field="message">Twenty-five years of love, laughter, and endless joy. Join us in celebrating this golden milestone.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ GALLERY ═══════════════════════════ -->
+  <section class="a1-gallery">
+    <div class="a1-gallery-inner">
+      <div class="t-center r" style="margin-bottom:0.5rem;">
+        <div class="sec-tag">Memories</div>
+        <h2 class="sec-title" style="color:var(--gold-pale);">Then, Now &amp; Forever</h2>
+      </div>
+
+      <div class="a1-photos">
+        <div class="a1-photo-placeholder r">
+          <div class="a1-photo-caption">Then</div>
+        </div>
+        <div class="a1-photo-placeholder r" style="transition-delay:0.1s">
+          <div class="a1-photo-caption">Now</div>
+        </div>
+        <div class="a1-photo-placeholder r" style="transition-delay:0.2s">
+          <div class="a1-photo-caption">Forever</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="a1-footer">
+    <div class="a1-footer-names r">
+      <span data-field="name1">Rajesh</span> &amp; <span data-field="name2">Sunita</span>
+    </div>
+    <div class="a1-footer-years r"><span data-field="years">25</span> Years</div>
+    <div class="a1-footer-date r" data-field="date">December 20, 2026</div>
+    <div class="a1-footer-divider r"></div>
+    <a href="../../index.html" class="a1-footer-link r">invite.studio</a>
+  </footer>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Floating hearts ───────────────────────────────────────────────────
+    (function spawnHearts() {
+      const icons = ['❤️', '✨', '💛', '🌹', '💕'];
+      const container = document.querySelector('.a1-hero');
+      for (let i = 0; i < 20; i++) {
+        const h = document.createElement('div');
+        h.className = 'float-heart';
+        h.textContent = icons[Math.floor(Math.random() * icons.length)];
+        h.style.cssText = [
+          `left:${Math.random() * 100}%`,
+          `bottom:${-5 + Math.random() * 20}%`,
+          `font-size:${0.7 + Math.random() * 1.2}rem`,
+          `animation-duration:${10 + Math.random() * 18}s`,
+          `animation-delay:${Math.random() * 15}s`
+        ].join(';');
+        container.appendChild(h);
+      }
+    })();
+
+    // ── initPreview ───────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.initPreview({
+        name1:       "Rajesh",
+        name2:       "Sunita",
+        years:       "25",
+        date:        "December 20, 2026",
+        time:        "7:00 PM",
+        venue:       "The Leela Palace, Bengaluru",
+        message:     "Twenty-five years of love, laughter, and endless joy. Join us in celebrating this golden milestone.",
+        host:        "The Kumar Family",
+        anniversary: "Silver"
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern Engagement — Rohan &amp; Simran</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy-deep:  #080818;
+      --navy-mid:   #1a2060;
+      --navy-light: #2a3280;
+      --gold:       #c9942a;
+      --gold-light: #e8b84b;
+      --gold-pale:  #f5dfa0;
+    }
+
+    body { background: var(--navy-deep); color: #f0f4ff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* ── Back nav ── */
+    .back-nav {
+      position: fixed; top: 14px; left: 16px; z-index: 1000;
+      color: var(--gold-pale); text-decoration: none; font-size: 0.85rem;
+      background: rgba(8,8,24,.8); border: 1px solid rgba(201,148,42,.4);
+      padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px);
+      transition: background .2s;
+    }
+    .back-nav:hover { background: rgba(8,8,24,.98); }
+
+    /* ── Purchase banner ── */
+    .purchase-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      background: linear-gradient(90deg, #080818, #1a2060);
+      border-top: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--gold-pale); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--gold-light); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #0a0a1a; border: none; padding: 10px 24px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(201,148,42,.45);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,148,42,.6); }
+
+    /* ── Stars / constellation ── */
+    .stars-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: .2; transform: scale(1); }
+      50%       { opacity: 1;  transform: scale(1.4); }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      background: var(--navy-deep);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 120px;
+    }
+
+    /* Gold interlocking rings SVG */
+    .rings-wrap { margin-bottom: 28px; }
+    .rings-svg { width: clamp(80px, 18vw, 130px); filter: drop-shadow(0 0 18px rgba(201,148,42,.5)); }
+
+    .hero-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      color: var(--gold); letter-spacing: 1px; margin-bottom: 14px;
+    }
+    .hero-names {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 700; color: #ffffff; line-height: 1.1; margin-bottom: 18px;
+    }
+    .hero-names-sep {
+      display: block;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--gold); font-weight: 400; margin: 4px 0;
+      font-family: 'Inter', sans-serif; letter-spacing: 6px;
+    }
+    .hero-gold-line {
+      width: clamp(160px, 40vw, 320px); height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 18px;
+    }
+    .hero-date-box {
+      border: 1px solid rgba(201,148,42,.5); padding: 12px 36px;
+      display: inline-block; background: rgba(201,148,42,.06);
+      letter-spacing: 3px; color: var(--gold-pale);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+    }
+
+    /* ── Details section ── */
+    .details-section { background: #0e0e22; padding: 60px 24px; }
+    .details-card {
+      max-width: 700px; margin: 0 auto;
+      background: #ffffff; color: #0a0a1a;
+      padding: 44px 40px; position: relative;
+    }
+    .details-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .details-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 28px; margin-top: 0;
+    }
+    .detail-item { text-align: center; }
+    .detail-accent { width: 32px; height: 2px; background: var(--gold); margin: 0 auto 10px; }
+    .detail-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+    .detail-value { font-family: 'Playfair Display', serif; font-size: 1rem; color: #0a0a1a; line-height: 1.4; }
+    .detail-sub { font-size: 0.78rem; color: #555; margin-top: 4px; }
+
+    /* ── Timeline ── */
+    .timeline-section {
+      background: linear-gradient(160deg, var(--navy-mid) 0%, #101840 100%);
+      padding: 60px 24px;
+    }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3.5vw, 2.2rem); color: var(--gold-light); text-align: center; margin-bottom: 6px; }
+    .section-sub { font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,148,42,.6); text-align: center; margin-bottom: 44px; }
+
+    .timeline {
+      display: flex; gap: 0; max-width: 860px; margin: 0 auto;
+      position: relative;
+    }
+    .timeline::before {
+      content: ''; position: absolute; top: 28px; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    @media (max-width: 680px) {
+      .timeline { flex-direction: column; }
+      .timeline::before { display: none; }
+      .tl-item { padding-left: 32px; border-left: 1px solid rgba(201,148,42,.4); margin-left: 14px; }
+      .tl-dot { left: -7px; top: 4px; right: auto; }
+    }
+    .tl-item {
+      flex: 1; text-align: center; padding: 0 16px;
+      position: relative; padding-top: 56px;
+    }
+    .tl-dot {
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 20px; background: var(--navy-mid);
+      border: 2px solid var(--gold); border-radius: 50%;
+    }
+    .tl-dot::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%); width: 8px; height: 8px;
+      background: var(--gold); border-radius: 50%;
+    }
+    .tl-num { font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+    .tl-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #f0f4ff; margin-bottom: 6px; }
+    .tl-desc { font-size: 0.8rem; color: rgba(240,244,255,.6); line-height: 1.6; }
+
+    /* ── Quote ── */
+    .quote-section {
+      background: #060610; padding: 80px 24px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .quote-mark-left, .quote-mark-right {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 14vw, 11rem);
+      color: var(--gold); opacity: .12; line-height: 1;
+      position: absolute;
+    }
+    .quote-mark-left { top: 10px; left: 20px; }
+    .quote-mark-right { bottom: -20px; right: 20px; }
+    .quote-text {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--gold-pale); line-height: 1.8;
+      max-width: 640px; margin: 0 auto; position: relative; z-index: 1;
+    }
+    .quote-attr { font-size: 0.78rem; color: rgba(201,148,42,.6); margin-top: 18px; letter-spacing: 2px; }
+
+    /* ── Footer ── */
+    .footer {
+      background: #04040e; border-top: 1px solid rgba(201,148,42,.25);
+      text-align: center; padding: 40px 24px 100px;
+    }
+    .footer-names { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 700; color: #ffffff; margin-bottom: 6px; letter-spacing: 2px; }
+    .footer-names-script { font-family: 'Great Vibes', cursive; font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--gold); display: block; margin-bottom: 8px; }
+    .footer-date { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: var(--gold-pale); letter-spacing: 3px; opacity: .7; margin-bottom: 20px; }
+    .footer-link { color: var(--gold); font-size: 0.8rem; text-decoration: none; opacity: .6; }
+    .footer-link:hover { opacity: 1; }
+
+    /* ── Scroll reveal ── */
+    .r, .v { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .r.visible, .v.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- Stars -->
+  <div class="stars-wrap" id="starsWrap"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="rings-wrap">
+      <svg class="rings-svg" viewBox="0 0 130 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="47" cy="35" r="30" stroke="#c9942a" stroke-width="4"/>
+        <circle cx="83" cy="35" r="30" stroke="#e8b84b" stroke-width="4"/>
+        <!-- subtle inner shine -->
+        <circle cx="47" cy="35" r="30" stroke="rgba(245,223,160,0.2)" stroke-width="1.5"/>
+        <circle cx="83" cy="35" r="30" stroke="rgba(245,223,160,0.2)" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <h2 class="hero-title">We're Engaged!</h2>
+    <h1 class="hero-names">
+      <span data-field="groomName">Rohan Kapoor</span>
+      <span class="hero-names-sep">&amp;</span>
+      <span data-field="brideName">Simran Singh</span>
+    </h1>
+    <div class="hero-gold-line"></div>
+    <div class="hero-date-box">
+      <span data-field="date">November 8, 2026</span>
+    </div>
+  </section>
+
+  <!-- ═══ DETAILS ═══ -->
+  <section class="details-section">
+    <div style="max-width:760px;margin:0 auto;">
+      <h2 class="section-title r" style="color:var(--gold-light);margin-bottom:6px;">Event Details</h2>
+      <p class="section-sub r">Join us for the celebration</p>
+      <div class="details-card r">
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-accent"></div>
+            <p class="detail-label">Date</p>
+            <p class="detail-value" data-field="date">November 8, 2026</p>
+          </div>
+          <div class="detail-item">
+            <div class="detail-accent"></div>
+            <p class="detail-label">Time</p>
+            <p class="detail-value" data-field="time">6:00 PM</p>
+          </div>
+          <div class="detail-item">
+            <div class="detail-accent"></div>
+            <p class="detail-label">Venue</p>
+            <p class="detail-value" data-field="venue">The Taj Hotel, Colaba, Mumbai</p>
+          </div>
+          <div class="detail-item">
+            <div class="detail-accent"></div>
+            <p class="detail-label">Hosted By</p>
+            <p class="detail-value" data-field="host">The Kapoor &amp; Singh Families</p>
+          </div>
+        </div>
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(201,148,42,.25);text-align:center;">
+          <p style="font-size:0.78rem;letter-spacing:1px;color:#888;">
+            <span data-field="groomFamily">Mr. &amp; Mrs. Suresh Kapoor</span>
+            <span style="color:var(--gold);margin:0 10px;">·</span>
+            <span data-field="brideFamily">Mr. &amp; Mrs. Harpreet Singh</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <section class="timeline-section">
+    <h2 class="section-title r">Evening Programme</h2>
+    <p class="section-sub r">A night to remember</p>
+    <div class="timeline">
+      <div class="tl-item v">
+        <div class="tl-dot"></div>
+        <p class="tl-num">6:00 PM</p>
+        <p class="tl-name">Ceremony</p>
+        <p class="tl-desc">Ring exchange and formal engagement in the presence of family and close friends.</p>
+      </div>
+      <div class="tl-item v">
+        <div class="tl-dot"></div>
+        <p class="tl-num">7:30 PM</p>
+        <p class="tl-name">Dinner</p>
+        <p class="tl-desc">An elegant sit-down dinner featuring curated menus and handcrafted desserts.</p>
+      </div>
+      <div class="tl-item v">
+        <div class="tl-dot"></div>
+        <p class="tl-num">9:00 PM</p>
+        <p class="tl-name">Celebration</p>
+        <p class="tl-desc">Music, dancing, and an evening of joy with the people who matter most.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUOTE ═══ -->
+  <section class="quote-section">
+    <span class="quote-mark-left">"</span>
+    <span class="quote-mark-right">"</span>
+    <p class="quote-text r">Every love story is beautiful, but ours is my favorite.</p>
+    <p class="quote-attr r" data-field="message">Love is the beginning of everything — join us to celebrate ours</p>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <span class="footer-names-script">
+      <span data-field="groomName">Rohan Kapoor</span>
+      &amp;
+      <span data-field="brideName">Simran Singh</span>
+    </span>
+    <p class="footer-date" data-field="date">November 8, 2026</p>
+    <a href="../../index.html" class="footer-link">← Back to Marketplace</a>
+  </footer>
+
+  <!-- ═══ PURCHASE BANNER ═══ -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Live Preview — Buy for <span>₹500</span> to customize</p>
+    <button
+      class="btn-buy"
+      data-buy="engagement-2"
+      data-name="Modern Engagement"
+      data-customize="engagement-2-customize.html"
+    >Buy &amp; Customize →</button>
+  </div>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Constellation stars ──
+    (function() {
+      const wrap = document.getElementById('starsWrap');
+      for (let i = 0; i < 120; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size  = 0.8 + Math.random() * 2.2;
+        const dur   = 2 + Math.random() * 5;
+        const delay = Math.random() * 6;
+        s.style.cssText = `
+          width:${size}px;height:${size}px;
+          top:${Math.random()*100}%;left:${Math.random()*100}%;
+          animation-duration:${dur}s;animation-delay:${delay}s;
+        `;
+        wrap.appendChild(s);
+      }
+    })();
+
+    // ── Scroll reveal ──
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.r,.v').forEach(el => observer.observe(el));
+    })();
+
+    // ── Init preview ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaults = {
+        groomName:   "Rohan Kapoor",
+        brideName:   "Simran Singh",
+        date:        "November 8, 2026",
+        time:        "6:00 PM",
+        venue:       "The Taj Hotel, Colaba, Mumbai",
+        groomFamily: "Mr. & Mrs. Suresh Kapoor",
+        brideFamily: "Mr. & Mrs. Harpreet Singh",
+        message:     "Love is the beginning of everything — join us to celebrate ours",
+        host:        "The Kapoor & Singh Families"
+      };
+      if (window.InviteCustomize && InviteCustomize.initPreview) {
+        InviteCustomize.initPreview(defaults);
+      }
+    });
+  </script>
+</body>
+</html>

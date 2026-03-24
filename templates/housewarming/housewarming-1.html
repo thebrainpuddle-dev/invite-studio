@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Griha Pravesham — The Sharma Family</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/marketplace.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron:      #c86820;
+      --saffron-deep: #a04e10;
+      --saffron-bg:   #7a3408;
+      --temple-green: #2a7020;
+      --green-dark:   #1a4e14;
+      --turmeric:     #e8a020;
+      --turmeric-pale:#f5cc80;
+      --cream:        #fdf6e3;
+      --cream-dark:   #f0e6c8;
+    }
+
+    body { background: var(--saffron-bg); color: var(--cream); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* ── Back nav ── */
+    .back-nav {
+      position: fixed; top: 14px; left: 16px; z-index: 1000;
+      color: var(--turmeric-pale); text-decoration: none; font-size: 0.85rem;
+      background: rgba(122,52,8,.8); border: 1px solid rgba(232,160,32,.4);
+      padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px);
+      transition: background .2s;
+    }
+    .back-nav:hover { background: rgba(122,52,8,.98); }
+
+    /* ── Purchase banner ── */
+    .purchase-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      background: linear-gradient(90deg, var(--saffron-bg), var(--saffron-deep));
+      border-top: 2px solid var(--turmeric);
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .purchase-banner .banner-text { color: var(--turmeric-pale); font-size: 0.9rem; }
+    .purchase-banner .banner-text span { color: var(--turmeric); font-weight: 600; }
+    .btn-buy {
+      background: linear-gradient(135deg, var(--turmeric), var(--turmeric-pale));
+      color: #3a1a00; border: none; padding: 10px 24px;
+      border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(232,160,32,.45);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,160,32,.6); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--saffron) 0%, #5a1a08 40%, var(--temple-green) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 120px;
+    }
+
+    /* House emoji glow */
+    .hero-house {
+      font-size: clamp(4rem, 12vw, 7rem);
+      display: block; margin-bottom: 12px;
+      animation: houseGlow 2.8s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 0px #e8a020);
+    }
+    @keyframes houseGlow {
+      0%   { filter: drop-shadow(0 0 8px #e8a020) drop-shadow(0 0 20px rgba(232,160,32,.4)); transform: scale(1); }
+      100% { filter: drop-shadow(0 0 20px #e8a020) drop-shadow(0 0 50px rgba(232,160,32,.7)); transform: scale(1.06); }
+    }
+
+    .hero-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      background: linear-gradient(135deg, var(--turmeric) 0%, var(--turmeric-pale) 50%, var(--turmeric) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.1; margin-bottom: 10px;
+    }
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(0.95rem, 2.8vw, 1.3rem);
+      color: var(--turmeric-pale); letter-spacing: 2px; margin-bottom: 20px;
+      opacity: .9;
+    }
+    .hero-family {
+      font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: #fff; margin-bottom: 24px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.4);
+    }
+
+    /* Garland of mango leaves */
+    .garland {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2px; flex-wrap: nowrap; overflow: hidden;
+      margin: 0 auto; max-width: 600px;
+    }
+    .garland-leaf {
+      font-size: 1.4rem; display: inline-block;
+      animation: sway 3s ease-in-out infinite alternate;
+    }
+    .garland-leaf:nth-child(even)  { animation-direction: alternate-reverse; }
+    .garland-leaf:nth-child(3n)    { animation-duration: 2.4s; }
+    .garland-leaf:nth-child(3n+1)  { animation-duration: 3.6s; }
+    @keyframes sway {
+      0%   { transform: rotate(-10deg) translateY(0); }
+      100% { transform: rotate(10deg) translateY(-5px); }
+    }
+
+    /* ── Gold/saffron divider ── */
+    .divider { display: flex; align-items: center; gap: 12px; margin: 0 auto 40px; max-width: 380px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--turmeric), transparent); }
+    .divider-icon { color: var(--turmeric); font-size: 1.2rem; }
+
+    /* ── Section base ── */
+    section { padding: 60px 24px; }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--turmeric); text-align: center; margin-bottom: 8px;
+    }
+    .section-title-sub {
+      font-family: 'Great Vibes', cursive; font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--turmeric-pale); text-align: center; margin-bottom: 36px;
+    }
+
+    /* ── Invitation card ── */
+    .invite-section { background: var(--cream-dark); }
+    .invite-card {
+      max-width: 580px; margin: 0 auto;
+      background: var(--cream); color: #3a1a00;
+      border: 2px solid var(--saffron);
+      padding: 44px 36px; text-align: center; position: relative;
+    }
+    .invite-card::before {
+      content: '';
+      position: absolute; inset: 8px;
+      border: 1px solid rgba(200,104,32,.35);
+      pointer-events: none;
+    }
+    .corner-bracket {
+      position: absolute; width: 32px; height: 32px;
+      border-color: var(--saffron); border-style: solid; border-width: 0;
+    }
+    .corner-bracket.tl { top: 5px; left: 5px; border-top-width: 2px; border-left-width: 2px; }
+    .corner-bracket.tr { top: 5px; right: 5px; border-top-width: 2px; border-right-width: 2px; }
+    .corner-bracket.bl { bottom: 5px; left: 5px; border-bottom-width: 2px; border-left-width: 2px; }
+    .corner-bracket.br { bottom: 5px; right: 5px; border-bottom-width: 2px; border-right-width: 2px; }
+
+    .kalash-icon { font-size: 2.8rem; display: block; margin-bottom: 12px; }
+    .card-intro { font-size: 0.75rem; letter-spacing: 3px; color: #7a4010; text-transform: uppercase; margin-bottom: 16px; }
+    .card-ceremony {
+      font-family: 'Great Vibes', cursive; font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--saffron); margin-bottom: 16px; line-height: 1.2;
+    }
+    .card-family {
+      font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--green-dark); font-weight: 700; margin-bottom: 20px;
+    }
+    .card-detail-row {
+      display: flex; align-items: flex-start; justify-content: center;
+      gap: 8px; margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .card-detail-label { font-size: 0.72rem; letter-spacing: 2px; color: #7a4010; text-transform: uppercase; padding-top: 2px; }
+    .card-detail-value { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: #3a1a00; line-height: 1.5; }
+    .card-priest-note { font-size: 0.78rem; color: #7a4010; font-style: italic; margin-top: 18px; }
+
+    /* ── Schedule section ── */
+    .schedule-section { background: linear-gradient(160deg, var(--saffron-deep) 0%, #8a3810 100%); }
+    .timeline { max-width: 640px; margin: 0 auto; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, transparent, var(--turmeric), transparent);
+      transform: translateX(-50%);
+    }
+    @media (max-width: 600px) { .timeline::before { left: 24px; } }
+
+    .timeline-item {
+      display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;
+      position: relative;
+    }
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+    @media (max-width: 600px) {
+      .timeline-item, .timeline-item:nth-child(even) { flex-direction: row; padding-left: 56px; }
+    }
+    .timeline-time {
+      font-family: 'Playfair Display', serif; font-size: 0.9rem;
+      color: var(--turmeric); font-weight: 700; min-width: 80px; text-align: right; padding-top: 4px;
+    }
+    .timeline-item:nth-child(even) .timeline-time { text-align: left; }
+    @media (max-width: 600px) {
+      .timeline-time { position: absolute; left: 0; top: 4px; min-width: 48px; font-size: 0.7rem; }
+    }
+    .timeline-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--turmeric); border: 3px solid var(--saffron-deep);
+      flex-shrink: 0; margin-top: 6px;
+      box-shadow: 0 0 10px rgba(232,160,32,.6);
+    }
+    .timeline-card {
+      background: rgba(255,255,255,.1); border: 1px solid rgba(232,160,32,.4);
+      padding: 14px 18px; flex: 1; backdrop-filter: blur(4px);
+    }
+    .timeline-event { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--turmeric-pale); margin-bottom: 4px; }
+    .timeline-desc { font-size: 0.78rem; color: rgba(253,246,227,.7); }
+
+    /* ── Blessings section ── */
+    .blessings-section {
+      background: linear-gradient(160deg, var(--green-dark) 0%, var(--temple-green) 100%);
+      text-align: center;
+    }
+    .blessings-quote {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: var(--cream); line-height: 1.9;
+      max-width: 620px; margin: 0 auto;
+    }
+    .blessings-quote::before, .blessings-quote::after {
+      content: '"'; color: var(--turmeric); font-size: 2.2rem; vertical-align: -10px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #3a1000; border-top: 1px solid rgba(232,160,32,.35);
+      text-align: center; padding: 40px 24px 100px;
+    }
+    .footer-family {
+      font-family: 'Great Vibes', cursive; font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--turmeric); margin-bottom: 8px;
+    }
+    .footer-date {
+      font-family: 'Playfair Display', serif; font-size: 0.9rem;
+      color: var(--turmeric-pale); letter-spacing: 2px; margin-bottom: 20px;
+    }
+    .footer-link { color: var(--turmeric); font-size: 0.8rem; text-decoration: none; opacity: .7; }
+    .footer-link:hover { opacity: 1; }
+
+    /* ── Scroll reveal ── */
+    .r, .v { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .r.visible, .v.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <span class="hero-house">🏠</span>
+    <h1 class="hero-title">Griha Pravesham</h1>
+    <p class="hero-subtitle">Navagraha Pooja &amp; Gruha Pravesham</p>
+    <p class="hero-family" data-field="family">The Sharma Family</p>
+    <div class="garland" aria-hidden="true">
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌸</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌼</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌸</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌺</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌸</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌼</span>
+      <span class="garland-leaf">🍃</span><span class="garland-leaf">🌸</span>
+      <span class="garland-leaf">🍃</span>
+    </div>
+  </section>
+
+  <!-- ═══ INVITATION CARD ═══ -->
+  <section class="invite-section">
+    <div style="max-width:700px;margin:0 auto;padding:60px 24px;">
+      <h2 class="section-title r">You Are Invited</h2>
+      <p class="section-title-sub r">With Blessings &amp; Joy</p>
+      <div class="invite-card r">
+        <div class="corner-bracket tl"></div>
+        <div class="corner-bracket tr"></div>
+        <div class="corner-bracket bl"></div>
+        <div class="corner-bracket br"></div>
+
+        <span class="kalash-icon">🏺</span>
+        <p class="card-intro">Shubha Griha Pravesham</p>
+        <p class="card-ceremony" data-field="ceremony">Griha Pravesham Pooja</p>
+        <p class="card-family" data-field="family">The Sharma Family</p>
+
+        <div class="card-detail-row">
+          <span class="card-detail-label">Date</span>
+          <span class="card-detail-value" data-field="date">June 15, 2026</span>
+        </div>
+        <div class="card-detail-row">
+          <span class="card-detail-label">Time</span>
+          <span class="card-detail-value" data-field="time">9:30 AM</span>
+        </div>
+        <div class="card-detail-row">
+          <span class="card-detail-label">📍</span>
+          <span class="card-detail-value" data-field="address">Plot 42, Manikonda, Hyderabad 500089</span>
+        </div>
+        <p class="card-priest-note">Officiated by <span data-field="priest">Pandit Suresh Sharma</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CEREMONY SCHEDULE ═══ -->
+  <section class="schedule-section">
+    <h2 class="section-title r">Ceremony Schedule</h2>
+    <p class="section-title-sub r">Pooja Karyakramam</p>
+    <div class="timeline">
+      <div class="timeline-item v">
+        <div class="timeline-time">8:30 AM</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="timeline-event">Ganapathi Pooja</p>
+          <p class="timeline-desc">Invoking Lord Ganesha for blessings &amp; auspicious beginning</p>
+        </div>
+      </div>
+      <div class="timeline-item v">
+        <div class="timeline-time">9:00 AM</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="timeline-event">Navagraha Pooja</p>
+          <p class="timeline-desc">Seeking blessings of the nine planets for prosperity</p>
+        </div>
+      </div>
+      <div class="timeline-item v">
+        <div class="timeline-time" data-field="time">9:30 AM</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="timeline-event">Griha Pravesh</p>
+          <p class="timeline-desc">The auspicious entry into the new home</p>
+        </div>
+      </div>
+      <div class="timeline-item v">
+        <div class="timeline-time">12:00 PM</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <p class="timeline-event">Lunch / Prasadam</p>
+          <p class="timeline-desc">Bhojanam — traditional lunch with family &amp; friends</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BLESSINGS ═══ -->
+  <section class="blessings-section">
+    <div class="divider r"><span class="divider-icon">🪔</span></div>
+    <p class="blessings-quote r" data-field="message">We are blessed to move into our new home and seek your blessings on this auspicious occasion</p>
+    <div class="divider r" style="margin-top:40px;"><span class="divider-icon">🪔</span></div>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:rgba(253,246,227,.65);margin-top:20px;" class="r">— <span data-field="host">Rajesh &amp; Meena Sharma</span></p>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <p class="footer-family" data-field="family">The Sharma Family</p>
+    <p class="footer-date" data-field="date">June 15, 2026</p>
+    <a href="../../index.html" class="footer-link">← Back to Marketplace</a>
+  </footer>
+
+  <!-- ═══ PURCHASE BANNER ═══ -->
+  <div class="purchase-banner">
+    <p class="banner-text">✨ Live Preview — Buy for <span>₹500</span> to customize</p>
+    <button
+      class="btn-buy"
+      data-buy="housewarming-1"
+      data-name="Griha Pravesham"
+      data-customize="housewarming-1-customize.html"
+    >Buy &amp; Customize →</button>
+  </div>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Scroll reveal ──
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.r,.v').forEach(el => observer.observe(el));
+    })();
+
+    // ── Init preview ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaults = {
+        family:    "The Sharma Family",
+        date:      "June 15, 2026",
+        time:      "9:30 AM",
+        address:   "Plot 42, Manikonda, Hyderabad 500089",
+        ceremony:  "Griha Pravesham Pooja",
+        priest:    "Pandit Suresh Sharma",
+        message:   "We are blessed to move into our new home and seek your blessings on this auspicious occasion",
+        host:      "Rajesh & Meena Sharma"
+      };
+      if (window.InviteCustomize && InviteCustomize.initPreview) {
+        InviteCustomize.initPreview(defaults);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customize — Silver Anniversary — invite.studio</title>
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body { background: var(--cream); color: var(--text); }
+
+    /* ── Layout ── */
+    .customize-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
+    }
+    .customize-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .customize-layout { grid-template-columns: 1fr; }
+      .customize-preview-panel { order: -1; }
+    }
+
+    /* ── Page header ── */
+    .cust-page-header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    .cust-page-header .sec-tag { margin-bottom: 0.4rem; }
+    .cust-page-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--maroon);
+      margin-bottom: 0.5rem;
+    }
+    .cust-page-sub {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Form panel ── */
+    .customize-form-panel {
+      background: #fff;
+      border: 1px solid rgba(201,148,42,0.2);
+      padding: 2rem;
+    }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--maroon);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(201,148,42,0.2);
+      letter-spacing: 0.05em;
+    }
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .form-actions .btn { text-align: center; width: 100%; }
+
+    /* ── Save banner ── */
+    .save-banner {
+      display: none;
+      background: linear-gradient(135deg, #080820, #1a1a3a);
+      color: #e0e0f0;
+      padding: 0.7rem 1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-top: 1rem;
+      border-radius: 2px;
+    }
+    .save-banner.show { display: block; }
+
+    /* ── Share row ── */
+    .share-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+    .share-row input {
+      flex: 1;
+      font-size: 0.78rem;
+      background: #fffdf5;
+      border: 1px solid rgba(201,148,42,0.3);
+      padding: 0.55rem 0.8rem;
+      color: var(--text-dim);
+      outline: none;
+      border-radius: 2px;
+      min-width: 0;
+    }
+    .share-row .btn { white-space: nowrap; flex-shrink: 0; }
+    .hidden { display: none !important; }
+
+    /* ── Preview panel ── */
+    .customize-preview-panel {
+      position: sticky;
+      top: 1.5rem;
+    }
+    .preview-panel-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+
+    /* ── Live preview card — dark slate glassmorphism ── */
+    #live-preview {
+      background: linear-gradient(160deg, #080820 0%, #0d0d28 40%, #1a1a3a 70%, #10102a 100%);
+      color: #e0e0f0;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(144,144,192,0.2);
+      min-height: 500px;
+    }
+    /* Glass inner card */
+    .lp-glass-inner {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(144,144,192,0.2);
+      padding: 1.5rem;
+      position: relative;
+    }
+    .lp-glass-inner::before,
+    .lp-glass-inner::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: rgba(144,144,192,0.4);
+      border-style: solid;
+      pointer-events: none;
+    }
+    .lp-glass-inner::before { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
+    .lp-glass-inner::after  { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+
+    .lp-numeral {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 700;
+      line-height: 0.9;
+      background: linear-gradient(160deg, #d0d0e8 0%, #9090c0 30%, var(--gold) 60%, #e8b84b 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(144,144,192,0.3));
+      margin-bottom: 0;
+    }
+    .lp-years-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: #9090c0;
+      margin-bottom: 0.8rem;
+    }
+    .lp-line-divider {
+      width: 140px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #9090c0, var(--gold), #9090c0, transparent);
+      margin: 0.6rem auto;
+    }
+    .lp-names {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .lp-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .lp-amp {
+      font-family: var(--font-script);
+      font-size: 1.7rem;
+      background: linear-gradient(135deg, #9090c0, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .lp-badge {
+      display: inline-block;
+      border: 1px solid rgba(144,144,192,0.35);
+      padding: 0.2rem 0.9rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #9090c0;
+      margin-bottom: 1.2rem;
+    }
+    .lp-detail {
+      font-size: 0.72rem;
+      color: #c8c8e0;
+      margin: 0.3rem 0;
+      line-height: 1.5;
+      text-align: left;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .lp-detail-label {
+      font-size: 0.52rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #9090c0;
+      flex-shrink: 0;
+      width: 42px;
+    }
+    .lp-message {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.78rem;
+      color: rgba(224,224,240,0.8);
+      margin: 1rem 0 0.8rem;
+      line-height: 1.6;
+      padding: 0 0.3rem;
+      text-align: center;
+    }
+    .lp-host {
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(144,144,192,0.45);
+    }
+    .lp-host span { color: #9090c0; }
+
+    /* Tiny starfield in preview */
+    .lp-star {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(200,200,240,0.6);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Unlocked Banner -->
+  <div class="purchase-banner">✓ Template Unlocked — Customize your invitation below</div>
+
+  <!-- Back Navigation -->
+  <a href="../../index.html" class="back-nav">← Marketplace</a>
+
+  <!-- Page Header -->
+  <div class="cust-page-header">
+    <div class="sec-tag">Silver Anniversary</div>
+    <h1 class="cust-page-title">Customize Your Invitation</h1>
+    <p class="cust-page-sub">Fill in your details — the preview updates live as you type</p>
+  </div>
+
+  <div class="customize-wrap">
+    <div class="customize-layout">
+
+      <!-- ── Form Panel ── -->
+      <div class="customize-form-panel">
+        <div class="form-section-title">The Couple</div>
+        <form id="customize-form" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="f-name1">First Name</label>
+              <input id="f-name1" class="form-input" type="text" name="name1" placeholder="e.g. Arun" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-name2">Partner's Name</label>
+              <input id="f-name2" class="form-input" type="text" name="name2" placeholder="e.g. Kavitha" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="f-years">Years Together</label>
+              <input id="f-years" class="form-input" type="number" name="years" placeholder="e.g. 10" min="1" max="99">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-anniversary">Anniversary Type</label>
+              <select id="f-anniversary" class="form-input" name="anniversary">
+                <option value="Silver">Silver</option>
+                <option value="Golden">Golden</option>
+                <option value="Ruby">Ruby</option>
+                <option value="Diamond">Diamond</option>
+                <option value="Platinum">Platinum</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section-title" style="margin-top:0.5rem;">Event Details</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="f-date">Date</label>
+              <input id="f-date" class="form-input" type="date" name="date">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-time">Time</label>
+              <input id="f-time" class="form-input" type="time" name="time">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-venue">Venue</label>
+            <textarea id="f-venue" class="form-textarea" name="venue" placeholder="e.g. ITC Grand Chola, Chennai" rows="2"></textarea>
+          </div>
+
+          <div class="form-section-title" style="margin-top:0.5rem;">Personal Touch</div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-message">Message</label>
+            <textarea id="f-message" class="form-textarea" name="message" placeholder="e.g. A decade of love, partnership, and beautiful memories..." rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-host">Hosted By</label>
+            <input id="f-host" class="form-input" type="text" name="host" placeholder="e.g. The Krishnan Family">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Invitation</button>
+            <button type="button" id="open-preview-btn" class="btn btn-gold">Open Full Preview</button>
+          </div>
+
+        </form>
+
+        <div id="save-banner" class="save-banner"></div>
+
+        <div class="share-row hidden">
+          <input id="share-url" type="text" readonly aria-label="Shareable invitation link">
+          <button id="copy-link-btn" class="btn btn-gold">Copy Link</button>
+        </div>
+      </div>
+
+      <!-- ── Preview Panel ── -->
+      <div class="customize-preview-panel">
+        <div class="preview-panel-label">Live Preview</div>
+
+        <div id="live-preview">
+          <!-- Decorative stars scattered in background -->
+          <div class="lp-glass-inner">
+            <div class="lp-numeral">{{years}}</div>
+            <div class="lp-years-label">Years Together</div>
+
+            <div class="lp-line-divider"></div>
+
+            <div class="lp-names">
+              <span class="lp-name">{{name1}}</span>
+              <span class="lp-amp">&amp;</span>
+              <span class="lp-name">{{name2}}</span>
+            </div>
+
+            <div class="lp-badge">{{anniversary}} Anniversary</div>
+
+            <div class="lp-line-divider"></div>
+
+            <div class="lp-detail">
+              <span class="lp-detail-label">Date</span>
+              <span>{{date}}</span>
+            </div>
+            <div class="lp-detail">
+              <span class="lp-detail-label">Time</span>
+              <span>{{time}}</span>
+            </div>
+            <div class="lp-detail">
+              <span class="lp-detail-label">Venue</span>
+              <span>{{venue}}</span>
+            </div>
+
+            <div class="lp-message">"{{message}}"</div>
+
+            <div class="lp-host">Hosted by <span>{{host}}</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // Scatter tiny stars in the preview background
+    (function() {
+      const preview = document.getElementById('live-preview');
+      for (let i = 0; i < 30; i++) {
+        const s = document.createElement('div');
+        s.className = 'lp-star';
+        const size = 1 + Math.random() * 2;
+        s.style.cssText = [
+          `width:${size}px`,
+          `height:${size}px`,
+          `top:${Math.random() * 100}%`,
+          `left:${Math.random() * 100}%`,
+          `opacity:${0.2 + Math.random() * 0.5}`
+        ].join(';');
+        preview.insertBefore(s, preview.firstChild);
+      }
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.init('anniversary-2', 'anniversary-2.html', '../../index.html');
+    });
+  </script>
+
+</body>
+</html>

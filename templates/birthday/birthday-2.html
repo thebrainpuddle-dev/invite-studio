@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Party Birthday Invitation — invite.studio</title>
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --kids-pink:   #e84090;
+      --kids-purple: #7b20c0;
+      --kids-blue:   #2090e8;
+      --kids-yellow: #ffd700;
+      --kids-lime:   #40e080;
+      --kids-bg:     #1a0030;
+      --kids-bg2:    #0d001a;
+    }
+
+    body {
+      background: var(--kids-bg);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── Preview Banner ── */
+    .preview-banner {
+      background: linear-gradient(135deg, #0d001a, #1a0030);
+      border-bottom: 2px solid var(--kids-pink);
+      color: #fff;
+      text-align: center;
+      padding: 0.75rem 4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 50;
+    }
+    .preview-banner .buy-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--kids-pink), var(--kids-purple));
+      color: #fff;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+    .preview-banner .buy-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(232,64,144,0.45);
+    }
+
+    /* ── Hero ── */
+    .b2-hero {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 40% 30%, #3d006b 0%, var(--kids-bg) 55%, var(--kids-bg2) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+
+    /* Floating confetti/stars/balloons */
+    .b2-float {
+      position: absolute;
+      pointer-events: none;
+      animation: b2Float linear infinite;
+    }
+
+    @keyframes b2Float {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 0.8; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes b2Bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      40%      { transform: translateY(-18px) scale(1.08); }
+      60%      { transform: translateY(-10px) scale(1.04); }
+    }
+    @keyframes b2Rainbow {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    @keyframes b2Twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.8); }
+      50%      { opacity: 1;    transform: scale(1.2); }
+    }
+
+    .b2-stars-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .b2-star-dot {
+      position: absolute;
+      border-radius: 50%;
+      animation: b2Twinkle ease-in-out infinite;
+    }
+
+    .b2-pre-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--kids-yellow);
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+
+    .b2-rainbow-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      font-weight: 700;
+      background: linear-gradient(90deg,
+        var(--kids-pink) 0%,
+        var(--kids-yellow) 25%,
+        var(--kids-lime) 50%,
+        var(--kids-blue) 75%,
+        var(--kids-purple) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      position: relative;
+      animation: b2Rainbow 6s linear infinite;
+    }
+
+    .b2-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow:
+        0 0 20px var(--kids-pink),
+        0 0 40px var(--kids-purple),
+        3px 3px 0 var(--kids-purple);
+      line-height: 1;
+      margin: 0.3rem 0 0.5rem;
+      position: relative;
+    }
+
+    .b2-cake {
+      font-size: clamp(4rem, 12vw, 7rem);
+      animation: b2Bounce 1.8s ease-in-out infinite;
+      margin: 0.5rem 0;
+      position: relative;
+      display: block;
+    }
+
+    .b2-age-ring {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--kids-pink), var(--kids-purple));
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.15), 0 0 30px rgba(232,64,144,0.5);
+      margin: 0.5rem 0 1.5rem;
+      position: relative;
+    }
+
+    .b2-rainbow-divider {
+      width: 200px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg,
+        var(--kids-pink), var(--kids-yellow),
+        var(--kids-lime), var(--kids-blue), var(--kids-purple)
+      );
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+
+    .b2-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255,215,0,0.5);
+      animation: bobDown 2.5s ease-in-out infinite;
+    }
+
+    /* ── Party Details Section ── */
+    .b2-details {
+      padding: var(--section-pad);
+      background: linear-gradient(180deg, var(--kids-bg) 0%, #0d001a 100%);
+    }
+
+    .b2-details-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .b2-party-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 2.5rem 2.5rem;
+      background: rgba(255,255,255,0.04);
+      /* Rainbow gradient border via outline trick */
+      border: 3px solid transparent;
+      background-clip: padding-box;
+      box-shadow:
+        0 0 0 3px var(--kids-pink),
+        0 0 0 5px var(--kids-yellow),
+        0 0 0 7px var(--kids-lime),
+        0 0 0 9px var(--kids-blue),
+        0 0 40px rgba(123,32,192,0.3);
+      text-align: center;
+    }
+
+    .b2-detail-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .b2-detail-row:last-child { border-bottom: none; }
+
+    .b2-detail-emoji { font-size: 1.5rem; }
+    .b2-detail-content { text-align: left; }
+    .b2-detail-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--kids-yellow);
+      margin-bottom: 0.2rem;
+    }
+    .b2-detail-value {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ── Message Section ── */
+    .b2-message {
+      padding: var(--section-pad);
+      background: var(--kids-bg2);
+      text-align: center;
+    }
+
+    .b2-message-emojis {
+      font-size: 2rem;
+      letter-spacing: 0.4em;
+      margin-bottom: 1.2rem;
+      animation: b2Rainbow 4s linear infinite;
+    }
+
+    .b2-message-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: #fff;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ── Footer ── */
+    .b2-footer {
+      padding: 3rem 2rem 4rem;
+      background: var(--kids-bg2);
+      text-align: center;
+      border-top: 3px solid transparent;
+      border-image: linear-gradient(90deg, var(--kids-pink), var(--kids-yellow), var(--kids-lime), var(--kids-blue), var(--kids-purple)) 1;
+    }
+
+    .b2-hosted-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--kids-yellow);
+      margin-bottom: 0.5rem;
+    }
+    .b2-hosted-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2rem;
+    }
+    .b2-footer-divider {
+      width: 80px;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--kids-pink), var(--kids-purple));
+      margin: 0 auto 1.5rem;
+    }
+    .b2-footer-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      transition: color 0.2s ease;
+    }
+    .b2-footer-link:hover { color: var(--kids-pink); }
+
+    @media (max-width: 600px) {
+      .b2-party-card { padding: 2rem 1.2rem; box-shadow: 0 0 0 3px var(--kids-pink), 0 0 30px rgba(123,32,192,0.3); }
+      .preview-banner { padding: 0.75rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview Banner -->
+  <div class="preview-banner">
+    <span>✨ This is a live preview — Buy for ₹500 to customize with your details</span>
+    <button class="buy-btn" data-buy="birthday-2" data-name="Kids Party Birthday" data-customize="birthday-2-customize.html">
+      Buy &amp; Customize →
+    </button>
+  </div>
+
+  <!-- Back Navigation -->
+  <a href="../../index.html" class="back-nav" style="color:rgba(255,215,0,0.6);">← Marketplace</a>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section class="b2-hero">
+
+    <!-- Twinkling stars background -->
+    <div class="b2-stars-bg" id="b2-stars" aria-hidden="true"></div>
+
+    <!-- Floating confetti (injected by JS) -->
+
+    <div class="b2-pre-title r">🎉 — You're Invited — 🎉</div>
+
+    <div class="b2-rainbow-title r" style="transition-delay:0.08s">Happy Birthday!</div>
+
+    <div class="b2-name r" data-field="name" style="transition-delay:0.15s">Arya</div>
+
+    <span class="b2-cake r" style="transition-delay:0.2s" role="img" aria-label="birthday cake">🎂</span>
+
+    <div class="b2-age-ring r" style="transition-delay:0.25s">
+      <span data-field="age">5</span>
+    </div>
+
+    <div class="b2-rainbow-divider r" style="transition-delay:0.3s"></div>
+
+    <div class="b2-scroll-hint">Scroll for details ↓</div>
+  </section>
+
+  <!-- ═══════════════════════════════ DETAILS ═══════════════════════════ -->
+  <section class="b2-details">
+    <div class="b2-details-inner">
+
+      <div class="t-center r" style="margin-bottom:2.5rem;">
+        <div class="sec-tag" style="color:var(--kids-yellow);">🎊 Party Details 🎊</div>
+        <h2 class="sec-title" style="color:#fff;">Get Ready to Party!</h2>
+      </div>
+
+      <div class="b2-party-card r" style="transition-delay:0.1s">
+
+        <div class="b2-detail-row">
+          <div class="b2-detail-emoji">📅</div>
+          <div class="b2-detail-content">
+            <div class="b2-detail-label">Date</div>
+            <div class="b2-detail-value" data-field="date">April 12, 2026</div>
+          </div>
+        </div>
+
+        <div class="b2-detail-row">
+          <div class="b2-detail-emoji">⏰</div>
+          <div class="b2-detail-content">
+            <div class="b2-detail-label">Time</div>
+            <div class="b2-detail-value" data-field="time">3:00 PM</div>
+          </div>
+        </div>
+
+        <div class="b2-detail-row">
+          <div class="b2-detail-emoji">📍</div>
+          <div class="b2-detail-content">
+            <div class="b2-detail-label">Venue</div>
+            <div class="b2-detail-value" data-field="venue">Rainbow Garden, Banjara Hills</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MESSAGE ═══════════════════════════ -->
+  <section class="b2-message">
+    <div class="r">
+      <div class="sec-tag" style="color:var(--kids-yellow);margin-bottom:1rem;">🌈 A Special Note 🌈</div>
+      <div class="b2-message-emojis">🎈 🎁 🎠 🍭 🎈</div>
+      <p class="b2-message-text" data-field="message">Let's party! Games, cake and lots of fun!</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="b2-footer">
+    <div class="b2-hosted-label r">Hosted By</div>
+    <div class="b2-hosted-name r" data-field="host" style="transition-delay:0.1s">Priya &amp; Ravi</div>
+    <div class="b2-footer-divider r" style="transition-delay:0.15s"></div>
+    <a href="../../index.html" class="b2-footer-link r" style="transition-delay:0.2s">invite.studio</a>
+  </footer>
+
+  <script src="../../js/payment.js"></script>
+  <script src="../../js/customize.js"></script>
+  <script>
+    // ── Twinkling stars ─────────────────────────────────────────────────
+    (function makeStars() {
+      const container = document.getElementById('b2-stars');
+      const colors = ['#ffd700','#e84090','#2090e8','#40e080','#fff'];
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement('div');
+        s.className = 'b2-star-dot';
+        const size = 2 + Math.random() * 4;
+        s.style.cssText = [
+          `width:${size}px`,
+          `height:${size}px`,
+          `top:${Math.random() * 100}%`,
+          `left:${Math.random() * 100}%`,
+          `background:${colors[Math.floor(Math.random() * colors.length)]}`,
+          `animation-duration:${1.5 + Math.random() * 3}s`,
+          `animation-delay:${Math.random() * 3}s`
+        ].join(';');
+        container.appendChild(s);
+      }
+    })();
+
+    // ── Confetti / balloons ─────────────────────────────────────────────
+    (function spawnConfetti() {
+      const shapes  = ['●', '■', '▲', '★', '♦', '🎈', '🎊'];
+      const colors  = ['#e84090','#ffd700','#40e080','#2090e8','#7b20c0','#ff6b6b'];
+      const hero    = document.querySelector('.b2-hero');
+      for (let i = 0; i < 28; i++) {
+        const el = document.createElement('div');
+        el.className = 'b2-float';
+        const isEmoji = Math.random() > 0.6;
+        el.textContent = isEmoji ? shapes[Math.floor(Math.random() * shapes.length)] : '';
+        const size = isEmoji ? (1 + Math.random()) + 'rem' : (6 + Math.random() * 10) + 'px';
+        el.style.cssText = [
+          `left:${Math.random() * 100}%`,
+          `font-size:${size}`,
+          `color:${colors[Math.floor(Math.random() * colors.length)]}`,
+          `animation-duration:${10 + Math.random() * 15}s`,
+          `animation-delay:${Math.random() * 10}s`,
+          isEmoji ? '' : `width:${size};height:${size};background:${colors[Math.floor(Math.random() * colors.length)]};border-radius:${Math.random() > 0.5 ? '50%' : '2px'}`
+        ].join(';');
+        hero.appendChild(el);
+      }
+    })();
+
+    // ── initPreview ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      InviteCustomize.initPreview({
+        name:    "Arya",
+        age:     "5",
+        date:    "April 12, 2026",
+        time:    "3:00 PM",
+        venue:   "Rainbow Garden, Banjara Hills",
+        message: "Let's party! Games, cake and lots of fun!",
+        host:    "Priya & Ravi"
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -25,6 +25,19 @@
     return new URLSearchParams(window.location.search).get('id');
   }
 
+  // ── URL-encoded data helpers ───────────────────────────
+  function encodeData(data) {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  }
+  function decodeData(str) {
+    try { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
+    catch { return null; }
+  }
+  function getUrlData() {
+    const d = new URLSearchParams(window.location.search).get('d');
+    return d ? decodeData(d) : null;
+  }
+
   // ── Generate shareable ID ────────────────────────────────
   function generateId() {
     return Date.now().toString(36).toUpperCase() +
@@ -108,14 +121,16 @@
         });
       }
 
-      // Form submit → save & generate URL
+      // Form submit → save & generate shareable URL with data embedded
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const id   = existingId || generateId();
         const data = collectForm(form);
         saveInvite(id, { ...data, _templateId: templateId });
 
-        const url = `${previewUrl}?id=${id}`;
+        // Build shareable URL with data encoded in ?d= param
+        const encoded = encodeData(data);
+        const url = `${previewUrl}?d=${encoded}`;
         if (shareEl) {
           shareEl.value = url;
           shareEl.closest('.share-row')?.classList.remove('hidden');
@@ -145,17 +160,20 @@
         const data = collectForm(form);
         saveInvite(id, { ...data, _templateId: templateId });
         history.replaceState(null, '', `?id=${id}`);
-        window.open(`${previewUrl}?id=${id}`, '_blank');
+        const encoded = encodeData(data);
+        window.open(`${previewUrl}?d=${encoded}`, '_blank');
       });
     },
 
     /**
-     * Initialize a preview page — loads data from URL ?id= param.
+     * Initialize a preview page — loads data from URL ?d= (embedded)
+     * or ?id= (localStorage), falling back to defaults.
      * @param {object} defaults - default demo data to show when no id present
      */
     initPreview(defaults) {
+      const urlData = getUrlData();
       const id = getUrlId();
-      const data = id ? (getInvite(id) || defaults) : defaults;
+      const data = urlData || (id ? (getInvite(id) || defaults) : defaults);
       window._inviteData = data;
 
       // Replace all [data-field="key"] elements

@@ -75,9 +75,9 @@
      * @param {string} marketUrl   - URL to return to marketplace (default: /)
      */
     init(templateId, previewUrl, marketUrl = '/') {
-      // Guard: redirect to marketplace if not purchased
+      // Guard: redirect to preview page if not purchased so user can pay
       if (!isPurchased(templateId)) {
-        window.location.href = marketUrl + '?unpaid=' + templateId;
+        window.location.href = previewUrl;
         return;
       }
 

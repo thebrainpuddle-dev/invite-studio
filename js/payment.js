@@ -149,7 +149,8 @@
       const templateId   = btn.dataset.buy;
       const templateName = btn.dataset.name || templateId;
       const customizeUrl = btn.dataset.customize || '#';
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         window.InvitePayment.showModal(templateId, templateName, customizeUrl);
       });
     });

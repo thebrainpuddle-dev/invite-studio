@@ -101,6 +101,62 @@
     },
 
     /**
+     * Build a clean shareable invite URL for the /i/ viewer.
+     * Format: /i/<human-slug>--<templateId>#<base64data>
+     * @param {string} templateId - e.g. "wedding-1"
+     * @param {object} [data]     - data to encode (defaults to collecting from form)
+     */
+    generateInviteUrl(templateId, data) {
+      if (!data) {
+        // Collect from both data-preview and name inputs, with formatting
+        data = {};
+        document.querySelectorAll('[data-preview]').forEach(el => {
+          const key = el.dataset.preview;
+          let val = (el.value || '').trim();
+          if (el.type === 'date' && val) {
+            const d = new Date(val + 'T12:00:00');
+            if (!isNaN(d)) val = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+          } else if (el.type === 'time' && val) {
+            const [h, m] = val.split(':').map(Number);
+            if (!isNaN(h)) { const ap = h >= 12 ? 'PM' : 'AM'; val = `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ap}`; }
+          }
+          if (val) data[key] = val;
+        });
+        const form = document.getElementById('customize-form');
+        if (form) {
+          form.querySelectorAll('[name]').forEach(el => {
+            const key = el.name;
+            if (data[key] !== undefined) return;
+            let val = (el.value || '').trim();
+            if (el.type === 'date' && val) {
+              const d = new Date(val + 'T12:00:00');
+              if (!isNaN(d)) val = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+            } else if (el.type === 'time' && val) {
+              const [h, m] = val.split(':').map(Number);
+              if (!isNaN(h)) { const ap = h >= 12 ? 'PM' : 'AM'; val = `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ap}`; }
+            }
+            if (val) data[key] = val;
+          });
+        }
+      }
+
+      // Build a human-readable slug from names
+      const nameFields = ['groom','bride','groomName','brideName','name1','name2','name','family'];
+      const parts = [];
+      nameFields.forEach(k => { if (data[k]) parts.push(data[k].split(' ')[0].toLowerCase()); });
+      const slug = (parts.length ? parts.slice(0, 2).join('-') : 'invite') + '--' + templateId;
+
+      const encoded = encodeData(data);
+      const origin = window.location.origin;
+      const isNetlify = window.location.hostname.includes('netlify.app') || window.location.hostname.includes('invite.studio');
+      // Netlify: /i/<slug>#<data>  |  Local/other: /i/index.html#<templateId>.<data>
+      if (isNetlify) {
+        return origin + '/i/' + encodeURIComponent(slug) + '#' + encoded;
+      }
+      return origin + '/i/index.html#' + templateId + '.' + encoded;
+    },
+
+    /**
      * Initialize a customize page.
      * @param {string} templateId  - e.g. "birthday-1"
      * @param {string} previewUrl  - base URL of the preview page

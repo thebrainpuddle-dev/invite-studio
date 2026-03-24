@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're Invited!</title>
+  <meta name="description" content="You've received a beautiful invitation — open to view!" />
+  <meta property="og:title" content="You're Invited!" />
+  <meta property="og:description" content="Open to view your personalised invitation" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d0500;
+      color: #fdf6e3;
+    }
+
+    /* ── Loading screen ── */
+    #loader {
+      position: fixed; inset: 0; z-index: 100;
+      background: linear-gradient(160deg, #0d0500, #3d0a00 50%, #0d0500);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-icon {
+      font-size: 3rem;
+      animation: pulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.7; }
+      to   { transform: scale(1.15); opacity: 1; }
+    }
+
+    .loader-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #c9942a, #f5dfa0, #c9942a);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 2.5s linear infinite;
+      margin-top: 1rem;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .loader-sub {
+      font-size: 0.8rem;
+      color: rgba(245,223,160,0.5);
+      letter-spacing: 0.2em;
+      margin-top: 0.6rem;
+    }
+
+    /* ── Error state ── */
+    #error {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: #0d0500;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    #error.show { display: flex; }
+    #error h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.2rem; color: #c9942a;
+      margin-bottom: 0.8rem;
+    }
+    #error p { color: rgba(245,223,160,0.6); font-size: 0.9rem; line-height: 1.6; }
+    #error a {
+      display: inline-block; margin-top: 1.5rem;
+      padding: 0.6rem 2rem; border: 1px solid #c9942a;
+      color: #c9942a; text-decoration: none;
+      font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+    #error a:hover { background: #c9942a; color: #0d0500; }
+
+    /* ── Iframe ── */
+    #invite-frame {
+      width: 100%; height: 100%;
+      border: none; display: block;
+    }
+
+    /* ── Badge ── */
+    .badge {
+      position: fixed; bottom: 12px; right: 14px; z-index: 50;
+      background: rgba(13,5,0,0.85);
+      border: 1px solid rgba(201,148,42,0.3);
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      color: rgba(201,148,42,0.7);
+      text-decoration: none;
+      backdrop-filter: blur(6px);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .badge:hover { border-color: #c9942a; color: #c9942a; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loader">
+    <div class="loader-icon">✉️</div>
+    <div class="loader-title">You're Invited</div>
+    <div class="loader-sub">Opening your invitation...</div>
+  </div>
+
+  <!-- Error -->
+  <div id="error">
+    <h2>Invitation Not Found</h2>
+    <p>This link may be invalid or expired.<br>Please ask the sender for a new link.</p>
+    <a href="/">Browse Templates</a>
+  </div>
+
+  <!-- Template iframe -->
+  <iframe id="invite-frame"></iframe>
+
+  <!-- Branding badge -->
+  <a class="badge" href="/" target="_blank">invite.studio</a>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Template map ──
+  var TEMPLATES = {
+    'wedding-1':      '../templates/wedding/wedding-1.html',
+    'wedding-2':      '../templates/wedding/wedding-2.html',
+    'birthday-1':     '../templates/birthday/birthday-1.html',
+    'birthday-2':     '../templates/birthday/birthday-2.html',
+    'anniversary-1':  '../templates/anniversary/anniversary-1.html',
+    'anniversary-2':  '../templates/anniversary/anniversary-2.html',
+    'babyshower-1':   '../templates/babyshower/babyshower-1.html',
+    'babyshower-2':   '../templates/babyshower/babyshower-2.html',
+    'engagement-1':   '../templates/engagement/engagement-1.html',
+    'engagement-2':   '../templates/engagement/engagement-2.html',
+    'housewarming-1': '../templates/housewarming/housewarming-1.html',
+    'housewarming-2': '../templates/housewarming/housewarming-2.html'
+  };
+
+  // ── Decode helpers (mirrors customize.js) ──
+  function decodeData(str) {
+    try { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
+    catch (e) { return null; }
+  }
+
+  // ── Parse URL ──
+  // Supports two formats:
+  //   Netlify:  /i/<slug>--<templateId>#<base64data>   (with _redirects)
+  //   Portable: /i/index.html#<templateId>.<base64data> (works anywhere)
+  var path = window.location.pathname.replace(/^\/i\/?/, '').replace(/\/?(index\.html)?$/, '');
+  var hash = window.location.hash.slice(1);
+  var templateId, encodedData;
+
+  if (path && hash) {
+    // Netlify mode: template ID from path, data from hash
+    var sepIdx = path.lastIndexOf('--');
+    templateId = sepIdx !== -1 ? path.slice(sepIdx + 2) : path;
+    encodedData = hash;
+  } else if (hash && hash.indexOf('.') !== -1) {
+    // Portable mode: hash = templateId.base64data
+    var dotIdx = hash.indexOf('.');
+    templateId = hash.slice(0, dotIdx);
+    encodedData = hash.slice(dotIdx + 1);
+  } else {
+    showError();
+    return;
+  }
+
+  var templateUrl = TEMPLATES[templateId];
+  if (!templateUrl) {
+    showError();
+    return;
+  }
+
+  // Decode data
+  var data = decodeData(encodedData);
+  if (!data) {
+    showError();
+    return;
+  }
+
+  // ── Update page title with names ──
+  var names = data.groom && data.bride
+    ? data.groom + ' & ' + data.bride
+    : data.groomName && data.brideName
+    ? data.groomName + ' & ' + data.brideName
+    : data.name1 && data.name2
+    ? data.name1 + ' & ' + data.name2
+    : data.name || '';
+  if (names) {
+    document.title = names + ' — You\'re Invited!';
+  }
+
+  // ── Load template in iframe ──
+  var iframe = document.getElementById('invite-frame');
+  iframe.src = templateUrl + '?preview=true';
+
+  iframe.addEventListener('load', function () {
+    // Send data to template via postMessage
+    try {
+      iframe.contentWindow.postMessage({ type: 'preview-update', data: data }, '*');
+    } catch (e) { /* cross-origin guard */ }
+
+    // Hide loader after a short delay for rendering
+    setTimeout(function () {
+      document.getElementById('loader').classList.add('hidden');
+    }, 600);
+  });
+
+  // Fallback: hide loader after 4s even if iframe is slow
+  setTimeout(function () {
+    document.getElementById('loader').classList.add('hidden');
+  }, 4000);
+
+  function showError() {
+    document.getElementById('loader').classList.add('hidden');
+    document.getElementById('error').classList.add('show');
+  }
+})();
+</script>
+</body>
+</html>

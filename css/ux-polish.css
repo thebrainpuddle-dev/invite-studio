@@ -1,11 +1,10 @@
 /* ============================================================
    invite.studio — Global UX Polish
-   Applied to all pages via <link rel="stylesheet" href="...ux-polish.css">
    Emil Kowalski design principles: precise transitions, custom easing,
    hardware-accelerated transforms, reduced-motion support.
    ============================================================ */
 
-/* ── Global easing tokens ───────────────────────────────────── */
+/* ── Global easing tokens (defined in marketplace.css, repeated for standalone use) */
 :root {
   --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -14,14 +13,13 @@
 
 /* ── Page load fade-in ──────────────────────────────────────── */
 body {
-  animation: pageIn 0.45s var(--ease-out) both;
+  animation: pageIn 0.4s var(--ease-out) both;
 }
 @keyframes pageIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-/* Pages with splash/loading screens don't need body fade-in;
-   the transform on body also breaks position:fixed, so suppress it. */
+/* Pages with splash/loading screens suppress body fade-in */
 body:has(#loader, #loading-screen) {
   animation: none;
 }
@@ -32,7 +30,7 @@ html {
   scroll-padding-top: 70px;
 }
 
-/* ── Global transition upgrade — specific props, no "all" ───── */
+/* ── Global transition upgrade — specific props, never "all" ── */
 a, button,
 [class*="card"], [class*="btn"],
 [class*="step"], [class*="feature"],
@@ -44,7 +42,7 @@ a, button,
               background-color 180ms ease-out !important;
 }
 
-/* Pressable feedback — every interactive element should feel alive */
+/* ── Pressable feedback (Emil: every interactive feels alive) ── */
 button:active,
 [class*="btn"]:active,
 [role="button"]:active,
@@ -54,13 +52,12 @@ input[type="button"]:active {
 }
 
 /* ── Override transition:all on interactive elements globally ── */
-/* Prevents layout-thrashing from animating inadvertent properties */
 button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"],
 .hamburger span {
-  transition: transform 180ms var(--ease-out),
+  transition: transform 160ms var(--ease-out),
               background-color 160ms ease-out,
               border-color 160ms ease-out,
               color 160ms ease-out,
@@ -79,7 +76,7 @@ img {
 
 /* Skeleton shimmer while images load */
 img:not([src]), img[src=""] {
-  background: linear-gradient(90deg, #2a1a0a 25%, #3a2510 50%, #2a1a0a 75%);
+  background: linear-gradient(90deg, #f0ebe4 25%, #e8e0d6 50%, #f0ebe4 75%);
   background-size: 200% 100%;
   animation: shimmerLoad 1.4s ease-in-out infinite;
   min-height: 200px;
@@ -97,13 +94,13 @@ img:not([src]), img[src=""] {
   .menu-category:hover,
   .step-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.12), 0 4px 16px rgba(201,148,42,0.1) !important;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08), 0 4px 12px rgba(201,148,42,0.08) !important;
   }
 }
 
 /* ── Focus styles for accessibility ────────────────────────── */
 :focus-visible {
-  outline: 2px solid #c9942a;
+  outline: 2px solid var(--gold, #c9942a);
   outline-offset: 3px;
 }
 
@@ -113,17 +110,17 @@ img:not([src]), img[src=""] {
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* ── Touch targets ──────────────────────────────────────────── */
+/* ── Touch targets (44px min) ──────────────────────────────── */
 button, a, [role="button"], input[type="submit"] {
   min-height: 44px;
   min-width: 44px;
 }
 
-/* ── Real photo gallery cards ───────────────────────────────── */
+/* ── Photo gallery cards ───────────────────────────────────── */
 .photo-card {
   position: relative;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: var(--card-radius, 12px);
   cursor: pointer;
 }
 .photo-card img {
@@ -131,19 +128,17 @@ button, a, [role="button"], input[type="submit"] {
   height: 100%;
   object-fit: cover;
   transition: transform 400ms var(--ease-out);
-  filter: brightness(0.9) saturate(1.1);
 }
 @media (hover: hover) and (pointer: fine) {
   .photo-card:hover img {
-    transform: scale(1.05);
-    filter: brightness(1) saturate(1.2);
+    transform: scale(1.04);
   }
   .photo-card:hover .photo-card-overlay { opacity: 1; }
 }
 .photo-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(10,4,0,0.8));
+  background: linear-gradient(180deg, transparent 40%, rgba(10,4,0,0.75));
   opacity: 0;
   transition: opacity 200ms ease-out;
   display: flex;
@@ -151,19 +146,16 @@ button, a, [role="button"], input[type="submit"] {
   padding: 1rem;
 }
 .photo-card-caption {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-script, 'Great Vibes', cursive);
   font-size: 1.1rem;
   color: #f5dfa0;
 }
 
-/* ── Scroll reveal — upgrade transition easing globally ──────── */
-/* Forces better easing on all pages using ux-polish.css        */
-/* Templates may use .r.visible or .reveal.visible              */
+/* ── Scroll reveal — Emil: 0.55s ease-out ────────────────────── */
 .r,
 .reveal {
   transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out) !important;
 }
-/* For standalone birthday pages (srikar-birthday, birthday.html) */
 .r.v {
   opacity: 1;
   transform: translateY(0);
@@ -175,13 +167,9 @@ button, a, [role="button"], input[type="submit"] {
   inset: 0;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  opacity: 0.25;
+  opacity: 0.2;
   z-index: 0;
   transition: opacity 0.6s ease-out;
-}
-@media (max-width: 768px) {
-  .hero-img-layer { background-attachment: scroll; }
 }
 
 /* ── Will-change hints ──────────────────────────────────────── */
@@ -203,7 +191,6 @@ nav, .navbar, #navbar {
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
-  .hero-img-layer { background-attachment: scroll; }
   body { animation: none; }
 }
 
@@ -218,23 +205,18 @@ nav, .navbar, #navbar {
   background: #25d366;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.5rem;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+  box-shadow: 0 4px 20px rgba(37,211,102,0.35);
   text-decoration: none;
   transition: transform 160ms var(--ease-out), box-shadow 160ms ease-out;
-  animation: waPulse 3s ease-in-out infinite;
 }
 @media (hover: hover) and (pointer: fine) {
   #wa-chat-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 28px rgba(37,211,102,0.55);
+    transform: scale(1.08);
+    box-shadow: 0 8px 28px rgba(37,211,102,0.45);
   }
 }
 #wa-chat-btn:active {
   transform: scale(0.93) !important;
-}
-@keyframes waPulse {
-  0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
-  50%      { box-shadow: 0 4px 30px rgba(37,211,102,0.65), 0 0 0 7px rgba(37,211,102,0.07); }
 }
 #wa-chat-tooltip {
   position: fixed;
@@ -249,7 +231,7 @@ nav, .navbar, #navbar {
   opacity: 0;
   pointer-events: none;
   transition: opacity 150ms ease-out;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body, 'Inter', sans-serif);
   letter-spacing: 0.03em;
 }
 #wa-chat-btn:hover + #wa-chat-tooltip { opacity: 1; }

@@ -1,5 +1,5 @@
 // invite.studio — Global UX Polish Script
-// Injected into all pages for progressive enhancements
+// Emil Kowalski principles: stagger reveals, smooth navbar, precise timing
 // ============================================================
 (function () {
   'use strict';
@@ -7,7 +7,7 @@
   // ── WhatsApp floating button ─────────────────────────────────
   function injectWhatsApp() {
     if (document.getElementById('wa-chat-btn')) return;
-    const phone = '919999999999'; // placeholder
+    const phone = '919999999999';
     const msg   = encodeURIComponent('Hi! I have a question about invite.studio');
     const link  = document.createElement('a');
     link.id     = 'wa-chat-btn';
@@ -37,25 +37,21 @@
     });
   }
 
-  // ── Lazy-load images (native + fallback) ─────────────────────
+  // ── Lazy-load images (native + fade-in) ─────────────────────
   function initLazyImages() {
-    // Add loading="lazy" to all images without it
     document.querySelectorAll('img:not([loading])').forEach((img, i) => {
-      if (i > 1) img.setAttribute('loading', 'lazy'); // skip first 2 (above fold)
+      if (i > 1) img.setAttribute('loading', 'lazy');
     });
 
-    // Fade in images on load
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
       img.style.opacity = '0';
-      img.style.transition = 'opacity 0.4s ease';
+      img.style.transition = 'opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
       if (img.complete) {
         img.style.opacity = '1';
       } else {
         img.addEventListener('load', () => { img.style.opacity = '1'; });
         img.addEventListener('error', () => {
-          // On error, replace with gradient placeholder
           img.style.opacity = '0.4';
-          img.style.filter = 'brightness(0.5)';
         });
       }
     });
@@ -63,7 +59,6 @@
 
   // ── Animated counter for stat numbers ───────────────────────
   function animateCounter(el, target, duration) {
-    const start = 0;
     const startTime = performance.now();
     const suffix = el.dataset.suffix || '';
     const prefix = el.dataset.prefix || '';
@@ -71,8 +66,9 @@
     function update(now) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-      const current = Math.round(start + (target - start) * eased);
+      // Emil: ease-out cubic for natural deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
       el.textContent = prefix + current.toLocaleString() + suffix;
       if (progress < 1) requestAnimationFrame(update);
     }
@@ -85,7 +81,7 @@
         if (e.isIntersecting) {
           const el = e.target;
           const val = parseInt(el.dataset.count, 10);
-          if (!isNaN(val)) animateCounter(el, val, 1800);
+          if (!isNaN(val)) animateCounter(el, val, 1600);
           obs.unobserve(el);
         }
       });
@@ -93,45 +89,54 @@
     document.querySelectorAll('[data-count]').forEach(el => obs.observe(el));
   }
 
-  // ── Scroll reveal with stagger ───────────────────────────────
+  // ── Scroll reveal with batch stagger (Emil pattern) ─────────
   function initScrollReveal() {
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('v');
-          obs.unobserve(e.target);
-        }
+      // Batch: stagger items that become visible in the same frame
+      const visibles = entries.filter(e => e.isIntersecting && !e.target.classList.contains('v'));
+      visibles.forEach((e, batchIdx) => {
+        const delay = Math.min(batchIdx * 60, 280);
+        e.target.style.transitionDelay = `${delay}ms`;
+        e.target.classList.add('v');
+        // Clean up delay after animation completes
+        setTimeout(() => { e.target.style.transitionDelay = ''; }, 600 + delay);
+        obs.unobserve(e.target);
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+    document.querySelectorAll('.r').forEach(el => {
+      // Skip hero content items if they're revealed manually by splash screen
+      if (!el.closest('.hero-content') || !document.getElementById('loading-screen')) {
+        obs.observe(el);
+      }
+    });
   }
 
-  // ── Navbar hide/show on scroll ──────────────────────────────
+  // ── Navbar hide/show on scroll (Emil: smooth, not jarring) ──
   function initNavScroll() {
     const nav = document.querySelector('nav, .navbar, #navbar');
     if (!nav) return;
     let lastY = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y > lastY && y > 120) {
-        nav.style.transform = 'translateY(-100%)';
-      } else {
-        nav.style.transform = 'translateY(0)';
-      }
-      lastY = y;
-    }, { passive: true });
-  }
+    let ticking = false;
 
-  // ── Hero parallax (CSS background-position) ─────────────────
-  function initHeroParallax() {
-    const heroImgLayers = document.querySelectorAll('.hero-img-layer');
-    if (!heroImgLayers.length) return;
-    // Only on desktop
-    if (window.innerWidth < 768) return;
     window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      heroImgLayers.forEach(layer => {
-        layer.style.transform = `translateY(${y * 0.3}px)`;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y > lastY && y > 150) {
+          nav.style.transform = 'translateY(-100%)';
+        } else {
+          nav.style.transform = 'translateY(0)';
+        }
+        // Add shadow when scrolled
+        if (y > 10) {
+          nav.style.boxShadow = '0 1px 12px rgba(0,0,0,0.06)';
+        } else {
+          nav.style.boxShadow = 'none';
+        }
+        lastY = y;
+        ticking = false;
       });
     }, { passive: true });
   }
@@ -153,7 +158,7 @@
     initLazyImages();
     initCounters();
     initScrollReveal();
-    initHeroParallax();
+    initNavScroll();
     initImgFallbacks();
   });
 

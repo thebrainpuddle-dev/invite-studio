@@ -39,9 +39,49 @@
       background: var(--crimson-deep);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      cursor: pointer;
+      overflow: hidden;
+      transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1), transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    #loading-screen.hidden { opacity: 0; visibility: hidden; }
+    #loading-screen.hidden { opacity: 0; transform: scale(1.06); pointer-events: none; }
+
+    /* Radial glow behind diya */
+    #loading-screen::before {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,160,30,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      animation: divaGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes divaGlow {
+      from { transform: scale(0.9); opacity: 0.6; }
+      to { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Corner border ornaments on loading screen */
+    #loading-screen::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(201,148,42,0.2);
+      pointer-events: none;
+    }
+
+    .splash-tap-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(201,148,42,0.6);
+      font-family: 'Poppins', sans-serif;
+      margin-top: 1.5rem;
+      animation: tapGlowW 2s ease-in-out infinite;
+    }
+    @keyframes tapGlowW {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
 
     .lamp-svg { width: 80px; height: 140px; }
 
@@ -285,7 +325,7 @@
     .divider-icon { color: var(--gold); font-size: 1rem; }
 
     /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s cubic-bezier(0.23, 1, 0.32, 1), transform 0.55s cubic-bezier(0.23, 1, 0.32, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── INVITATION CARD ── */
@@ -786,6 +826,7 @@
     <circle cx="50" cy="101" r="2" fill="#c9942a"/>
   </svg>
   <div class="loading-text">Subhamasthu...</div>
+  <div class="splash-tap-label">Tap to open</div>
 </div>
 
 <!-- BACK NAV -->
@@ -1406,12 +1447,26 @@
     document.getElementById('mobile-menu').classList.toggle('open');
   });
 
-  /* ── Loading Screen ── */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('loading-screen').classList.add('hidden');
-    }, 2000);
-  });
+  /* ── Loading Screen — tap to open ── */
+  (function() {
+    const screen = document.getElementById('loading-screen');
+    function openInvite() {
+      screen.removeEventListener('click', openInvite);
+      screen.removeEventListener('touchstart', openInvite);
+      screen.classList.add('hidden');
+      // Stagger reveal hero elements after splash exits
+      const heroEls = document.querySelectorAll('.reveal');
+      heroEls.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.transitionDelay = `${i * 100}ms`;
+          el.classList.add('visible');
+          setTimeout(() => { el.style.transitionDelay = ''; }, 700 + i * 100);
+        }, 500);
+      });
+    }
+    screen.addEventListener('click', openInvite);
+    screen.addEventListener('touchstart', openInvite);
+  })();
 
   /* ── Floating Petals ── */
   (function createPetals() {

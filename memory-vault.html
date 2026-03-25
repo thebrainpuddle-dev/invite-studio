@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="css/marketplace.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* ── Easing tokens ───────────────────────────────────────── */
+    :root {
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
     /* ── Base overrides ───────────────────────────────────────── */
     body {
       font-family: 'Poppins', sans-serif;
@@ -62,10 +68,11 @@
       padding: 0.35rem 0.65rem;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), border-color 160ms ease-out, color 160ms ease-out, transform 160ms var(--ease-out);
       white-space: nowrap;
       font-family: 'Poppins', sans-serif;
     }
+    .mv-view-btn:active { transform: scale(0.96); }
     .mv-view-btn:hover, .mv-view-btn.active {
       background: #c9942a;
       border-color: #c9942a;
@@ -80,12 +87,13 @@
       padding: 0.5rem 1rem;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 160ms ease-out;
       white-space: nowrap;
       font-family: 'Poppins', sans-serif;
       flex-shrink: 0;
     }
-    .mv-upload-btn:hover { background: #e8b84b; transform: translateY(-1px); }
+    .mv-upload-btn:hover { background: #e8b84b; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(201,148,42,0.3); }
+    .mv-upload-btn:active { transform: scale(0.97) !important; box-shadow: none; }
     .mv-share-btn {
       background: transparent;
       border: 1px solid rgba(201,148,42,0.35);
@@ -94,11 +102,12 @@
       padding: 0.4rem 0.7rem;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
       font-family: 'Poppins', sans-serif;
       flex-shrink: 0;
     }
     .mv-share-btn:hover { background: rgba(201,148,42,0.1); }
+    .mv-share-btn:active { transform: scale(0.96); }
     .mv-back-link {
       color: rgba(253,246,227,0.5);
       font-size: 0.7rem;
@@ -117,11 +126,12 @@
       padding: 0.4rem 0.7rem;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
       font-family: 'Poppins', sans-serif;
       flex-shrink: 0;
     }
     .mv-dl-all-btn:hover { background: rgba(201,148,42,0.1); }
+    .mv-dl-all-btn:active { transform: scale(0.96); }
 
     /* ── QR Panel ─────────────────────────────────────────────── */
     .mv-qr-panel {
@@ -166,7 +176,7 @@
       padding: 1rem;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 220ms ease-out;
     }
     .mv-upload-overlay.open { opacity: 1; pointer-events: all; }
     .mv-upload-panel {
@@ -177,10 +187,10 @@
       width: 100%;
       max-width: 520px;
       margin: auto;
-      transform: translateY(-30px);
-      transition: transform 0.3s;
+      transform: translateY(-20px) scale(0.98);
+      transition: transform 320ms var(--ease-out);
     }
-    .mv-upload-overlay.open .mv-upload-panel { transform: translateY(0); }
+    .mv-upload-overlay.open .mv-upload-panel { transform: translateY(0) scale(1); }
     .mv-upload-panel h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
@@ -193,11 +203,11 @@
       padding: 2.5rem 1rem;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: border-color 180ms ease-out, background-color 180ms ease-out, transform 180ms var(--ease-out);
       background: rgba(201,148,42,0.03);
       margin-bottom: 1rem;
     }
-    .mv-drop-zone:hover { border-color: #c9942a; background: rgba(201,148,42,0.07); }
+    .mv-drop-zone:hover { border-color: #c9942a; background: rgba(201,148,42,0.07); transform: scale(1.005); }
     .mv-drop-zone svg { width: 52px; height: 52px; color: #c9942a; margin: 0 auto 0.75rem; display: block; }
     .mv-drop-zone p { color: rgba(253,246,227,0.7); font-size: 0.85rem; }
     .mv-drop-zone p strong { color: #c9942a; }
@@ -250,9 +260,10 @@
       padding: 0.3rem 0.65rem;
       border-radius: 20px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 140ms var(--ease-out), border-color 140ms ease-out, color 140ms ease-out, transform 140ms var(--ease-out);
       font-family: 'Poppins', sans-serif;
     }
+    .mv-cat-pill:active { transform: scale(0.95); }
     .mv-cat-pill.active { background: #c9942a; border-color: #c9942a; color: #1a0808; font-weight: 600; }
     .mv-upload-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
     .mv-submit-btn {
@@ -266,9 +277,10 @@
       padding: 0.7rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 160ms ease-out;
     }
-    .mv-submit-btn:hover { background: #e8b84b; }
+    .mv-submit-btn:hover { background: #e8b84b; box-shadow: 0 4px 14px rgba(201,148,42,0.35); }
+    .mv-submit-btn:active { transform: scale(0.97); box-shadow: none; }
     .mv-cancel-btn {
       background: transparent;
       border: 1px solid rgba(201,148,42,0.3);
@@ -278,9 +290,10 @@
       padding: 0.7rem 1.2rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
     }
     .mv-cancel-btn:hover { background: rgba(255,255,255,0.05); }
+    .mv-cancel-btn:active { transform: scale(0.97); }
 
     /* ── Most Loved ───────────────────────────────────────────── */
     .mv-most-loved {
@@ -332,11 +345,12 @@
       padding: 0.3rem 0.75rem;
       border-radius: 20px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 140ms var(--ease-out), border-color 140ms ease-out, color 140ms ease-out, transform 140ms var(--ease-out);
       white-space: nowrap;
       flex-shrink: 0;
       font-family: 'Poppins', sans-serif;
     }
+    .mv-filter-pill:active { transform: scale(0.95); }
     .mv-filter-pill:hover { border-color: #c9942a; color: #c9942a; }
     .mv-filter-pill.active { background: #c9942a; border-color: #c9942a; color: #1a0808; font-weight: 600; }
 
@@ -369,9 +383,11 @@
       overflow: hidden;
       background: #2a0e0e;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
     }
-    .mv-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    @media (hover: hover) and (pointer: fine) {
+      .mv-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 4px 12px rgba(201,148,42,0.08); }
+    }
     .mv-grid .mv-card img {
       width: 100%;
       height: 260px;
@@ -388,7 +404,7 @@
       inset: 0;
       background: linear-gradient(to top, rgba(26,8,8,0.92) 0%, transparent 55%);
       opacity: 0;
-      transition: opacity 0.25s;
+      transition: opacity 200ms ease-out;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -407,12 +423,13 @@
       padding: 0.25rem 0.55rem;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 140ms var(--ease-out), border-color 140ms ease-out, transform 120ms var(--ease-out);
       font-family: 'Poppins', sans-serif;
       display: flex;
       align-items: center;
       gap: 0.3rem;
     }
+    .mv-like-btn:active, .mv-dl-btn:active { transform: scale(0.93); }
     .mv-like-btn:hover { background: rgba(220,40,40,0.5); border-color: rgba(220,40,40,0.6); }
     .mv-like-btn.liked { background: rgba(220,40,40,0.6); border-color: #e03040; color: #fff; }
     .mv-like-btn.liked .mv-heart { transform: scale(1.3); }
@@ -469,11 +486,12 @@
       padding: 0.75rem 2rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 160ms ease-out;
       display: inline-block;
       margin-bottom: 2.5rem;
     }
-    .mv-empty-upload-btn:hover { background: #e8b84b; }
+    .mv-empty-upload-btn:hover { background: #e8b84b; box-shadow: 0 6px 20px rgba(201,148,42,0.4); transform: translateY(-2px); }
+    .mv-empty-upload-btn:active { transform: scale(0.97) !important; box-shadow: none; }
     .mv-how-it-works {
       display: flex;
       justify-content: center;
@@ -564,9 +582,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), border-color 160ms ease-out, transform 160ms var(--ease-out);
     }
     .mv-ss-btn:hover { background: rgba(201,148,42,0.4); border-color: #c9942a; }
+    .mv-ss-btn:active { transform: scale(0.9); }
     .mv-ss-close {
       position: absolute;
       top: 1rem;
@@ -603,8 +622,9 @@
       border-radius: 8px;
       cursor: pointer;
       font-family: 'Poppins', sans-serif;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
     }
+    .mv-ss-like-btn:active { transform: scale(0.93); }
     .mv-ss-like-btn.liked { background: rgba(220,40,40,0.6); }
 
     /* ── Photo Book ───────────────────────────────────────────── */
@@ -698,9 +718,10 @@
       font-family: 'Poppins', sans-serif;
       font-size: 0.82rem;
       font-weight: 500;
-      transition: all 0.2s;
+      transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
     }
     .mv-pb-nav-btn:hover { background: rgba(201,148,42,0.3); }
+    .mv-pb-nav-btn:active { transform: scale(0.96); }
     .mv-pb-nav-btn:disabled { opacity: 0.35; cursor: default; }
     .mv-pb-page-num { color: rgba(253,246,227,0.5); font-size: 0.78rem; }
 
@@ -718,11 +739,11 @@
       border-radius: 10px;
       z-index: 9999;
       opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.25s, transform 0.25s;
+      transform: translateY(10px) scale(0.97);
+      transition: opacity 200ms ease-out, transform 250ms var(--ease-out);
       box-shadow: 0 4px 16px rgba(0,0,0,0.5);
     }
-    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.show { opacity: 1; transform: translateY(0) scale(1); }
 
     /* ── Footer note ─────────────────────────────────────────── */
     .mv-footer {

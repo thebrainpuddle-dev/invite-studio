@@ -104,9 +104,30 @@
       align-items: center;
       justify-content: center;
       gap: 2rem;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      cursor: pointer;
+      overflow: hidden;
+      transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1), transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    #loading-screen.hidden { opacity: 0; visibility: hidden; }
+    #loading-screen.hidden { opacity: 0; transform: scale(1.06); pointer-events: none; }
+    #loading-screen::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255,140,0,0.15);
+      pointer-events: none;
+    }
+    .splash-tap-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(255,140,0,0.55);
+      font-family: 'Poppins', sans-serif;
+      animation: tapGlowB2 2s ease-in-out infinite;
+    }
+    @keyframes tapGlowB2 {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; }
+    }
     .loading-cake {
       animation: spinCake 1.5s linear infinite;
     }
@@ -427,12 +448,12 @@
     /* Scroll reveal */
     .r {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(20px);
+      transition: opacity 0.55s cubic-bezier(0.23, 1, 0.32, 1), transform 0.55s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .r.from-left { transform: translateX(-40px); }
-    .r.from-right { transform: translateX(40px); }
-    .r.from-scale { transform: scale(0.85); }
+    .r.from-left { transform: translateX(-30px); }
+    .r.from-right { transform: translateX(30px); }
+    .r.from-scale { transform: scale(0.92); }
     .r.visible { opacity: 1; transform: translate(0) scale(1); }
 
     /* ── Party Details Section ── */
@@ -954,6 +975,7 @@
         <span>.</span><span>.</span><span>.</span>
       </span>
     </div>
+    <div class="splash-tap-label">Tap to open</div>
   </div>
 
   <!-- Sticky Navbar -->
@@ -1242,13 +1264,17 @@
   // ── Utilities ──
   function pad(n) { return String(n).padStart(2, '0'); }
 
-  // ── Loading Screen ──
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const ls = document.getElementById('loading-screen');
-      if (ls) ls.classList.add('hidden');
-    }, 1500);
-  });
+  // ── Loading Screen — tap to open ──
+  (function() {
+    const ls = document.getElementById('loading-screen');
+    function openInvite() {
+      ls.removeEventListener('click', openInvite);
+      ls.removeEventListener('touchstart', openInvite);
+      ls.classList.add('hidden');
+    }
+    ls.addEventListener('click', openInvite);
+    ls.addEventListener('touchstart', openInvite);
+  })();
 
   // ── Hamburger / Mobile Menu ──
   const hamburger = document.getElementById('hamburger');

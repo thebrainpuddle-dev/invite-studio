@@ -42,9 +42,31 @@
       background: var(--navy);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      cursor: pointer;
+      overflow: hidden;
+      transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1), transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    #loading-screen.hidden { opacity: 0; visibility: hidden; }
+    #loading-screen.hidden { opacity: 0; transform: scale(1.06); pointer-events: none; }
+    #loading-screen::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255,160,30,0.15);
+      pointer-events: none;
+    }
+    .splash-tap-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: rgba(255,160,30,0.55);
+      font-family: 'Poppins', sans-serif;
+      margin-top: 1.5rem;
+      animation: tapGlowW2 2s ease-in-out infinite;
+    }
+    @keyframes tapGlowW2 {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; }
+    }
 
     .diya-svg { width: 90px; height: 100px; }
 
@@ -300,7 +322,7 @@
     .divider-icon { color: var(--marigold); font-size: 1rem; }
 
     /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s cubic-bezier(0.23, 1, 0.32, 1), transform 0.55s cubic-bezier(0.23, 1, 0.32, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── INVITATION CARD ── */
@@ -776,6 +798,7 @@
     <rect x="26" y="80" width="38" height="6" fill="#a05010" rx="2"/>
   </svg>
   <div class="loading-text">Loading...</div>
+  <div class="splash-tap-label">Tap to open</div>
 </div>
 
 <!-- BACK NAV -->
@@ -1422,11 +1445,25 @@
     }
   })();
 
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('loading-screen').classList.add('hidden');
-    }, 2000);
-  });
+  /* ── Loading Screen — tap to open ── */
+  (function() {
+    const screen = document.getElementById('loading-screen');
+    function openInvite() {
+      screen.removeEventListener('click', openInvite);
+      screen.removeEventListener('touchstart', openInvite);
+      screen.classList.add('hidden');
+      const heroEls = document.querySelectorAll('.reveal');
+      heroEls.forEach((el, i) => {
+        setTimeout(() => {
+          el.style.transitionDelay = `${i * 80}ms`;
+          el.classList.add('visible');
+          setTimeout(() => { el.style.transitionDelay = ''; }, 600 + i * 80);
+        }, 500);
+      });
+    }
+    screen.addEventListener('click', openInvite);
+    screen.addEventListener('touchstart', openInvite);
+  })();
 
   /* ── Floating marigolds & diya in hero ── */
   (function createFloats() {

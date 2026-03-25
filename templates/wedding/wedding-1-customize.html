@@ -187,6 +187,7 @@
 
   <!-- Page header -->
   <div class="page-header">
+    <a href="../../index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;color:rgba(90,74,58,0.6);text-decoration:none;margin-bottom:10px;transition:color 0.2s;" onmouseover="this.style.color='#c9942a'" onmouseout="this.style.color='rgba(90,74,58,0.6)'">← Back to Templates</a>
     <h1>Customize Your Invitation</h1>
     <p>Fill in your details — the preview updates live as you type.</p>
   </div>
@@ -267,12 +268,6 @@
         <textarea class="form-textarea" id="f-message" data-preview="message" placeholder="Your personal invitation message" style="min-height:90px;">With blessings of the Almighty, we invite you to celebrate this sacred union</textarea>
       </div>
 
-      <p class="form-section-heading">Menu</p>
-      <div class="form-group">
-        <label class="form-label" for="f-menu">Menu Items</label>
-        <textarea class="form-textarea" id="f-menu" data-preview="menu" placeholder="e.g. Traditional South Indian Sadhya, Sweets, Savories, South Indian Filter Coffee" style="min-height:72px;">Traditional South Indian Sadhya &amp; Sweets</textarea>
-      </div>
-
       <p class="form-section-heading">Photos</p>
       <div class="form-group">
         <label class="form-label" for="f-photo">Couple / Hero Photo</label>
@@ -331,10 +326,6 @@
         </p>
         <p class="preview-venue" id="pv-receptionVenue">The Grand Kakatiya Hall, Begumpet, Hyderabad</p>
 
-        <hr style="border:none;border-top:1px solid rgba(201,148,42,.3);margin:14px 0;" />
-
-        <p style="font-size:.6rem;color:#7a5530;letter-spacing:2px;">MENU</p>
-        <p class="preview-venue" id="pv-menu" style="margin-top:4px;">Traditional South Indian Sadhya &amp; Sweets</p>
       </div>
 
       <p class="preview-bottom" id="pv-message">With blessings of the Almighty, we invite you to celebrate this sacred union</p>
@@ -377,7 +368,6 @@
       'f-groomFamily':    { id: 'pv-groomFamily',    type: 'text' },
       'f-brideFamily':    { id: 'pv-brideFamily',    type: 'text' },
       'f-message':        { id: 'pv-message',        type: 'text' },
-      'f-menu':           { id: 'pv-menu',           type: 'text' },
     };
 
     Object.entries(fieldMap).forEach(([inputId, { id, type }]) => {

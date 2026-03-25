@@ -75,13 +75,18 @@
 
     const loader = document.getElementById('loading-screen') || document.getElementById('loader');
     if (loader) {
-      const mo = new MutationObserver(() => {
-        if (loader.style.display === 'none' || parseFloat(loader.style.opacity || '1') < 0.1) {
-          setTimeout(fireHeroEntrance, 180);
-          mo.disconnect();
-        }
-      });
-      mo.observe(loader, { attributes: true, attributeFilter: ['style', 'class'] });
+      // If loader is already hidden (e.g. ?preview=true mode), fire entrance immediately
+      if (loader.style.display === 'none' || parseFloat(loader.style.opacity || '1') < 0.1) {
+        setTimeout(fireHeroEntrance, 180);
+      } else {
+        const mo = new MutationObserver(() => {
+          if (loader.style.display === 'none' || parseFloat(loader.style.opacity || '1') < 0.1) {
+            setTimeout(fireHeroEntrance, 180);
+            mo.disconnect();
+          }
+        });
+        mo.observe(loader, { attributes: true, attributeFilter: ['style', 'class'] });
+      }
     } else {
       setTimeout(fireHeroEntrance, 300);
     }

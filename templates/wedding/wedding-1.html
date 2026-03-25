@@ -628,48 +628,6 @@
       }
     }
 
-    /* ── MENU ── */
-    #menu {
-      background: var(--bg-white);
-      padding: 5rem 2rem;
-    }
-    #menu .section-title { color: var(--text-dark); }
-    #menu .section-subtitle { color: var(--text-muted); }
-    .menu-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .menu-category {
-      background: var(--bg-white);
-      border: 1px solid rgba(201,148,42,0.12);
-      border-top: 3px solid var(--gold);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: transform 220ms ease-out, box-shadow 220ms ease-out;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.04);
-    }
-    @media (hover: hover) and (pointer: fine) {
-      .menu-category:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(0,0,0,0.08); }
-    }
-    .menu-cat-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem; color: var(--text-dark);
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 1rem; padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(201,148,42,0.25);
-    }
-    .menu-items { list-style: none; }
-    .menu-items li {
-      font-size: 0.82rem; color: var(--text-body);
-      padding: 0.3rem 0; display: flex; align-items: baseline; gap: 0.5rem;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
-      transition: color 0.25s cubic-bezier(0.23, 1, 0.32, 1), padding-left 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    @media (hover: hover) and (pointer: fine) {
-      .menu-items li:hover { color: var(--text-dark); padding-left: 0.4rem; }
-    }
-    .menu-bullet { color: var(--gold); font-size: 0.6rem; flex-shrink: 0; }
-
     /* ── GALLERY ── */
     #gallery {
       background: var(--bg-alt);
@@ -1326,7 +1284,6 @@
     <li><a href="#ceremony">Ceremony</a></li>
     <li><a href="#venue">Venue</a></li>
     <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#menu">Menu</a></li>
     <li><a href="#rsvp">RSVP</a></li>
   </ul>
   <div class="hamburger" id="hamburger">
@@ -1338,7 +1295,6 @@
   <a href="#ceremony" onclick="closeMobileMenu()">Ceremony</a>
   <a href="#venue" onclick="closeMobileMenu()">Venue</a>
   <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
-  <a href="#menu" onclick="closeMobileMenu()">Menu</a>
   <a href="#rsvp" onclick="closeMobileMenu()">RSVP</a>
 </div>
 
@@ -1628,90 +1584,6 @@
   </div>
 </section>
 
-<!-- MENU -->
-<section id="menu">
-  <div class="section-header reveal">
-    <h2 class="section-title">Grand Feast — Annadanam</h2>
-    <div class="divider"><div class="divider-line"></div><span class="divider-icon" style="font-size:0.9rem;color:var(--gold);letter-spacing:0.1em;">✦◈✦</span><div class="divider-line"></div></div>
-    <p class="section-subtitle">పండుగ భోజనం</p>
-    <p class="section-subtitle" data-field="menu" style="margin-top:0.4rem;font-size:0.9rem;color:var(--gold);font-style:italic;"></p>
-  </div>
-  <div class="menu-grid">
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Breakfast</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>Idli &amp; Sambar</li>
-        <li><span class="menu-bullet">✦</span>Medu Vada</li>
-        <li><span class="menu-bullet">✦</span>Pesarattu</li>
-        <li><span class="menu-bullet">✦</span>Upma</li>
-        <li><span class="menu-bullet">✦</span>Coconut Chutney</li>
-        <li><span class="menu-bullet">✦</span>Tomato Chutney</li>
-      </ul>
-    </div>
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Welcome Drinks</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>Panakam</li>
-        <li><span class="menu-bullet">✦</span>Buttermilk / Majjiga</li>
-        <li><span class="menu-bullet">✦</span>Coconut Water</li>
-        <li><span class="menu-bullet">✦</span>Fresh Mango Juice</li>
-        <li><span class="menu-bullet">✦</span>Nannari Sherbet</li>
-        <li><span class="menu-bullet">✦</span>Rose Milk</li>
-      </ul>
-    </div>
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Starters</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>Onion Pakoda</li>
-        <li><span class="menu-bullet">✦</span>Punugulu</li>
-        <li><span class="menu-bullet">✦</span>Masala Vada</li>
-        <li><span class="menu-bullet">✦</span>Mirchi Bajji</li>
-        <li><span class="menu-bullet">✦</span>Peanut Chaat</li>
-        <li><span class="menu-bullet">✦</span>Mysore Bonda</li>
-      </ul>
-    </div>
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Rice &amp; Main Course</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>White Rice</li>
-        <li><span class="menu-bullet">✦</span>Pulihora (Tamarind Rice)</li>
-        <li><span class="menu-bullet">✦</span>Coconut Rice</li>
-        <li><span class="menu-bullet">✦</span>Pesara Pappu Dal</li>
-        <li><span class="menu-bullet">✦</span>Tomato Pappu</li>
-        <li><span class="menu-bullet">✦</span>Gongura Pachadi</li>
-        <li><span class="menu-bullet">✦</span>Vankaya Curry</li>
-        <li><span class="menu-bullet">✦</span>Bendakaya Pulusu</li>
-        <li><span class="menu-bullet">✦</span>Sambar &amp; Rasam</li>
-      </ul>
-    </div>
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Breads &amp; Condiments</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>Puri &amp; Bhaji</li>
-        <li><span class="menu-bullet">✦</span>Paratha</li>
-        <li><span class="menu-bullet">✦</span>Avakaya Pickle</li>
-        <li><span class="menu-bullet">✦</span>Tomato Chutney</li>
-        <li><span class="menu-bullet">✦</span>Coconut Chutney</li>
-        <li><span class="menu-bullet">✦</span>Roasted Papad</li>
-        <li><span class="menu-bullet">✦</span>Curd / Perugu</li>
-      </ul>
-    </div>
-    <div class="menu-category reveal">
-      <div class="menu-cat-title">Sweets &amp; Desserts</div>
-      <ul class="menu-items">
-        <li><span class="menu-bullet">✦</span>Bobbatlu / Puran Poli</li>
-        <li><span class="menu-bullet">✦</span>Paramannam (Sweet Rice)</li>
-        <li><span class="menu-bullet">✦</span>Gulab Jamun</li>
-        <li><span class="menu-bullet">✦</span>Double ka Meetha</li>
-        <li><span class="menu-bullet">✦</span>Pootharekulu</li>
-        <li><span class="menu-bullet">✦</span>Motichoor Ladoo</li>
-        <li><span class="menu-bullet">✦</span>Semiya Payasam</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- GALLERY -->
 <section id="gallery">
   <div class="section-header reveal">
     <h2 class="section-title">Precious Moments</h2>
@@ -2069,15 +1941,14 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 // ── Live preview mode (iframe from customize page) ──
 (function() {
-  if (new URLSearchParams(window.location.search).get('preview') === 'true') {
-    document.addEventListener('DOMContentLoaded', function() {
-      var el = document.querySelector('.purchase-banner');
-      if (el) el.style.display = 'none';
-      var backNav = document.querySelector('.back-nav');
-      if (backNav) backNav.style.display = 'none';
-      var ls = document.getElementById('loading-screen');
-      if (ls) ls.classList.add('hidden');
-    });
+  // Detect iframe embedding (server strips .html + query params, so use window check)
+  var inIframe = (function() { try { return window.self !== window.top; } catch(e) { return true; } })();
+  if (inIframe) {
+    // Hide loading screen immediately — loader is already in DOM at this point
+    var ls = document.getElementById('loading-screen');
+    if (ls) { ls.style.opacity = '0'; ls.style.pointerEvents = 'none'; ls.style.display = 'none'; }
+    var el = document.querySelector('.purchase-banner');
+    if (el) el.style.display = 'none';
   }
   window.addEventListener('message', function(e) {
     if (!e.data || e.data.type !== 'preview-update') return;

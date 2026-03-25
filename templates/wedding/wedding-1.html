@@ -1176,16 +1176,18 @@
     box-shadow: 0 8px 48px rgba(0,0,0,0.3), inset 0 0 0 6px rgba(255,255,255,0.8), inset 0 0 0 8px rgba(201,148,42,0.25) !important;
   }
 
-  /* ── CEREMONY section → saffron / turmeric ── */
+  /* ── CEREMONY section → photo background + saffron overlay ── */
   #ceremony {
-    background: linear-gradient(160deg, #c87820 0%, #e8a020 40%, #d49018 100%) !important;
+    background:
+      linear-gradient(160deg, rgba(180,90,0,0.82) 0%, rgba(220,140,10,0.75) 40%, rgba(190,115,10,0.82) 100%),
+      url('../../assets/generated/ceremony-bg.jpeg') center/cover no-repeat !important;
     position: relative; overflow: hidden;
   }
   #ceremony::before {
     content: '';
     position: absolute; inset: 0;
     background-image:
-      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 30px);
+      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 30px);
     pointer-events: none;
   }
   #ceremony .section-title { color: #3d0a00 !important; }

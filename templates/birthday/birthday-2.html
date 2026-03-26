@@ -15,15 +15,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --pink: #e84090;
-      --pink-light: #ff69b4;
-      --purple: #7b20c0;
-      --purple-light: #9b40e0;
-      --blue: #2090e8;
-      --blue-light: #40b0ff;
-      --green: #40e080;
-      --yellow: #ffd700;
-      --orange: #ff8c00;
+      --gold: #c9942a;
+      --gold-light: #e0b855;
+      --dusty-rose: #c47a7a;
+      --sage: #7a9a7a;
+      --cream: #faf7f2;
+      --charcoal: #2b2b2b;
+      --muted-purple: #8b7a9a;
       --bg: #faf7f2;
       --bg2: #ffffff;
       --white: #ffffff;
@@ -56,7 +54,7 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-    .back-nav:hover { color: var(--pink); }
+    .back-nav:hover { color: var(--gold); }
 
     /* ── Purchase Banner ── */
     .purchase-banner {
@@ -68,7 +66,7 @@
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 2px solid rgba(232,64,144,0.2);
+      border-bottom: 2px solid rgba(201,148,42,0.2);
       padding: 0.6rem 5rem;
       display: flex;
       align-items: center;
@@ -80,7 +78,7 @@
       color: var(--text-secondary);
     }
     .purchase-banner .buy-btn {
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: linear-gradient(135deg, #c9942a, #a07830);
       color: white;
       border: none;
       padding: 0.38rem 1.2rem;
@@ -96,7 +94,7 @@
     }
     .purchase-banner .buy-btn:hover {
       transform: translateY(-1px) scale(1.02);
-      box-shadow: 0 6px 20px rgba(232,64,144,0.5);
+      box-shadow: 0 6px 20px rgba(201,148,42,0.5);
     }
     .purchase-banner .buy-btn:active { transform: scale(0.97); }
 
@@ -105,7 +103,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: #2a1050;
+      background: #1a1310;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -136,17 +134,17 @@
       50% { opacity: 1; }
     }
     .loading-cake {
-      animation: spinCake 1.5s linear infinite;
+      animation: breathe 2s ease-in-out infinite;
     }
-    @keyframes spinCake {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.6; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1); }
     }
     .loading-text {
       font-family: 'Poppins', sans-serif;
       font-size: 1.2rem;
       font-weight: 600;
-      color: var(--yellow);
+      color: var(--gold);
       letter-spacing: 0.1em;
     }
     .loading-dots span {
@@ -170,7 +168,7 @@
       background: rgba(250,247,242,0.95);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(232,64,144,0.15);
+      border-bottom: 1px solid rgba(201,148,42,0.15);
       box-shadow: 0 1px 8px rgba(0,0,0,0.04);
       padding: 0.8rem 2rem;
       display: flex;
@@ -181,7 +179,7 @@
       font-family: 'Poppins', sans-serif;
       font-size: 1.1rem;
       font-weight: 600;
-      color: var(--pink);
+      color: var(--gold);
       letter-spacing: 0.03em;
     }
     .nav-links {
@@ -207,10 +205,10 @@
       left: 0;
       width: 0;
       height: 1px;
-      background: var(--pink);
+      background: var(--gold);
       transition: width 0.3s;
     }
-    .nav-links a:hover { color: var(--pink); }
+    .nav-links a:hover { color: var(--gold); }
     .nav-links a:hover::after { width: 100%; }
     .hamburger {
       display: none;
@@ -237,7 +235,7 @@
       background: rgba(250,247,242,0.98);
       padding: 1.5rem;
       z-index: 99;
-      border-bottom: 1px solid rgba(232,64,144,0.15);
+      border-bottom: 1px solid rgba(201,148,42,0.15);
       box-shadow: 0 3px 25px rgba(0,0,0,0.04);
     }
     .mobile-menu.open { display: block; }
@@ -250,7 +248,7 @@
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      border-bottom: 1px solid rgba(232,64,144,0.15);
+      border-bottom: 1px solid rgba(201,148,42,0.15);
     }
 
     /* ── Hero Section ── */
@@ -318,7 +316,7 @@
       font-size: clamp(4rem, 10vw, 6rem);
       display: block;
       animation: cakeBounce 1.5s ease-in-out infinite;
-      filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
       margin-bottom: 1rem;
     }
     @keyframes cakeBounce {
@@ -337,15 +335,13 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .rainbow-title .letter {
       display: inline-block;
-      animation: letterJump 2s ease-in-out infinite;
-    }
-    @keyframes letterJump {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      20% { transform: translateY(-10px) rotate(-3deg); }
-      40% { transform: translateY(0) rotate(0deg); }
     }
 
     .hero-name {
@@ -353,7 +349,7 @@
       font-size: clamp(2.5rem, 7vw, 4.5rem);
       font-weight: 600;
       color: #ffffff;
-      text-shadow: 0 0 40px rgba(255,100,200,0.6), 0 2px 12px rgba(80,0,140,0.5);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       text-align: center;
       margin-bottom: 1.5rem;
     }
@@ -363,18 +359,13 @@
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--pink), var(--yellow));
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.5rem;
-      animation: badgePulse 2s ease-in-out infinite;
-      box-shadow: 0 0 0 6px rgba(255,215,0,0.2), 0 0 40px rgba(232,64,144,0.4);
-    }
-    @keyframes badgePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255,215,0,0.2), 0 0 40px rgba(232,64,144,0.4); }
-      50% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255,215,0,0.1), 0 0 60px rgba(64,160,232,0.5); }
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     .age-number {
       font-family: 'Poppins', sans-serif;
@@ -419,11 +410,11 @@
     }
     .scroll-arrow {
       font-size: 1.4rem;
-      animation: bounceFun 1.5s ease-in-out infinite;
+      animation: subtleFade 1.5s ease-in-out infinite;
     }
-    @keyframes bounceFun {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(8px) scale(1.2); }
+    @keyframes subtleFade {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 0.8; transform: translateY(3px); }
     }
 
     /* ── Section Common ── */
@@ -433,7 +424,7 @@
       font-size: 0.65rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--pink);
+      color: var(--gold);
       text-align: center;
       margin-bottom: 0.5rem;
     }
@@ -459,7 +450,7 @@
     .rainbow-divider {
       width: 150px;
       height: 3px;
-      background: linear-gradient(90deg, var(--pink), var(--yellow), var(--green), var(--blue), var(--purple));
+      background: var(--gold);
       border-radius: 2px;
       margin: 0.8rem auto 1rem;
     }
@@ -491,7 +482,7 @@
       max-width: 680px;
       margin: 0 auto;
       background: #ffffff;
-      border-top: 3px solid var(--pink);
+      border-top: 3px solid var(--gold);
       box-shadow: 0 4px 32px rgba(0,0,0,0.04);
       border-radius: 16px;
       padding: 3rem 2.5rem;
@@ -527,7 +518,7 @@
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--pink);
+      color: var(--gold);
       margin-bottom: 0.3rem;
     }
     .detail-value {
@@ -567,7 +558,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 3rem;
       font-weight: 600;
-      color: var(--pink);
+      color: var(--gold);
       display: block;
       line-height: 1;
     }
@@ -583,7 +574,7 @@
     .countdown-done {
       font-size: 1.8rem;
       font-weight: 600;
-      color: var(--pink);
+      color: var(--gold);
       padding: 2rem;
     }
 
@@ -601,7 +592,7 @@
       height: 360px;
       background: rgba(255,255,255,0.6);
       border-radius: 16px;
-      border: 1px solid rgba(232,64,144,0.15);
+      border: 1px solid rgba(201,148,42,0.15);
       overflow: hidden;
       box-shadow: 0 4px 32px rgba(0,0,0,0.04);
     }
@@ -663,7 +654,7 @@
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--pink);
+      color: var(--gold);
     }
     .legend-address {
       font-family: 'Poppins', sans-serif;
@@ -691,7 +682,7 @@
       overflow: hidden;
       background: #ffffff;
       box-shadow: 0 4px 32px rgba(0,0,0,0.04);
-      border-top: 3px solid var(--pink);
+      border-top: 3px solid var(--gold);
       transition: transform 220ms ease-out, box-shadow 220ms ease-out;
       cursor: default;
     }
@@ -701,10 +692,10 @@
         box-shadow: 0 8px 40px rgba(0,0,0,0.08);
       }
     }
-    .game-card:nth-child(1) { border-top-color: var(--pink); }
-    .game-card:nth-child(2) { border-top-color: var(--blue); }
-    .game-card:nth-child(3) { border-top-color: var(--green); }
-    .game-card:nth-child(4) { border-top-color: var(--yellow); }
+    .game-card:nth-child(1) { border-top-color: var(--gold); }
+    .game-card:nth-child(2) { border-top-color: var(--muted-purple); }
+    .game-card:nth-child(3) { border-top-color: var(--sage); }
+    .game-card:nth-child(4) { border-top-color: var(--gold); }
     .game-emoji {
       font-size: 3rem;
       display: block;
@@ -829,13 +820,13 @@
     }
     .rsvp-btn:hover::before { transform: scaleX(1); }
     .rsvp-btn.yes {
-      background: linear-gradient(135deg, var(--green), #20b060);
+      background: linear-gradient(135deg, var(--sage), #5a7a5a);
       color: white;
-      box-shadow: 0 6px 24px rgba(64,224,128,0.4);
+      box-shadow: 0 6px 24px rgba(122,154,122,0.4);
     }
     .rsvp-btn.yes:hover {
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 36px rgba(64,224,128,0.5);
+      box-shadow: 0 12px 36px rgba(122,154,122,0.5);
     }
     .rsvp-btn.no {
       background: linear-gradient(135deg, #555, #333);
@@ -860,7 +851,7 @@
     .rsvp-response.yes-resp {
       background: linear-gradient(135deg, rgba(64,224,128,0.15), rgba(32,144,232,0.1));
       border: 1px solid rgba(64,224,128,0.3);
-      color: var(--green);
+      color: var(--sage);
       display: block;
     }
     .rsvp-response.no-resp {
@@ -873,7 +864,7 @@
     /* ── Footer ── */
     footer {
       background: #faf7f2;
-      border-top: 1px solid rgba(232,64,144,0.15);
+      border-top: 1px solid rgba(201,148,42,0.15);
       padding: 3rem 2rem;
       text-align: center;
     }
@@ -887,12 +878,12 @@
     .footer-name {
       font-family: 'Great Vibes', cursive;
       font-size: 3rem;
-      color: var(--pink);
+      color: var(--gold);
       display: block;
       margin-bottom: 1.2rem;
     }
     .footer-link {
-      color: rgba(232,64,144,0.6);
+      color: rgba(201,148,42,0.6);
       text-decoration: none;
       font-size: 0.75rem;
       font-weight: 500;
@@ -900,7 +891,7 @@
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .footer-link:hover { color: var(--pink); }
+    .footer-link:hover { color: var(--gold); }
     .footer-copy {
       margin-top: 1.2rem;
       font-size: 0.65rem;
@@ -912,7 +903,7 @@
     .venue-map {
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(232,64,144,0.15);
+      border: 1px solid rgba(201,148,42,0.15);
     }
     .venue-map iframe {
       transition: filter 0.3s ease-out;
@@ -929,7 +920,7 @@
       100% { background-position: 200% center; }
     }
     .hero-name {
-      background: linear-gradient(90deg, var(--text) 0%, var(--text) 40%, var(--pink) 50%, var(--text) 60%, var(--text) 100%);
+      background: linear-gradient(90deg, var(--text) 0%, var(--text) 40%, var(--gold) 50%, var(--text) 60%, var(--text) 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -1132,10 +1123,10 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- Party Details -->
   <section id="details">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--pink),var(--yellow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Party Details</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Party Details</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">Everything you need to know</div>
-    <div class="r" style="text-align:center;margin-bottom:1rem;"><span data-field="theme" style="display:inline-block;font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);background:rgba(123,32,192,0.08);border-radius:20px;padding:4px 16px;"></span></div>
+    <div class="r" style="text-align:center;margin-bottom:1rem;"><span data-field="theme" style="display:inline-block;font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted-purple);background:rgba(139,122,154,0.08);border-radius:20px;padding:4px 16px;"></span></div>
 
     <div class="details-card r">
       <div class="detail-item">
@@ -1171,7 +1162,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- Countdown -->
   <section id="countdown-section">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⏳ Countdown to the Party!</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⏳ Countdown to the Party!</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">The fun starts in...</div>
     <div id="countdown-display" class="countdown-grid">
@@ -1196,7 +1187,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- Treasure Map -->
   <section id="venue-map">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--yellow),var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Find the Party</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Find the Party</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">Follow the map to the celebration!</div>
 
@@ -1221,19 +1212,19 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
         <svg class="compass" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="28" cy="28" r="26" stroke="rgba(255,215,0,0.5)" stroke-width="1.5"/>
           <circle cx="28" cy="28" r="3" fill="rgba(255,215,0,0.8)"/>
-          <polygon points="28,4 31,28 28,22 25,28" fill="var(--pink)" opacity="0.9"/>
+          <polygon points="28,4 31,28 28,22 25,28" fill="var(--gold)" opacity="0.9"/>
           <polygon points="28,52 31,28 28,34 25,28" fill="rgba(255,255,255,0.4)"/>
           <polygon points="4,28 28,31 22,28 28,25" fill="rgba(255,255,255,0.4)"/>
           <polygon points="52,28 28,31 34,28 28,25" fill="rgba(255,255,255,0.4)"/>
           <text x="28" y="14" text-anchor="middle" fill="rgba(255,215,0,0.9)" font-size="7" font-family="Poppins,sans-serif" font-weight="600">N</text>
         </svg>
         <!-- Party label -->
-        <div style="position:absolute;top:34%;left:50%;transform:translate(-50%,-50%);background:rgba(232,64,144,0.9);border-radius:8px;padding:4px 10px;font-size:0.7rem;font-weight:600;color:white;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">Party Here</div>
+        <div style="position:absolute;top:34%;left:50%;transform:translate(-50%,-50%);background:rgba(201,148,42,0.9);border-radius:8px;padding:4px 10px;font-size:0.7rem;font-weight:600;color:white;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.3);">Party Here</div>
       </div>
       <div class="map-legend" style="max-width:600px;margin:1.5rem auto 0;text-align:center;">
         <div class="legend-title">Party Venue</div>
         <div class="legend-address" data-field="venue">Rainbow Garden, Banjara Hills</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Hosted by <span data-field="host" style="color:var(--pink);">Priya &amp; Ravi</span></div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Hosted by <span data-field="host" style="color:var(--gold);">Priya &amp; Ravi</span></div>
       </div>
       <div class="venue-map" style="margin-top:1.5rem;border-radius:12px;overflow:hidden;border:1px solid rgba(201,148,42,0.2);max-width:600px;margin-left:auto;margin-right:auto;">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.4!2d78.0421!3d27.1751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39747121d702ff6d%3A0xdd2ae4803f767dde!2sTaj%20Mahal!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="250" style="border:0;display:block;filter:grayscale(0.3) contrast(1.05);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -1243,7 +1234,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- Games Section -->
   <section id="games">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--green),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Fun &amp; Games Await</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--sage),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Fun &amp; Games Await</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">So many ways to play!</div>
 
@@ -1273,7 +1264,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- Photo Gallery (Polaroids) -->
   <section id="gallery">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--pink),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Magical Memories</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Magical Memories</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">Every moment is priceless</div>
 
@@ -1303,11 +1294,11 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   <!-- RSVP Section -->
   <section id="rsvp">
-    <div class="section-title r" style="background:linear-gradient(90deg,var(--green),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Are You Coming?</div>
+    <div class="section-title r" style="background:linear-gradient(90deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Are You Coming?</div>
     <div class="rainbow-divider r"></div>
     <div class="section-subtitle r">We hope to see you there!</div>
 
-    <div class="rsvp-question r">Will you join <span id="rsvp-name" style="color:var(--pink);" data-field="name">Arya</span>'s party?</div>
+    <div class="rsvp-question r">Will you join <span id="rsvp-name" style="color:var(--gold);" data-field="name">Arya</span>'s party?</div>
 
     <div class="rsvp-buttons r" id="rsvp-buttons">
       <button class="rsvp-btn yes" id="rsvp-yes">Yes, I'll be there!</button>
@@ -1393,11 +1384,6 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
     const container = document.getElementById('rainbow-title');
     if (!container) return;
     const text = 'Happy Birthday!';
-    const colors = [
-      '#e84090','#ff6b35','#ffd700','#40e080','#2090e8','#7b20c0',
-      '#e84090','#ff8c00','#40e080','#2090e8','#ffd700','#7b20c0',
-      '#e84090','#40e080','#ffd700'
-    ];
     container.innerHTML = '';
     [...text].forEach((char, i) => {
       if (char === ' ') {
@@ -1409,9 +1395,6 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
       const span = document.createElement('span');
       span.className = 'letter';
       span.textContent = char;
-      span.style.color = colors[i % colors.length];
-      span.style.textShadow = `0 0 12px ${colors[i % colors.length]}, 0 2px 6px rgba(0,0,0,0.3)`;
-      span.style.animationDelay = `${i * 0.08}s`;
       container.appendChild(span);
     });
   }
@@ -1421,10 +1404,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
   function launchBalloons() {
     const container = document.getElementById('balloons-container');
     if (!container) return;
-    const colors = [
-      '#e84090','#ff69b4','#7b20c0','#9b40e0','#2090e8','#40b0ff',
-      '#40e080','#ffd700','#ff8c00','#ff4466'
-    ];
+    const colors = ['#c9942a', '#e0b855', '#f5f0e8', '#c47a7a', '#d4c4b0'];
     for (let i = 0; i < 30; i++) {
       const balloon = document.createElement('div');
       balloon.className = 'balloon';
@@ -1446,7 +1426,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
 
   // ── Continuous Confetti Rain ──
   function startConfettiRain() {
-    const colors = ['#e84090','#ffd700','#40e080','#2090e8','#7b20c0','#ff8c00','white','#ff69b4'];
+    const colors = ['#c9942a', '#e0b855', '#f5f0e8', '#c47a7a', '#d4c4b0'];
     function dropPiece() {
       const piece = document.createElement('div');
       piece.className = 'confetti-rain';
@@ -1487,7 +1467,7 @@ button:active, .btn:active, [class*="btn"]:active { transform: scale(0.97) !impo
     } catch(e) {}
 
     function confettiBurst() {
-      const colors = ['#e84090','#ffd700','#40e080','#2090e8','#7b20c0'];
+      const colors = ['#c9942a', '#e0b855', '#f5f0e8', '#c47a7a', '#d4c4b0'];
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight * 0.7;
       for (let i = 0; i < 60; i++) {

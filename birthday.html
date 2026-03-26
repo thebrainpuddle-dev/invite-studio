@@ -677,20 +677,6 @@
       }
     }
 
-    @keyframes twinkle {
-
-      0%,
-      100% {
-        opacity: 0;
-        transform: scale(0);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
     @keyframes slideUp {
       from {
         opacity: 0;
@@ -1037,7 +1023,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-cake">🎉</div>
+    <div class="footer-cake"></div>
     <p class="footer-text">Happy Birthday • March 18, 2026</p>
   </footer>
 
@@ -1143,7 +1129,7 @@
       // ===== HERO PARTICLES =====
       (function () {
         const container = document.getElementById('hero-particles');
-        const symbols = ['✦', '✧', '⋆', '◇', '○'];
+        const symbols = ['•', '·', '°'];
         for (let i = 0; i < 30; i++) {
           const p = document.createElement('span');
           p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -1151,7 +1137,6 @@
         position:absolute; color:rgba(192,139,62,${Math.random() * 0.25 + 0.08});
         font-size:${Math.random() * 12 + 6}px;
         left:${Math.random() * 100}%; top:${Math.random() * 100}%;
-        animation: twinkle ${Math.random() * 4 + 3}s ease-in-out ${Math.random() * 5}s infinite;
       `;
           container.appendChild(p);
         }
@@ -1179,7 +1164,7 @@
         const now = new Date();
         let diff = bday - now;
         if (diff <= 0) {
-          ageContainer.innerHTML = '<div style="font-family:var(--font-script);font-size:1.8rem;color:var(--gold);">🎉 It\'s Your Day! 🎉</div>';
+          ageContainer.innerHTML = '<div style="font-family:var(--font-script);font-size:1.8rem;color:var(--gold);">It\'s Your Day!</div>';
           return;
         }
         const d = Math.floor(diff / 86400000);

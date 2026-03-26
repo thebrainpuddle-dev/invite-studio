@@ -68,19 +68,6 @@
     }
     @keyframes drawDiamond { to { stroke-dashoffset: 0; } }
 
-    .diamond-sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: white;
-      opacity: 0;
-      animation: sparkleOut var(--dur, 0.6s) var(--delay, 1.2s) ease-out forwards;
-    }
-    @keyframes sparkleOut {
-      0%   { transform: translate(0,0) scale(1); opacity: 1; }
-      100% { transform: translate(var(--tx,20px), var(--ty,-20px)) scale(0); opacity: 0; }
-    }
     .loading-tagline {
       font-family: 'Poppins', sans-serif;
       font-size: 0.85rem;
@@ -380,20 +367,14 @@
       margin-top: 0.5rem;
     }
     .silver-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
+      display: block;
+      width: 60px;
+      height: 1px;
+      border-top: 1px solid rgba(201,96,122,0.15);
       margin: 0.8rem auto;
     }
-    .silver-divider::before,
-    .silver-divider::after {
-      content: '';
-      height: 1px;
-      width: 70px;
-      background: linear-gradient(to right, transparent, var(--rose-gold), transparent);
-    }
-    .silver-divider .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rose-gold); }
+    .silver-divider::before, .silver-divider::after { content: none; }
+    .silver-divider .dot { display: none; }
 
     /* ── Reveal (Emil Kowalski) ── */
     .reveal, .r {
@@ -674,8 +655,6 @@
     #decades { background: #faf7f2; }
     #decades .section-title h2 { color: var(--rose-gold); }
     #decades .section-title .subtitle { color: #888; }
-    #decades .silver-divider::before,
-    #decades .silver-divider::after { background: linear-gradient(to right, transparent, var(--rose-gold), transparent); }
     .decades-nav {
       display: flex;
       justify-content: center;
@@ -1089,18 +1068,6 @@
     }
 
     /* ── Silver Sparkle ── */
-    .sparkle-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9000;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      animation: sparkleRise var(--dur, 1s) var(--delay, 0s) ease-out forwards;
-    }
-    @keyframes sparkleRise {
-      0%   { transform: translate(0,0) scale(1) rotate(0deg); opacity: 1; }
-      100% { transform: translate(var(--tx,0), var(--ty,-80px)) scale(0) rotate(360deg); opacity: 0; }
-    }
 
     /* ── Footer ── */
     footer {
@@ -1180,7 +1147,7 @@
     background: #ffffff;
     border-radius: 16px;
     border-top: 3px solid #c9942a;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.05);
     transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
   }
   @media (hover: hover) and (pointer: fine) {
@@ -1189,7 +1156,7 @@
     .blessing-card:hover, .family-card:hover, .milestone-card:hover,
     .memory-card:hover, .tribute-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 48px rgba(0,0,0,0.08), 0 3px 12px rgba(201,148,42,0.08);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.08);
     }
   }
 
@@ -1739,21 +1706,6 @@
       `;
     }
 
-    /* Spawn sparkles after draw */
-    setTimeout(() => {
-      const wrap = document.getElementById('loading-diamond-wrap');
-      const offsets = [
-        ['30px','-35px'],['−30px','-35px'],['42px','-5px'],['−42px','-5px'],
-        ['25px','30px'],['−25px','30px'],['0px','-45px'],['0px','40px'],
-      ];
-      offsets.forEach(([tx, ty], i) => {
-        const s = document.createElement('div');
-        s.className = 'diamond-sparkle';
-        s.style.cssText = `left:calc(50% - 3px);top:calc(50% - 3px);--tx:${tx};--ty:${ty};--delay:${1.2 + i * 0.07}s;--dur:0.55s;background:${i % 2 === 0 ? '#fff' : '#b8b8d8'};`;
-        wrap.appendChild(s);
-      });
-    }, 100);
-
     setTimeout(() => {
       document.getElementById('loading-screen').classList.add('hidden');
     }, 1800);
@@ -1955,29 +1907,7 @@
     document.getElementById('guest-count-display').textContent = guestCount;
   }
 
-  /* ─── RSVP + Sparkle ─── */
-  function launchSparkle() {
-    const colors = ['#9090c0','#d8d8e8','#c9607a','#ffffff','#b8b8d8'];
-    for (let i = 0; i < 50; i++) {
-      const el = document.createElement('div');
-      el.className = 'sparkle-particle';
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 60 + Math.random() * 100;
-      el.style.cssText = `
-        left:${30 + Math.random() * 40}%;
-        top:60%;
-        background:${colors[Math.floor(Math.random() * colors.length)]};
-        border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
-        --dur:${(0.8 + Math.random() * 0.8).toFixed(2)}s;
-        --delay:${(Math.random() * 0.3).toFixed(2)}s;
-        --tx:${(Math.cos(angle) * dist).toFixed(0)}px;
-        --ty:${(-60 - Math.random() * 80).toFixed(0)}px;
-      `;
-      document.body.appendChild(el);
-      el.addEventListener('animationend', () => el.remove());
-    }
-  }
-
+  /* ─── RSVP ─── */
   function submitRSVP() {
     const name = document.getElementById('rsvp-name').value.trim();
     const attending = document.getElementById('rsvp-attending').value;
@@ -1986,7 +1916,6 @@
     const stored = JSON.parse(localStorage.getItem('ann2-rsvps') || '[]');
     stored.push({ name, attending, guests: guestCount, message });
     localStorage.setItem('ann2-rsvps', JSON.stringify(stored));
-    launchSparkle();
     document.getElementById('rsvp-form-inner').style.display = 'none';
     document.getElementById('rsvp-success').classList.add('show');
   }

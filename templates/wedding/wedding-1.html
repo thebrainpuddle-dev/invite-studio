@@ -714,11 +714,7 @@
     .star {
       position: absolute; width: 2px; height: 2px;
       background: var(--gold); border-radius: 50%;
-      animation: twinkle 3s ease-in-out infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.05; }
-      50%       { opacity: 0.3; }
+      opacity: 0.15;
     }
     .story-timeline {
       display: flex; gap: 0; max-width: 1000px; margin: 0 auto;
@@ -855,11 +851,11 @@
     }
     .map-venue-marker {
       position: absolute; transform: translate(-50%, -50%);
-      color: var(--gold); font-size: 1.6rem; animation: bounce-marker 1s ease-in-out infinite;
+      color: var(--gold); font-size: 1.6rem; animation: markerPulse 3s ease-in-out infinite;
     }
-    @keyframes bounce-marker {
-      0%, 100% { transform: translate(-50%, -50%); }
-      50%       { transform: translate(-50%, -65%); }
+    @keyframes markerPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50%       { transform: translate(-50%, -50%) scale(1.05); }
     }
     .directions-list { list-style: none; }
     .directions-list li {
@@ -1151,7 +1147,8 @@
     content: '';
     position: absolute; inset: 0;
     background-image:
-      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 30px);
+      radial-gradient(circle at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,0.03) 0%, transparent 50%);
     pointer-events: none;
   }
   #ceremony .section-title { color: #3d0a00 !important; }
@@ -1216,22 +1213,6 @@
     animation-play-state: running;
   }
 
-  /* ── Floating gold sparkles ── */
-  @keyframes sparkleFloat {
-    0%   { transform: translateY(0) scale(1);   opacity: 0; }
-    20%  { opacity: 1; }
-    80%  { opacity: 0.6; }
-    100% { transform: translateY(-80px) scale(0.5); opacity: 0; }
-  }
-  .gold-sparkle {
-    position: absolute;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #f5dfa0, #c9942a);
-    pointer-events: none;
-    animation: sparkleFloat 3s ease-out infinite;
-    z-index: 1;
-  }
   </style>
   <link rel="stylesheet" href="../../css/ux-polish.css">
   <link rel="stylesheet" href="../../css/cinematic.css">

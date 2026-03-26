@@ -243,10 +243,19 @@
     /* Music notes — removed drift animation */
     .music-note { display: none; }
 
+    /* Marigold Toran Garland */
+    .toran-garland {
+      position: absolute; top: 0; left: 0; right: 0;
+      pointer-events: none; z-index: 3; overflow: hidden;
+      height: 80px;
+    }
+    .toran-garland svg { width: 100%; height: 80px; display: block; }
+
     /* Haveli SVG */
     .haveli-container {
       position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      pointer-events: none; z-index: 1;
+      pointer-events: none; z-index: 2; width: 100%; max-width: 800px;
+      opacity: 0.55;
     }
 
     /* Hero text */
@@ -445,45 +454,21 @@
     }
     .ev-desc { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--text-body); line-height: 1.75; }
 
-    /* ── BARAAT PROCESSION ── */
-    #baraat {
-      background: var(--bg-primary);
-      padding: 5rem 0; overflow: hidden; position: relative;
+    /* ── EVENT ICON SVG ── */
+    .ev-icon-svg {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; margin-bottom: 0.4rem;
+      color: var(--saffron);
     }
-    #baraat .section-title { color: var(--text-dark); }
-    #baraat .section-subtitle { color: var(--text-muted); }
-    #baraat .section-header { padding: 0 2rem; }
-    .procession-track {
-      position: relative; height: 160px;
-      overflow: hidden; margin-top: 2rem;
+    .ev-icon-svg svg { width: 28px; height: 28px; }
+
+    /* ── DRESS ICON SVG ── */
+    .dress-icon-svg {
+      display: flex; align-items: center; justify-content: center;
+      width: 64px; height: 72px; margin-bottom: 0.8rem;
+      color: var(--gold);
     }
-    .procession-road {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 30px;
-      background: repeating-linear-gradient(90deg,
-        rgba(200,104,32,0.3) 0px, rgba(200,104,32,0.3) 40px,
-        transparent 40px, transparent 80px);
-    }
-    .procession-inner {
-      display: flex; align-items: flex-end; gap: 1.5rem;
-      padding: 0 2rem 35px;
-      white-space: nowrap;
-      animation: march-by 18s linear infinite;
-      will-change: transform;
-    }
-    @keyframes march-by {
-      0%   { transform: translateX(100vw); }
-      100% { transform: translateX(-120%); }
-    }
-    .proc-elem {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 0.3rem; flex-shrink: 0;
-    }
-    .proc-emoji { font-size: 2.8rem; }
-    .proc-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; white-space: nowrap; }
-    .proc-separator {
-      font-size: 1.5rem; color: rgba(200,104,32,0.4);
-      align-self: center; flex-shrink: 0; padding-bottom: 35px;
-    }
+    .dress-icon-svg svg { width: 48px; height: 64px; }
 
     /* ── VENUE ── */
     #venue {
@@ -999,6 +984,7 @@
   </svg>
   <div class="splash-title-w2">Padharo Mhare Desh</div>
   <div class="splash-tap-label">Tap to open</div>
+  <div id="loading-petals"></div>
 </div>
 
 <!-- BACK NAV -->
@@ -1044,8 +1030,48 @@
   <div id="floats-container"></div>
   <div id="notes-container"></div>
 
-  <!-- Haveli Architecture SVG removed -->
-  <div class="haveli-container" style="display:none">
+  <!-- Marigold Toran Garland -->
+  <div class="toran-garland" aria-hidden="true">
+    <svg viewBox="0 0 800 80" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="marigoldGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f0b030"/>
+          <stop offset="60%" stop-color="#c86820"/>
+          <stop offset="100%" stop-color="#8b4010"/>
+        </radialGradient>
+      </defs>
+      <!-- Rope -->
+      <path d="M0,18 Q100,34 200,18 Q300,2 400,18 Q500,34 600,18 Q700,2 800,18" fill="none" stroke="#8b4010" stroke-width="2" opacity="0.7"/>
+      <!-- Marigold blooms along rope -->
+      <!-- Each bloom: circle cluster of petals -->
+      <g transform="translate(50,22)"><circle r="10" fill="#f0b030" opacity="0.9"/><circle r="6" fill="#E5A820"/><circle cx="0" cy="-12" r="4" fill="#c86820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#c86820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <g transform="translate(150,26)"><circle r="10" fill="#c86820" opacity="0.9"/><circle r="6" fill="#f0b030"/><circle cx="0" cy="-12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <g transform="translate(250,18)"><circle r="12" fill="#f0b030" opacity="0.9"/><circle r="7" fill="#E5A820"/><circle cx="0" cy="-14" r="5" fill="#c86820" opacity="0.8"/><circle cx="0" cy="14" r="5" fill="#c86820" opacity="0.8"/><circle cx="-14" cy="0" r="5" fill="#c86820" opacity="0.8"/><circle cx="14" cy="0" r="5" fill="#c86820" opacity="0.8"/><circle r="3.5" fill="#ffd060"/></g>
+      <g transform="translate(350,26)"><circle r="10" fill="#c86820" opacity="0.9"/><circle r="6" fill="#f0b030"/><circle cx="0" cy="-12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <g transform="translate(450,18)"><circle r="10" fill="#f0b030" opacity="0.9"/><circle r="6" fill="#E5A820"/><circle cx="0" cy="-12" r="4" fill="#c86820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#c86820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <g transform="translate(550,26)"><circle r="12" fill="#c86820" opacity="0.9"/><circle r="7" fill="#f0b030"/><circle cx="0" cy="-14" r="5" fill="#E5A820" opacity="0.8"/><circle cx="0" cy="14" r="5" fill="#E5A820" opacity="0.8"/><circle cx="-14" cy="0" r="5" fill="#f0b030" opacity="0.8"/><circle cx="14" cy="0" r="5" fill="#f0b030" opacity="0.8"/><circle r="3.5" fill="#ffd060"/></g>
+      <g transform="translate(650,20)"><circle r="10" fill="#f0b030" opacity="0.9"/><circle r="6" fill="#E5A820"/><circle cx="0" cy="-12" r="4" fill="#c86820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#c86820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#c86820" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <g transform="translate(750,24)"><circle r="10" fill="#c86820" opacity="0.9"/><circle r="6" fill="#f0b030"/><circle cx="0" cy="-12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="0" cy="12" r="4" fill="#E5A820" opacity="0.8"/><circle cx="-12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle cx="12" cy="0" r="4" fill="#f0b030" opacity="0.8"/><circle r="3" fill="#ffd060"/></g>
+      <!-- Hanging leaf strings between blooms -->
+      <path d="M100,22 Q105,42 100,55" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="100" cy="58" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(-10 100 58)"/>
+      <path d="M200,22 Q205,44 200,58" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="200" cy="61" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(8 200 61)"/>
+      <path d="M300,18 Q305,38 300,52" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="300" cy="55" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(-15 300 55)"/>
+      <path d="M400,22 Q405,42 400,56" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="400" cy="59" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(5 400 59)"/>
+      <path d="M500,18 Q505,38 500,52" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="500" cy="55" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(-8 500 55)"/>
+      <path d="M600,22 Q605,44 600,58" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="600" cy="61" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(12 600 61)"/>
+      <path d="M700,20 Q705,40 700,54" fill="none" stroke="#2a6020" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="700" cy="57" rx="5" ry="8" fill="#2a6020" opacity="0.5" transform="rotate(-6 700 57)"/>
+    </svg>
+  </div>
+
+  <!-- Haveli Architecture Silhouette -->
+  <div class="haveli-container">
     <svg width="700" height="220" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
       <!-- Sky wash -->
       <defs>
@@ -1243,7 +1269,7 @@
       <div class="ev-desc">Turmeric paste applied by loved ones brings a radiant glow and the blessings of prosperity to the bride and groom before their sacred union.</div>
     </div>
     <div class="event-card ev-2 reveal">
-      <span class="ev-icon">🎨</span>
+      <span class="ev-icon ev-icon-svg"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path d="M12 20c-4 0-7-1.8-7-4s3-4 7-4 7 1.8 7 4-3 4-7 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 12c0-2 1.3-6 3-8 1.7 2 3 6 3 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 14.5c-1.5-1-2-2.5-1.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17 14.5c1.5-1 2-2.5 1.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
       <div class="ev-name">Mehendi Night</div>
       <div class="ev-hindi">मेहंदी की रात</div>
       <div class="ev-time">Day 1 &nbsp;•&nbsp; 6:00 PM</div>
@@ -1332,7 +1358,7 @@
   <div class="dresscode-inner">
     <div class="dresscode-grid">
       <div class="dress-card reveal">
-        <span class="dress-icon">👘</span>
+        <span class="dress-icon dress-icon-svg"><svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="64"><path d="M24 4 C20 4 16 8 14 14 L8 28 L16 30 L14 56 L34 56 L32 30 L40 28 L34 14 C32 8 28 4 24 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(229,168,32,0.08)"/><path d="M14 14 C10 16 6 20 6 26 L8 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M34 14 C38 16 42 20 42 26 L40 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 38 Q24 42 32 38" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/><circle cx="24" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></span>
         <div class="dress-gender">Ladies</div>
         <div class="dress-desc">
           Saree &nbsp;/&nbsp; Lehenga Choli &nbsp;/&nbsp; Anarkali<br><br>
@@ -1340,7 +1366,7 @@
         </div>
       </div>
       <div class="dress-card reveal">
-        <span class="dress-icon">🧣</span>
+        <span class="dress-icon dress-icon-svg"><svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="64"><path d="M24 4 C20 4 17 7 16 12 L12 24 L20 26 L18 56 L30 56 L28 26 L36 24 L32 12 C31 7 28 4 24 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(229,168,32,0.08)"/><path d="M16 12 C12 14 9 18 9 23 L12 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M32 12 C36 14 39 18 39 23 L36 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M20 14 L24 22 L28 14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/><path d="M20 30 Q24 33 28 30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span>
         <div class="dress-gender">Gentlemen</div>
         <div class="dress-desc">
           Sherwani &nbsp;/&nbsp; Kurta Pajama &nbsp;/&nbsp; Indo-Western<br><br>

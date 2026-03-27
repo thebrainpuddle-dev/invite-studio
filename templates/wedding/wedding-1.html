@@ -657,25 +657,51 @@
 
     /* ── GALLERY SECTION ── */
     #gallery {
-      background: linear-gradient(160deg, #0f0a02 0%, #1a1000 50%, #0f0a02 100%);
+      background: radial-gradient(ellipse at 50% 40%, #5a2d05 0%, #2d1200 60%, #1a0900 100%);
       padding: 7rem 2rem 6rem;
       position: relative;
       overflow: hidden;
     }
-    #gallery .section-title { color: var(--gold-pale); }
-    #gallery .section-eyebrow { color: var(--gold); }
-    #gallery .section-subtitle { color: rgba(245,223,160,0.6); }
-    #gallery .divider-line { background: rgba(201,148,42,0.4); }
+    #gallery .section-title   { color: var(--bapu-cream); }
+    #gallery .section-eyebrow { color: #e8a055; }
+    #gallery .section-subtitle { color: rgba(253,246,232,0.55); }
+    #gallery .divider-line    { background: rgba(232,160,85,0.4); }
+    #gallery .divider-icon    { color: #e8a055; }
+
+    /* Bapu gallery decorations */
+    .gallery-bg-watermark {
+      position: absolute; width: min(900px, 110vw);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      opacity: 0.13; mix-blend-mode: screen;
+      pointer-events: none; user-select: none; z-index: 1;
+    }
+    .gallery-strip {
+      position: absolute; left: 0; right: 0;
+      width: 100%; height: 72px; object-fit: cover; object-position: center;
+      mix-blend-mode: screen; opacity: 0.55;
+      pointer-events: none; z-index: 3;
+    }
+    .gallery-strip-top    { top: 0; }
+    .gallery-strip-bottom { bottom: 0; transform: scaleY(-1); }
+    .gallery-side-border {
+      position: absolute; top: 0; bottom: 0; width: 72px;
+      background-repeat: repeat-y; background-size: 72px auto;
+      mix-blend-mode: screen; opacity: 0.45;
+      pointer-events: none; z-index: 3;
+    }
+    .gallery-side-left  { left: 0;  background-image: url('../../assets/bapu/bapu-border-1.png'); }
+    .gallery-side-right { right: 0; background-image: url('../../assets/bapu/bapu-border-2.png'); }
+
     .gallery-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
       max-width: 900px; margin: 0 auto;
       position: relative; z-index: 2;
     }
     .polaroid {
-      background: white; padding: 0.8rem 0.8rem 2.5rem;
+      background: var(--bapu-ivory); padding: 0.8rem 0.8rem 2.5rem;
       cursor: pointer;
-      border-bottom: 3px solid var(--gold);
-      box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+      border-bottom: 3px solid var(--bapu-saffron);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,98,10,0.18);
       transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     }
     .polaroid:nth-child(1) { transform: rotate(-2.5deg); }
@@ -704,7 +730,7 @@
     .polaroid-photo.p6 { background: linear-gradient(135deg, #c9942a 0%, #1a3560 100%); }
     .polaroid-caption {
       font-family: 'Great Vibes', cursive;
-      font-size: 1.1rem; color: #333; text-align: center;
+      font-size: 1.1rem; color: var(--bapu-text); text-align: center;
       margin-top: 0.5rem;
     }
     @media (max-width: 640px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -1349,6 +1375,12 @@
 
 <!-- GALLERY -->
 <section id="gallery">
+  <!-- Bapu folk art elements -->
+  <img class="gallery-bg-watermark" src="../../assets/bapu/bapu-procession-1.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="gallery-strip gallery-strip-top"    src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="gallery-strip gallery-strip-bottom" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
+  <div class="gallery-side-border gallery-side-left"  aria-hidden="true"></div>
+  <div class="gallery-side-border gallery-side-right" aria-hidden="true"></div>
   <div class="section-header reveal">
     <p class="section-eyebrow">Precious</p>
     <h2 class="section-title">Moments</h2>

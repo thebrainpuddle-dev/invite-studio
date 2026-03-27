@@ -1050,10 +1050,10 @@
 
 /* ── HERO FLOATING LANTERNS ── */
 #lanterns-container {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 3;
+  z-index: 9999;
 }
 .hero-lantern {
   position: absolute;
@@ -1137,6 +1137,9 @@
   <a href="#rsvp" onclick="closeMobileMenu()">RSVP</a>
 </div>
 
+<!-- Fixed lanterns — follow viewport on scroll -->
+<div id="lanterns-container" aria-hidden="true"></div>
+
 <!-- HERO -->
 <section id="hero">
   <!-- Gopuram — colorful South Indian temple photo, fades up on load -->
@@ -1148,12 +1151,6 @@
       onerror="this.src='https://images.pexels.com/photos/12475522/pexels-photo-12475522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750'"
     >
   </div>
-
-  <!-- Bapu: torana arch — deep background frame -->
-  <img class="bapu-layer hero-arch-layer" src="../../assets/bapu/bapu-torana-arch.png" alt="" aria-hidden="true" loading="eager">
-
-  <!-- Floating Bapu lanterns -->
-  <div id="lanterns-container" aria-hidden="true"></div>
 
   <!-- Hero content -->
   <div class="hero-shubh" style="position:relative;z-index:2;">Shubh Vivah</div>

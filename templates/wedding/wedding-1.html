@@ -672,7 +672,7 @@
     .gallery-bg-watermark {
       position: absolute; width: min(900px, 110vw);
       top: 50%; left: 50%; transform: translate(-50%, -50%);
-      opacity: 0.13; mix-blend-mode: screen;
+      opacity: 0.32; mix-blend-mode: screen;
       pointer-events: none; user-select: none; z-index: 1;
     }
     .gallery-strip {
@@ -683,14 +683,7 @@
     }
     .gallery-strip-top    { top: 0; }
     .gallery-strip-bottom { bottom: 0; transform: scaleY(-1); }
-    .gallery-side-border {
-      position: absolute; top: 0; bottom: 0; width: 72px;
-      background-repeat: repeat-y; background-size: 72px auto;
-      mix-blend-mode: screen; opacity: 0.45;
-      pointer-events: none; z-index: 3;
-    }
-    .gallery-side-left  { left: 0;  background-image: url('../../assets/bapu/bapu-border-1.png'); }
-    .gallery-side-right { right: 0; background-image: url('../../assets/bapu/bapu-border-2.png'); }
+    .gallery-side-left, .gallery-side-right { display: none; }
 
     .gallery-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
@@ -1208,8 +1201,6 @@
   <img class="bapu-layer bapu-strip bapu-strip-top" src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer inv-arch-bg" src="../../assets/bapu/bapu-torana-dense.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer bapu-strip bapu-strip-bottom" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
-  <div class="inv-side-border inv-side-left"  aria-hidden="true"></div>
-  <div class="inv-side-border inv-side-right" aria-hidden="true"></div>
   <div class="invite-backdrop" aria-hidden="true">INVITE</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">With the blessings of the Almighty</p>

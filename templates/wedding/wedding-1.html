@@ -54,6 +54,18 @@
       transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1), transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
     }
     #loading-screen.hidden { opacity: 0; transform: scale(1.06); pointer-events: none; }
+
+    /* ── Loading screen flowers ── */
+    .loading-flower {
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+    @keyframes floatSway {
+      0%   { transform: translateY(0px)   rotate(var(--r)); }
+      50%  { transform: translateY(-10px) rotate(calc(var(--r) + 5deg)); }
+      100% { transform: translateY(0px)   rotate(var(--r)); }
+    }
     #loading-screen::after {
       content: '';
       position: absolute;
@@ -65,6 +77,7 @@
       width: min(200px, 50vw);
       height: auto;
       display: block;
+      mix-blend-mode: multiply;
       animation: divaGlow 2.4s ease-in-out infinite alternate;
     }
     @keyframes divaGlow {
@@ -1124,6 +1137,36 @@
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen">
+  <!-- Scattered lotuses -->
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-lotus.png"
+       style="width:90px;top:4%;left:3%;--r:-18deg;opacity:0.82;animation:floatSway 4.2s ease-in-out 0.0s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-lotus.png"
+       style="width:70px;top:6%;right:5%;--r:22deg;opacity:0.75;animation:floatSway 5.0s ease-in-out 0.7s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-lotus.png"
+       style="width:80px;bottom:8%;left:5%;--r:12deg;opacity:0.78;animation:floatSway 4.6s ease-in-out 1.2s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-lotus.png"
+       style="width:65px;bottom:5%;right:4%;--r:-25deg;opacity:0.7;animation:floatSway 5.4s ease-in-out 0.4s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-lotus.png"
+       style="width:55px;top:42%;left:2%;--r:8deg;opacity:0.65;animation:floatSway 6.0s ease-in-out 1.8s infinite;">
+  <!-- Scattered marigolds -->
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-marigold.png"
+       style="width:75px;top:18%;left:8%;--r:-30deg;opacity:0.72;animation:floatSway 4.8s ease-in-out 0.3s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-marigold.png"
+       style="width:65px;top:15%;right:9%;--r:20deg;opacity:0.68;animation:floatSway 5.2s ease-in-out 1.5s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-marigold.png"
+       style="width:70px;bottom:18%;left:10%;--r:-15deg;opacity:0.7;animation:floatSway 4.4s ease-in-out 0.9s infinite;">
+  <img class="loading-flower" aria-hidden="true" loading="eager"
+       src="../../assets/bapu/bapu-marigold.png"
+       style="width:60px;bottom:22%;right:8%;--r:28deg;opacity:0.65;animation:floatSway 5.8s ease-in-out 2.1s infinite;">
+  <!-- Center content -->
   <img class="loading-ganesha" src="../../assets/bapu/bapu-ganesha.png" alt="" aria-hidden="true"
        onerror="this.style.display='none'">
   <div class="loading-text">Subhamasthu...</div>
@@ -1639,13 +1682,14 @@
     var MARIGOLD = '../../assets/bapu/bapu-marigold.png';
     var LOTUS    = '../../assets/bapu/bapu-lotus.png';
     /* section → [count, primarySrc, secondarySrc (every 3rd flower)] */
+    /* [count, primarySrc, secondarySrc, xMin%, xMax%] */
     var SECTIONS = {
-      'invitation': [3, LOTUS,    LOTUS],
-      'ceremony':   [6, LOTUS,    MARIGOLD],
-      'venue':      [8, LOTUS,    MARIGOLD],
-      'gallery':    [7, MARIGOLD, LOTUS],
-      'story':      [6, LOTUS,    MARIGOLD],
-      'rsvp':       [6, LOTUS,    MARIGOLD]
+      'invitation': [3, LOTUS,    LOTUS,    2,  35],
+      'ceremony':   [6, LOTUS,    MARIGOLD, 2,  98],
+      'venue':      [8, LOTUS,    MARIGOLD, 2,  98],
+      'gallery':    [7, MARIGOLD, LOTUS,    2,  98],
+      'story':      [6, LOTUS,    MARIGOLD, 2,  98],
+      'rsvp':       [6, LOTUS,    MARIGOLD, 2,  98]
     };
     var allItems = [];
 
@@ -1654,6 +1698,7 @@
       if (!section) return;
       var cfg   = SECTIONS[sectionId];
       var count = cfg[0];
+      var xMin  = cfg[3], xMax = cfg[4];
       for (var i = 0; i < count; i++) {
         var img     = document.createElement('img');
         /* Alternate: every 3rd flower uses secondary src for variety */
@@ -1662,8 +1707,8 @@
         img.setAttribute('aria-hidden', 'true');
         img.setAttribute('loading', 'lazy');
 
-        var size  = 48 + Math.random() * 64;        // 48–112 px
-        var xPct  = 2  + Math.random() * 96;        // 2–98 % from left
+        var size  = 48 + Math.random() * 64;              // 48–112 px
+        var xPct  = xMin + Math.random() * (xMax - xMin); // constrained range
         var yPct  = 4  + Math.random() * 88;        // 4–92 % from top within section
         var speed = 0.05 + Math.random() * 0.12;    // gentle parallax 0.05–0.17
         /* Alternate rotation for natural scatter */

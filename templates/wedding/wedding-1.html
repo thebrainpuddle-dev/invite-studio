@@ -896,6 +896,7 @@
       padding: 4rem 2rem 7rem;
       text-align: center;
       border-top: 1px solid rgba(201,148,42,0.2);
+      position: relative;
     }
     .footer-couple {
       font-family: 'Great Vibes', cursive;
@@ -939,6 +940,169 @@
       background: var(--gold); transform-origin: left; transform: scaleX(0);
       z-index: 9999; pointer-events: none;
     }
+
+/* ═══════════════════════════════════════════════
+   BAPU LAYERING & 3D DEPTH SYSTEM
+   ═══════════════════════════════════════════════ */
+
+/* All sections get perspective for 3D layers */
+#hero, #invitation, #ceremony, #venue, #story, #rsvp {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+/* Base layer styles */
+.bapu-layer {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  mix-blend-mode: multiply;
+}
+
+/* Depth positions */
+.bapu-depth-back  { transform: translateZ(-100px) scale(1.08); }
+.bapu-depth-mid   { transform: translateZ(-50px)  scale(1.04); }
+.bapu-depth-near  { transform: translateZ(30px)   scale(0.97); }
+
+/* ── HERO LAYERS ── */
+.hero-arch-layer {
+  width: min(700px, 95vw);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -52%) translateZ(-100px) scale(1.08);
+  opacity: 0.55;
+  z-index: 1;
+  filter: saturate(0.7) brightness(0.9);
+  transition: transform 0.1s linear;
+}
+.hero-couple-layer {
+  width: min(420px, 72vw);
+  bottom: -60px; left: 50%;
+  transform: translateX(-50%) translateZ(30px) scale(0.97);
+  opacity: 0.9;
+  z-index: 4;
+  filter: saturate(1.05);
+  transition: transform 0.1s linear;
+}
+
+/* ── INVITATION LAYERS ── */
+.inv-border-top {
+  top: 0; left: 0; right: 0;
+  width: 100%; height: auto;
+  display: block;
+  z-index: 3;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+.inv-arch-bg {
+  width: min(520px, 80vw);
+  top: 6rem; left: 50%;
+  transform: translateX(-50%) translateZ(-80px) scale(1.06);
+  opacity: 0.35;
+  z-index: 0;
+  filter: saturate(0.8);
+}
+.inv-border-bottom {
+  bottom: 0; left: 0; right: 0;
+  width: 100%; height: auto;
+  display: block;
+  z-index: 3;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+/* ── CEREMONY/EVENTS LAYERS ── */
+.ceremony-scene-left {
+  width: min(260px, 30vw);
+  left: 0; top: 50%;
+  transform: translateY(-50%) translateZ(-60px) scale(1.05);
+  opacity: 0.25;
+  z-index: 0;
+  filter: saturate(0.7);
+}
+.ceremony-scene-right {
+  width: min(260px, 30vw);
+  right: 0; top: 50%;
+  transform: translateY(-50%) scaleX(-1) translateZ(-60px) scale(1.05);
+  opacity: 0.25;
+  z-index: 0;
+  filter: saturate(0.7);
+}
+.ceremony-border-top {
+  top: 0; left: 0; right: 0;
+  width: 100%; height: auto;
+  display: block;
+  z-index: 3;
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+/* ── VENUE LAYERS ── */
+.venue-procession {
+  bottom: 0; left: 0; right: 0;
+  width: 100%; height: auto;
+  display: block;
+  z-index: 3;
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+  filter: saturate(0.85);
+}
+
+/* ── STORY LAYERS ── */
+.story-procession-bg {
+  bottom: 0; left: 50%;
+  width: min(900px, 100vw);
+  transform: translateX(-50%) translateZ(-80px) scale(1.06);
+  opacity: 0.22;
+  z-index: 0;
+  filter: saturate(0.6);
+}
+
+/* ── RSVP LAYERS ── */
+.rsvp-mandap-layer {
+  right: -40px; bottom: 0;
+  width: min(300px, 40vw);
+  transform: translateZ(-60px) scale(1.05);
+  opacity: 0.3;
+  z-index: 0;
+  filter: saturate(0.75);
+}
+
+/* ── FOOTER LAYER ── */
+.footer-couple-layer {
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(200px, 50vw);
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+  filter: saturate(0.8) brightness(0.9);
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+}
+
+/* Loading Ganesha already has .loading-ganesha */
+
+/* ── REVEAL entrance animations with depth ── */
+@keyframes bapuRiseBack {
+  from { opacity: 0; transform: translate(-50%, -48%) translateZ(-100px) scale(1.08) translateY(20px); }
+  to   { opacity: 0.55; transform: translate(-50%, -52%) translateZ(-100px) scale(1.08); }
+}
+@keyframes bapuRiseNear {
+  from { opacity: 0; transform: translateX(-50%) translateZ(30px) scale(0.97) translateY(30px); }
+  to   { opacity: 0.9; transform: translateX(-50%) translateZ(30px) scale(0.97); }
+}
+.hero-arch-layer   { animation: bapuRiseBack 1.4s cubic-bezier(0.23,1,0.32,1) 1.0s both; }
+.hero-couple-layer { animation: bapuRiseNear 1.6s cubic-bezier(0.23,1,0.32,1) 1.3s both; }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .ceremony-scene-left, .ceremony-scene-right { display: none; }
+  .rsvp-mandap-layer { display: none; }
+  .hero-arch-layer { opacity: 0.35; }
+  .hero-couple-layer { width: min(280px, 70vw); bottom: -40px; }
+}
   </style>
 </head>
 <body>
@@ -947,7 +1111,7 @@
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen">
-  <img class="loading-ganesha" src="../../assets/generated/bapu-ganesha.jpg" alt="" aria-hidden="true"
+  <img class="loading-ganesha" src="../../assets/bapu/bapu-ganesha.png" alt="" aria-hidden="true"
        onerror="this.style.display='none'">
   <div class="loading-text">Subhamasthu...</div>
   <div class="splash-tap-label">Tap to open</div>
@@ -996,6 +1160,12 @@
     >
   </div>
 
+  <!-- Bapu: torana arch — deep background frame -->
+  <img class="bapu-layer hero-arch-layer" src="../../assets/bapu/bapu-torana-arch.png" alt="" aria-hidden="true" loading="eager">
+
+  <!-- Bapu: couple — foreground, bridges into invitation -->
+  <img class="bapu-layer hero-couple-layer" src="../../assets/bapu/bapu-couple.png" alt="" aria-hidden="true" loading="eager">
+
   <!-- Hero content -->
   <div class="hero-shubh" style="position:relative;z-index:2;">Shubh Vivah</div>
 
@@ -1023,6 +1193,9 @@
 
 <!-- INVITATION CARD -->
 <section id="invitation" class="damask-bg">
+  <img class="bapu-layer inv-border-top" src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer inv-arch-bg" src="../../assets/bapu/bapu-torana-dense.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer inv-border-bottom" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
   <div class="invite-backdrop" aria-hidden="true">INVITE</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">With the blessings of the Almighty</p>
@@ -1067,6 +1240,9 @@
 
 <!-- WEDDING EVENTS (id=ceremony kept for compatibility) -->
 <section id="ceremony" class="damask-bg">
+  <img class="bapu-layer ceremony-border-top" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer ceremony-scene-left" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer ceremony-scene-right" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
   <div class="events-backdrop" aria-hidden="true">EVENTS</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">Wedding Events</p>
@@ -1135,6 +1311,7 @@
 
 <!-- VENUE -->
 <section id="venue" class="damask-bg">
+  <img class="bapu-layer venue-procession" src="../../assets/bapu/bapu-procession-1.png" alt="" aria-hidden="true" loading="lazy">
   <div class="venue-backdrop" aria-hidden="true">VENUE</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">See the</p>
@@ -1228,6 +1405,7 @@
 
 <!-- OUR STORY -->
 <section id="story">
+  <img class="bapu-layer story-procession-bg" src="../../assets/bapu/bapu-procession-2.png" alt="" aria-hidden="true" loading="lazy">
   <div class="section-header reveal">
     <p class="section-eyebrow">How it began</p>
     <h2 class="section-title">Our Story</h2>
@@ -1272,6 +1450,7 @@
 
 <!-- RSVP -->
 <section id="rsvp" class="damask-bg">
+  <img class="bapu-layer rsvp-mandap-layer" src="../../assets/bapu/bapu-mandap.png" alt="" aria-hidden="true" loading="lazy">
   <div class="rsvp-backdrop" aria-hidden="true">RSVP</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">Please</p>
@@ -1324,6 +1503,7 @@
 
 <!-- FOOTER -->
 <footer>
+  <img class="footer-couple-layer" src="../../assets/bapu/bapu-couple.png" alt="" aria-hidden="true" loading="lazy">
   <div class="footer-couple">
     <span data-field="groom">Arjun</span>
     <span style="color:rgba(201,148,42,0.5)"> &amp; </span>
@@ -1365,6 +1545,32 @@
     }
     screen.addEventListener('click', openInvite);
     screen.addEventListener('touchstart', openInvite);
+  })();
+
+  /* ── Bapu Parallax Depth System ── */
+  (function initBapuParallax() {
+    const layers = [
+      { selector: '.hero-arch-layer',   speedY: -0.12, baseX: '-50%', baseZ: 'translateZ(-100px) scale(1.08)' },
+      { selector: '.hero-couple-layer', speedY:  0.25, baseX: '-50%', baseZ: 'translateZ(30px) scale(0.97)' },
+      { selector: '.inv-arch-bg',       speedY: -0.08, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
+      { selector: '.story-procession-bg', speedY: -0.1, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
+      { selector: '.rsvp-mandap-layer', speedY: -0.06, baseX: null,   baseZ: 'translateZ(-60px) scale(1.05)' },
+    ];
+    const resolved = layers.map(l => ({ ...l, el: document.querySelector(l.selector) })).filter(l => l.el);
+    if (!resolved.length) return;
+    let rafPending = false;
+    function update() {
+      rafPending = false;
+      resolved.forEach(({ el, speedY, baseX, baseZ }) => {
+        const rect = el.closest('section')?.getBoundingClientRect() || { top: 0, height: 0 };
+        const sectionMid = rect.top + rect.height / 2;
+        const offset = ((window.innerHeight / 2) - sectionMid) * speedY;
+        const tx = baseX ? `translateX(${baseX})` : '';
+        el.style.transform = `${tx} translateY(${offset.toFixed(2)}px) ${baseZ}`;
+      });
+    }
+    window.addEventListener('scroll', () => { if (!rafPending) { rafPending = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
   })();
 
   /* ── Countdown ── */

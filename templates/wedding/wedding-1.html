@@ -1079,6 +1079,10 @@
   pointer-events: none;
   will-change: transform, opacity;
   filter: drop-shadow(0 0 12px rgba(255,160,30,0.55));
+  animation-play-state: paused; /* static until scroll begins */
+}
+#lanterns-container.is-scrolling .hero-lantern {
+  animation-play-state: running;
 }
 
 /* ── INVITATION 4-SIDE BORDERS ── */
@@ -1611,6 +1615,16 @@
 
       container.appendChild(img);
     }
+
+    /* Start floating on scroll, freeze when scrolling stops */
+    let _lanternScrollTimer = null;
+    window.addEventListener('scroll', function() {
+      container.classList.add('is-scrolling');
+      clearTimeout(_lanternScrollTimer);
+      _lanternScrollTimer = setTimeout(function() {
+        container.classList.remove('is-scrolling');
+      }, 250);
+    }, { passive: true });
   })();
 
   /* ── Countdown ── */

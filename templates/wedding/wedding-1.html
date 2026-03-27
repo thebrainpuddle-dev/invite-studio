@@ -1431,33 +1431,33 @@
     <div class="story-item reveal">
       <div class="story-card">
         <span class="story-icon">I</span>
-        <div class="story-title">First Meeting</div>
-        <div class="story-date">Summer 2021</div>
-        <div class="story-text">Two souls crossed paths at a cousin's wedding in Hyderabad. A glance across the mandap changed everything.</div>
+        <div class="story-title" data-field="story1Title">First Meeting</div>
+        <div class="story-date" data-field="story1Date">Summer 2021</div>
+        <div class="story-text" data-field="story1Text">Two souls crossed paths at a cousin's wedding in Hyderabad. A glance across the mandap changed everything.</div>
       </div>
     </div>
     <div class="story-item reveal">
       <div class="story-card">
         <span class="story-icon">II</span>
-        <div class="story-title">First Date</div>
-        <div class="story-date">September 2021</div>
-        <div class="story-text">Coffee at Café de Arts, Jubilee Hills. Five hours felt like five minutes. They spoke of dreams, temples, and biryani.</div>
+        <div class="story-title" data-field="story2Title">First Date</div>
+        <div class="story-date" data-field="story2Date">September 2021</div>
+        <div class="story-text" data-field="story2Text">Coffee at Café de Arts, Jubilee Hills. Five hours felt like five minutes. They spoke of dreams, temples, and biryani.</div>
       </div>
     </div>
     <div class="story-item reveal">
       <div class="story-card">
         <span class="story-icon">III</span>
-        <div class="story-title">He Proposed</div>
-        <div class="story-date">January 14, 2025</div>
-        <div class="story-text">On Sankranti night, under a sky of kites and lanterns, Arjun went down on one knee. She said yes before he could finish.</div>
+        <div class="story-title" data-field="story3Title">He Proposed</div>
+        <div class="story-date" data-field="story3Date">January 14, 2025</div>
+        <div class="story-text" data-field="story3Text">On Sankranti night, under a sky of kites and lanterns, Arjun went down on one knee. She said yes before he could finish.</div>
       </div>
     </div>
     <div class="story-item">
       <div class="story-card">
         <span class="story-icon">IV</span>
-        <div class="story-title">The Big Day</div>
+        <div class="story-title" data-field="story4Title">The Big Day</div>
         <div class="story-date" data-field="weddingDate">April 18, 2026</div>
-        <div class="story-text">And now, surrounded by family and the blessings of Sri Venkateswara, our forever begins.</div>
+        <div class="story-text" data-field="story4Text">And now, surrounded by family and the blessings of Sri Venkateswara, our forever begins.</div>
       </div>
     </div>
   </div>
@@ -1637,7 +1637,7 @@
   /* ── Floating Bapu Flowers (venue + gallery) ── */
   (function initSectionFlowers() {
     var SRC    = '../../assets/bapu/bapu-flower-marigold.png';
-    var COUNTS = { 'venue': 7, 'gallery': 7 };
+    var COUNTS = { 'venue': 7, 'gallery': 7, 'story': 5, 'rsvp': 5 };
     var allItems = [];
 
     Object.keys(COUNTS).forEach(function(sectionId) {

@@ -960,148 +960,100 @@
   mix-blend-mode: multiply;
 }
 
-/* Depth positions */
-.bapu-depth-back  { transform: translateZ(-100px) scale(1.08); }
-.bapu-depth-mid   { transform: translateZ(-50px)  scale(1.04); }
-.bapu-depth-near  { transform: translateZ(30px)   scale(0.97); }
-
-/* ── HERO LAYERS ── */
+/* ── HERO: torana arch frames the names, sits behind content ── */
 .hero-arch-layer {
-  width: min(700px, 95vw);
+  width: min(680px, 92vw);
   top: 50%; left: 50%;
-  transform: translate(-50%, -52%) translateZ(-100px) scale(1.08);
-  opacity: 0.55;
+  transform: translate(-50%, -50%) translateZ(-100px) scale(1.08);
+  opacity: 0.45;
   z-index: 1;
-  filter: saturate(0.7) brightness(0.9);
-  transition: transform 0.1s linear;
-}
-.hero-couple-layer {
-  width: min(420px, 72vw);
-  bottom: -60px; left: 50%;
-  transform: translateX(-50%) translateZ(30px) scale(0.97);
-  opacity: 0.9;
-  z-index: 4;
-  filter: saturate(1.05);
+  filter: saturate(0.65) brightness(0.85);
   transition: transform 0.1s linear;
 }
 
-/* ── INVITATION LAYERS ── */
-.inv-border-top {
-  top: 0; left: 0; right: 0;
-  width: 100%; height: auto;
+/* ── SECTION DIVIDER STRIPS ── */
+/* All border images are treated as fixed-height decorative bands.
+   object-fit: cover keeps the pattern centred without distortion. */
+.bapu-strip {
+  left: 0; right: 0;
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+  object-position: center;
   display: block;
   z-index: 3;
   mix-blend-mode: multiply;
-  opacity: 0.85;
 }
+.bapu-strip-top    { top: 0; }
+.bapu-strip-bottom { bottom: 0; }
+
+/* Invitation: faint torana watermark sits behind the parchment card */
 .inv-arch-bg {
-  width: min(520px, 80vw);
-  top: 6rem; left: 50%;
-  transform: translateX(-50%) translateZ(-80px) scale(1.06);
-  opacity: 0.35;
+  width: min(460px, 76vw);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) translateZ(-80px) scale(1.06);
+  opacity: 0.14;
   z-index: 0;
-  filter: saturate(0.8);
-}
-.inv-border-bottom {
-  bottom: 0; left: 0; right: 0;
-  width: 100%; height: auto;
-  display: block;
-  z-index: 3;
-  mix-blend-mode: multiply;
-  opacity: 0.85;
+  filter: saturate(0.7) grayscale(0.2);
+  transition: transform 0.1s linear;
 }
 
-/* ── CEREMONY/EVENTS LAYERS ── */
+/* ── CEREMONY: narrow sacred-fire illustrations flank the event cards ── */
 .ceremony-scene-left {
-  width: min(260px, 30vw);
+  width: min(180px, 22vw);
   left: 0; top: 50%;
-  transform: translateY(-50%) translateZ(-60px) scale(1.05);
-  opacity: 0.25;
+  transform: translateY(-50%);
+  opacity: 0.18;
   z-index: 0;
-  filter: saturate(0.7);
+  filter: saturate(0.65);
 }
 .ceremony-scene-right {
-  width: min(260px, 30vw);
+  width: min(180px, 22vw);
   right: 0; top: 50%;
-  transform: translateY(-50%) scaleX(-1) translateZ(-60px) scale(1.05);
-  opacity: 0.25;
+  transform: translateY(-50%) scaleX(-1);
+  opacity: 0.18;
   z-index: 0;
-  filter: saturate(0.7);
-}
-.ceremony-border-top {
-  top: 0; left: 0; right: 0;
-  width: 100%; height: auto;
-  display: block;
-  z-index: 3;
-  mix-blend-mode: multiply;
-  opacity: 0.7;
+  filter: saturate(0.65);
 }
 
-/* ── VENUE LAYERS ── */
+/* ── VENUE: procession strip runs along the bottom edge ── */
 .venue-procession {
   bottom: 0; left: 0; right: 0;
-  width: 100%; height: auto;
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  object-position: center bottom;
   display: block;
-  z-index: 3;
+  z-index: 2;
   mix-blend-mode: multiply;
-  opacity: 0.6;
-  filter: saturate(0.85);
+  opacity: 0.55;
+  filter: saturate(0.8);
 }
 
-/* ── STORY LAYERS ── */
+/* ── STORY: wide procession panorama as subtle bottom watermark ── */
 .story-procession-bg {
   bottom: 0; left: 50%;
-  width: min(900px, 100vw);
+  width: min(860px, 100vw);
   transform: translateX(-50%) translateZ(-80px) scale(1.06);
-  opacity: 0.22;
+  opacity: 0.18;
   z-index: 0;
-  filter: saturate(0.6);
+  filter: saturate(0.55);
+  transition: transform 0.1s linear;
 }
 
-/* ── RSVP LAYERS ── */
-.rsvp-mandap-layer {
-  right: -40px; bottom: 0;
-  width: min(300px, 40vw);
-  transform: translateZ(-60px) scale(1.05);
-  opacity: 0.3;
-  z-index: 0;
-  filter: saturate(0.75);
-}
-
-/* ── FOOTER LAYER ── */
-.footer-couple-layer {
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: min(200px, 50vw);
-  mix-blend-mode: multiply;
-  opacity: 0.65;
-  filter: saturate(0.8) brightness(0.9);
-  z-index: 1;
-  pointer-events: none;
-  user-select: none;
-  position: absolute;
-}
-
-/* Loading Ganesha already has .loading-ganesha */
-
-/* ── REVEAL entrance animations with depth ── */
+/* ── REVEAL entrance animation ── */
 @keyframes bapuRiseBack {
-  from { opacity: 0; transform: translate(-50%, -48%) translateZ(-100px) scale(1.08) translateY(20px); }
-  to   { opacity: 0.55; transform: translate(-50%, -52%) translateZ(-100px) scale(1.08); }
+  from { opacity: 0; transform: translate(-50%, -46%) translateZ(-100px) scale(1.08); }
+  to   { opacity: 0.45; transform: translate(-50%, -50%) translateZ(-100px) scale(1.08); }
 }
-@keyframes bapuRiseNear {
-  from { opacity: 0; transform: translateX(-50%) translateZ(30px) scale(0.97) translateY(30px); }
-  to   { opacity: 0.9; transform: translateX(-50%) translateZ(30px) scale(0.97); }
-}
-.hero-arch-layer   { animation: bapuRiseBack 1.4s cubic-bezier(0.23,1,0.32,1) 1.0s both; }
-.hero-couple-layer { animation: bapuRiseNear 1.6s cubic-bezier(0.23,1,0.32,1) 1.3s both; }
+.hero-arch-layer { animation: bapuRiseBack 1.6s cubic-bezier(0.23,1,0.32,1) 0.8s both; }
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .ceremony-scene-left, .ceremony-scene-right { display: none; }
-  .rsvp-mandap-layer { display: none; }
-  .hero-arch-layer { opacity: 0.35; }
-  .hero-couple-layer { width: min(280px, 70vw); bottom: -40px; }
+  .hero-arch-layer { opacity: 0.3; }
+  .bapu-strip { height: 48px; }
+  .venue-procession { height: 70px; }
 }
   </style>
 </head>
@@ -1164,7 +1116,6 @@
   <img class="bapu-layer hero-arch-layer" src="../../assets/bapu/bapu-torana-arch.png" alt="" aria-hidden="true" loading="eager">
 
   <!-- Bapu: couple — foreground, bridges into invitation -->
-  <img class="bapu-layer hero-couple-layer" src="../../assets/bapu/bapu-couple.png" alt="" aria-hidden="true" loading="eager">
 
   <!-- Hero content -->
   <div class="hero-shubh" style="position:relative;z-index:2;">Shubh Vivah</div>
@@ -1193,9 +1144,9 @@
 
 <!-- INVITATION CARD -->
 <section id="invitation" class="damask-bg">
-  <img class="bapu-layer inv-border-top" src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer bapu-strip bapu-strip-top" src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer inv-arch-bg" src="../../assets/bapu/bapu-torana-dense.png" alt="" aria-hidden="true" loading="lazy">
-  <img class="bapu-layer inv-border-bottom" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer bapu-strip bapu-strip-bottom" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
   <div class="invite-backdrop" aria-hidden="true">INVITE</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">With the blessings of the Almighty</p>
@@ -1240,7 +1191,7 @@
 
 <!-- WEDDING EVENTS (id=ceremony kept for compatibility) -->
 <section id="ceremony" class="damask-bg">
-  <img class="bapu-layer ceremony-border-top" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer bapu-strip bapu-strip-top" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer ceremony-scene-left" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer ceremony-scene-right" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
   <div class="events-backdrop" aria-hidden="true">EVENTS</div>
@@ -1450,7 +1401,7 @@
 
 <!-- RSVP -->
 <section id="rsvp" class="damask-bg">
-  <img class="bapu-layer rsvp-mandap-layer" src="../../assets/bapu/bapu-mandap.png" alt="" aria-hidden="true" loading="lazy">
+  <img class="bapu-layer bapu-strip bapu-strip-top" src="../../assets/bapu/bapu-border-2.png" alt="" aria-hidden="true" loading="lazy">
   <div class="rsvp-backdrop" aria-hidden="true">RSVP</div>
   <div class="section-header reveal">
     <p class="section-eyebrow">Please</p>
@@ -1503,7 +1454,6 @@
 
 <!-- FOOTER -->
 <footer>
-  <img class="footer-couple-layer" src="../../assets/bapu/bapu-couple.png" alt="" aria-hidden="true" loading="lazy">
   <div class="footer-couple">
     <span data-field="groom">Arjun</span>
     <span style="color:rgba(201,148,42,0.5)"> &amp; </span>
@@ -1550,11 +1500,9 @@
   /* ── Bapu Parallax Depth System ── */
   (function initBapuParallax() {
     const layers = [
-      { selector: '.hero-arch-layer',   speedY: -0.12, baseX: '-50%', baseZ: 'translateZ(-100px) scale(1.08)' },
-      { selector: '.hero-couple-layer', speedY:  0.25, baseX: '-50%', baseZ: 'translateZ(30px) scale(0.97)' },
-      { selector: '.inv-arch-bg',       speedY: -0.08, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
-      { selector: '.story-procession-bg', speedY: -0.1, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
-      { selector: '.rsvp-mandap-layer', speedY: -0.06, baseX: null,   baseZ: 'translateZ(-60px) scale(1.05)' },
+      { selector: '.hero-arch-layer',     speedY: -0.10, baseX: '-50%', baseZ: 'translateZ(-100px) scale(1.08)' },
+      { selector: '.inv-arch-bg',         speedY: -0.07, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
+      { selector: '.story-procession-bg', speedY: -0.08, baseX: '-50%', baseZ: 'translateZ(-80px) scale(1.06)' },
     ];
     const resolved = layers.map(l => ({ ...l, el: document.querySelector(l.selector) })).filter(l => l.el);
     if (!resolved.length) return;

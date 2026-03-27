@@ -213,7 +213,7 @@
     }
     .hero-date-box::before,
     .hero-date-box::after {
-      content: '✦';
+      content: '';
       position: absolute;
       color: var(--gold-light);
       font-size: 0.8rem;
@@ -669,12 +669,12 @@
       font-size: 0.78rem;
       color: var(--text-dim);
       padding: 0.25rem 0;
-      border-bottom: 1px dotted rgba(201,148,42,0.15);
+      border-bottom: 1px solid rgba(201,148,42,0.15);
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
-    .menu-items li::before { content: '✦'; color: var(--gold); font-size: 0.5rem; flex-shrink: 0; }
+    .menu-items li::before { content: '•'; color: var(--gold); font-size: 0.5rem; flex-shrink: 0; }
 
     /* ============================================================
        RANGOLI DIVIDERS
@@ -933,7 +933,7 @@
         </div>
 
         <p class="invite-para" style="color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em;">
-          ✦ &nbsp; Your presence will bless this union &nbsp; ✦
+          Your presence will bless this union
         </p>
       </div>
     </div>
@@ -945,7 +945,7 @@
       <p class="sec-tag r">Schedule of Celebrations</p>
       <h2 class="sec-title r">Wedding Programme</h2>
       <p class="sec-script r">Subhamasthu</p>
-      <div class="sec-divider r">✦</div>
+      <div class="sec-divider r"></div>
 
       <div class="events-grid">
         <div class="event-card r">
@@ -958,7 +958,7 @@
         </div>
 
         <div class="event-card r">
-          <span class="event-icon">⭐</span>
+          <span class="event-icon"></span>
           <div class="event-name">Subhamuhurtham</div>
           <div class="event-telugu">శుభముహూర్తం</div>
           <div class="event-time">10:30</div>
@@ -1027,7 +1027,7 @@
     <div class="section-inner">
       <p class="sec-tag r">Precious Moments</p>
       <h2 class="sec-title r">Photo Gallery</h2>
-      <div class="sec-divider r">✦</div>
+      <div class="sec-divider r"></div>
 
       <div class="gallery-grid">
         <!-- Placeholder gallery items using CSS gradient backgrounds -->
@@ -1202,7 +1202,7 @@
       document.addEventListener('touchstart', onEnter);
 
       // Floating hero flowers
-      const flowers = ['🌺','🌸','🌼','🏵️','✿'];
+      const flowers = ['🌺','🌸','🌼','🏵️'];
       const container = document.getElementById('heroFlowers');
       for (let i = 0; i < 18; i++) {
         const el = document.createElement('div');

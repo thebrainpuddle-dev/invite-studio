@@ -10,13 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     :root {
-      --kids-pink:   #e84090;
-      --kids-purple: #7b20c0;
-      --kids-blue:   #2090e8;
-      --kids-yellow: #ffd700;
-      --kids-lime:   #40e080;
-      --kids-bg:     #1a0030;
-      --kids-bg2:    #0d001a;
+      --kids-gold: #c9942a;
+      --kids-rose: #c47a7a;
+      --kids-sage: #7a9a7a;
+      --kids-bg: #1a1310;
+      --kids-bg2: #0d0a08;
     }
 
     html { scroll-behavior: smooth; }
@@ -24,14 +22,14 @@
 
     /* ── Purchase banner override — kids theme ── */
     .purchase-banner {
-      background: linear-gradient(135deg, var(--kids-purple), var(--kids-pink));
+      background: linear-gradient(135deg, #c9942a, #a07830);
       color: #fff;
       border-bottom: none;
     }
 
     /* ── Back nav ── */
-    .back-nav { color: rgba(123,32,192,0.65); }
-    .back-nav:hover { color: var(--kids-purple); }
+    .back-nav { color: rgba(201,148,42,0.65); }
+    .back-nav:hover { color: var(--kids-gold); }
 
     /* ── Layout ── */
     .customize-wrap {
@@ -61,13 +59,13 @@
       font-size: 0.65rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: var(--kids-purple);
+      color: var(--kids-gold);
       margin-bottom: 0.4rem;
     }
     .cust-page-title {
       font-family: var(--font-display);
       font-size: clamp(1.6rem, 4vw, 2.4rem);
-      color: var(--kids-purple);
+      color: var(--kids-gold);
       margin-bottom: 0.5rem;
     }
     .cust-page-sub {
@@ -78,7 +76,7 @@
     /* ── Form panel ── */
     .customize-form-panel {
       background: #fff;
-      border: 2px solid rgba(123,32,192,0.15);
+      border: 2px solid rgba(201,148,42,0.15);
       border-radius: 12px;
       padding: 2rem;
     }
@@ -86,17 +84,17 @@
     /* Override form inputs for kids theme accent */
     .form-input:focus,
     .form-textarea:focus {
-      border-color: var(--kids-purple);
-      box-shadow: 0 0 0 3px rgba(123,32,192,0.1);
+      border-color: var(--kids-gold);
+      box-shadow: 0 0 0 3px rgba(201,148,42,0.1);
     }
 
     .form-section-title {
       font-family: var(--font-display);
       font-size: 0.9rem;
-      color: var(--kids-purple);
+      color: var(--kids-gold);
       margin-bottom: 1.2rem;
       padding-bottom: 0.5rem;
-      border-bottom: 2px solid rgba(123,32,192,0.12);
+      border-bottom: 2px solid rgba(201,148,42,0.12);
       letter-spacing: 0.04em;
     }
 
@@ -114,31 +112,32 @@
 
     /* Kids-themed submit button */
     .btn-kids-primary {
-      background: linear-gradient(135deg, var(--kids-pink), var(--kids-purple));
+      background: #c9942a;
       color: #fff;
       border-radius: 25px;
       font-weight: 700;
     }
     .btn-kids-primary:hover {
-      background: linear-gradient(135deg, var(--kids-purple), var(--kids-pink));
-      box-shadow: 0 8px 24px rgba(232,64,144,0.3);
+      background: #a07830;
+      box-shadow: 0 4px 16px rgba(201,148,42,0.3);
     }
 
     .btn-kids-secondary {
-      background: linear-gradient(135deg, var(--kids-blue), var(--kids-purple));
-      color: #fff;
+      background: #1a1310;
+      border: 1px solid rgba(201,148,42,0.4);
+      color: #c9942a;
       border-radius: 25px;
       font-weight: 600;
     }
     .btn-kids-secondary:hover {
-      background: linear-gradient(135deg, var(--kids-purple), var(--kids-blue));
-      box-shadow: 0 8px 24px rgba(32,144,232,0.3);
+      background: rgba(201,148,42,0.1);
     }
 
     /* ── Save banner ── */
     .save-banner {
       display: none;
-      background: linear-gradient(135deg, var(--kids-purple), var(--kids-pink));
+      background: #1a1310;
+      border: 1px solid rgba(201,148,42,0.3);
       color: #fff;
       padding: 0.7rem 1rem;
       font-size: 0.78rem;
@@ -159,7 +158,7 @@
       flex: 1;
       font-size: 0.78rem;
       background: #fffdf5;
-      border: 1px solid rgba(123,32,192,0.25);
+      border: 1px solid rgba(201,148,42,0.25);
       padding: 0.55rem 0.8rem;
       color: var(--text-dim);
       outline: none;
@@ -179,46 +178,30 @@
       font-size: 0.6rem;
       letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: var(--kids-purple);
+      color: var(--kids-gold);
       margin-bottom: 0.8rem;
       text-align: center;
     }
 
     /* ── Live preview card — kids theme ── */
     #live-preview {
-      background: radial-gradient(ellipse at 40% 20%, #3d006b 0%, var(--kids-bg) 60%, var(--kids-bg2) 100%);
+      background: linear-gradient(160deg, #1a1310 0%, #0d0a08 100%);
       color: #fff;
       padding: 2.5rem 2rem;
       text-align: center;
       position: relative;
       overflow: hidden;
       border-radius: 20px;
-      border: 3px solid transparent;
-      box-shadow:
-        0 0 0 3px var(--kids-pink),
-        0 0 0 5px var(--kids-yellow),
-        0 0 30px rgba(123,32,192,0.4);
+      border: 1px solid rgba(201,148,42,0.2);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
       min-height: 460px;
-    }
-
-    /* Decorative stars in preview */
-    #live-preview::before {
-      content: '✦ ✧ ✦';
-      position: absolute;
-      top: 0.8rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      color: rgba(255,215,0,0.4);
-      letter-spacing: 0.6em;
-      pointer-events: none;
     }
 
     .lp-pre {
       font-size: 0.6rem;
       letter-spacing: 0.4em;
       text-transform: uppercase;
-      color: var(--kids-yellow);
+      color: #c9942a;
       margin-bottom: 0.5rem;
       margin-top: 0.5rem;
     }
@@ -227,13 +210,7 @@
       font-family: var(--font-display);
       font-size: 1.4rem;
       font-weight: 700;
-      background: linear-gradient(90deg,
-        var(--kids-pink) 0%, var(--kids-yellow) 33%,
-        var(--kids-lime) 66%, var(--kids-blue) 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #c9942a;
       line-height: 1.1;
       margin-bottom: 0.3rem;
     }
@@ -243,7 +220,7 @@
       font-size: 2.2rem;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 0 20px var(--kids-pink), 2px 2px 0 var(--kids-purple);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
       line-height: 1;
       margin-bottom: 0.3rem;
     }
@@ -256,7 +233,7 @@
       justify-content: center;
       width: 52px; height: 52px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--kids-pink), var(--kids-purple));
+      background: #c9942a;
       font-family: var(--font-display);
       font-size: 1.2rem;
       font-weight: 700;
@@ -268,7 +245,7 @@
     .lp-rainbow-bar {
       width: 120px; height: 3px;
       border-radius: 2px;
-      background: linear-gradient(90deg, var(--kids-pink), var(--kids-yellow), var(--kids-lime), var(--kids-blue));
+      background: #c9942a;
       margin: 0 auto 1rem;
     }
 
@@ -282,7 +259,7 @@
       font-size: 0.55rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--kids-yellow);
+      color: #c9942a;
       display: block;
     }
 
@@ -304,12 +281,10 @@
       text-transform: uppercase;
       color: rgba(255,255,255,0.45);
     }
-    .lp-host span { color: var(--kids-yellow); }
+    .lp-host span { color: #c9942a; }
 
     .lp-emojis {
-      font-size: 1.1rem;
-      letter-spacing: 0.3em;
-      margin-bottom: 0.5rem;
+      display: none;
     }
   </style>
 </head>
@@ -450,10 +425,10 @@
 
           <div class="lp-host">Hosted by <span>{{host}}</span></div>
 
-          <div style="margin-top:0.6rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--kids-yellow);">{{theme}}</div>
+          <div style="margin-top:0.6rem;font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:#c9942a;">{{theme}}</div>
 
           <div id="photo-preview-wrap" style="display:none;margin-top:0.8rem;">
-            <img id="preview-hero-img" src="" alt="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--kids-pink);">
+            <img id="preview-hero-img" src="" alt="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,148,42,0.5);">
           </div>
         </div>
       </div>

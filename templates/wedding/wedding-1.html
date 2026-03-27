@@ -657,28 +657,28 @@
 
     /* ── GALLERY SECTION ── */
     #gallery {
-      background: radial-gradient(ellipse at 50% 40%, #5a2d05 0%, #2d1200 60%, #1a0900 100%);
+      background: var(--bapu-cream);
       padding: 7rem 2rem 6rem;
       position: relative;
       overflow: hidden;
     }
-    #gallery .section-title   { color: var(--bapu-cream); }
-    #gallery .section-eyebrow { color: #e8a055; }
-    #gallery .section-subtitle { color: rgba(253,246,232,0.55); }
-    #gallery .divider-line    { background: rgba(232,160,85,0.4); }
-    #gallery .divider-icon    { color: #e8a055; }
+    #gallery .section-title   { color: var(--bapu-text); }
+    #gallery .section-eyebrow { color: var(--bapu-saffron); }
+    #gallery .section-subtitle { color: var(--bapu-muted); }
+    #gallery .divider-line    { background: rgba(212,98,10,0.25); }
+    #gallery .divider-icon    { color: var(--bapu-saffron); }
 
     /* Bapu gallery decorations */
     .gallery-bg-watermark {
       position: absolute; width: min(900px, 110vw);
       top: 50%; left: 50%; transform: translate(-50%, -50%);
-      opacity: 0.32; mix-blend-mode: screen;
+      opacity: 0.55; mix-blend-mode: multiply;
       pointer-events: none; user-select: none; z-index: 1;
     }
     .gallery-strip {
       position: absolute; left: 0; right: 0;
       width: 100%; height: 72px; object-fit: cover; object-position: center;
-      mix-blend-mode: screen; opacity: 0.55;
+      mix-blend-mode: multiply; opacity: 0.85;
       pointer-events: none; z-index: 3;
     }
     .gallery-strip-top    { top: 0; }
@@ -691,10 +691,10 @@
       position: relative; z-index: 2;
     }
     .polaroid {
-      background: var(--bapu-ivory); padding: 0.8rem 0.8rem 2.5rem;
+      background: white; padding: 0.8rem 0.8rem 2.5rem;
       cursor: pointer;
       border-bottom: 3px solid var(--bapu-saffron);
-      box-shadow: 0 6px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,98,10,0.18);
+      box-shadow: 0 6px 32px rgba(45,20,0,0.15), 0 0 0 1px rgba(212,98,10,0.12);
       transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     }
     .polaroid:nth-child(1) { transform: rotate(-2.5deg); }

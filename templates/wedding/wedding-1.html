@@ -1103,6 +1103,19 @@
   .bapu-strip { height: 48px; }
   .venue-procession { height: 70px; }
 }
+
+/* ── BAPU FLOATING FLOWERS (venue + gallery) ── */
+.section-flower {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  opacity: 0.82;
+  filter: drop-shadow(0 4px 8px rgba(180, 80, 0, 0.18));
+}
+@media (max-width: 768px) {
+  .section-flower { opacity: 0.6; }
+}
   </style>
 </head>
 <body>
@@ -1618,6 +1631,60 @@
     }
     window.addEventListener('scroll', function() {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+  })();
+
+  /* ── Floating Bapu Flowers (venue + gallery) ── */
+  (function initSectionFlowers() {
+    var SRC    = '../../assets/bapu/bapu-flower-marigold.png';
+    var COUNTS = { 'venue': 7, 'gallery': 7 };
+    var allItems = [];
+
+    Object.keys(COUNTS).forEach(function(sectionId) {
+      var section = document.getElementById(sectionId);
+      if (!section) return;
+      var count = COUNTS[sectionId];
+
+      for (var i = 0; i < count; i++) {
+        var img     = document.createElement('img');
+        img.src     = SRC;
+        img.className = 'section-flower';
+        img.setAttribute('aria-hidden', 'true');
+        img.setAttribute('loading', 'lazy');
+
+        var size  = 48 + Math.random() * 64;        // 48–112 px
+        var xPct  = 2  + Math.random() * 96;        // 2–98 % from left
+        var yPct  = 4  + Math.random() * 88;        // 4–92 % from top within section
+        var speed = 0.05 + Math.random() * 0.12;    // gentle parallax 0.05–0.17
+        /* Alternate rotation for natural scatter */
+        var rot   = (Math.random() * 60 - 30);      // −30° to +30°
+
+        img.style.cssText =
+          'width:'     + size.toFixed(1) + 'px;' +
+          'left:'      + xPct.toFixed(1) + '%;'  +
+          'top:'       + yPct.toFixed(1) + '%;'  +
+          'transform:rotate(' + rot.toFixed(1) + 'deg);';
+
+        section.appendChild(img);
+        allItems.push({ el: img, speed: speed, baseRot: rot, sectionEl: section });
+      }
+    });
+
+    /* RAF-throttled scroll: translate each flower relative to its section top */
+    var ticking2 = false;
+    function updateFlowers() {
+      var sy = window.scrollY;
+      for (var j = 0; j < allItems.length; j++) {
+        var item    = allItems[j];
+        var secTop  = item.sectionEl.getBoundingClientRect().top + sy;
+        var offset  = (sy - secTop) * item.speed;
+        item.el.style.transform =
+          'translateY(' + offset.toFixed(2) + 'px) rotate(' + item.baseRot.toFixed(1) + 'deg)';
+      }
+      ticking2 = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking2) { requestAnimationFrame(updateFlowers); ticking2 = true; }
     }, { passive: true });
   })();
 

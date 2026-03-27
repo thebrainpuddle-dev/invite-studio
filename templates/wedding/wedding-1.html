@@ -1634,20 +1634,28 @@
     }, { passive: true });
   })();
 
-  /* ── Floating Bapu Flowers (venue + gallery) ── */
+  /* ── Floating Bapu Flowers (venue + gallery + story + rsvp) ── */
   (function initSectionFlowers() {
-    var SRC    = '../../assets/bapu/bapu-flower-marigold.png';
-    var COUNTS = { 'venue': 7, 'gallery': 7, 'story': 5, 'rsvp': 5 };
+    var MARIGOLD = '../../assets/bapu/bapu-marigold.png';
+    var LOTUS    = '../../assets/bapu/bapu-lotus.png';
+    /* section → [count, primarySrc, secondarySrc (every 3rd flower)] */
+    var SECTIONS = {
+      'venue':   [7, MARIGOLD, LOTUS],
+      'gallery': [7, MARIGOLD, LOTUS],
+      'story':   [6, LOTUS,    MARIGOLD],
+      'rsvp':    [6, LOTUS,    MARIGOLD]
+    };
     var allItems = [];
 
-    Object.keys(COUNTS).forEach(function(sectionId) {
+    Object.keys(SECTIONS).forEach(function(sectionId) {
       var section = document.getElementById(sectionId);
       if (!section) return;
-      var count = COUNTS[sectionId];
-
+      var cfg   = SECTIONS[sectionId];
+      var count = cfg[0];
       for (var i = 0; i < count; i++) {
         var img     = document.createElement('img');
-        img.src     = SRC;
+        /* Alternate: every 3rd flower uses secondary src for variety */
+        img.src     = (i % 3 === 2) ? cfg[2] : cfg[1];
         img.className = 'section-flower';
         img.setAttribute('aria-hidden', 'true');
         img.setAttribute('loading', 'lazy');

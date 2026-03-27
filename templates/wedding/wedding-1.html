@@ -1048,6 +1048,30 @@
 }
 .hero-arch-layer { animation: bapuRiseBack 1.6s cubic-bezier(0.23,1,0.32,1) 0.8s both; }
 
+/* ── HERO FLOATING LANTERNS ── */
+#lanterns-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+.hero-lantern {
+  position: absolute;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: brightness(1.1) saturate(1.15);
+}
+@keyframes lanternRise {
+  0%   { opacity: 0;   transform: translateY(0)      translateX(0px)   rotate(-2deg); }
+  8%   { opacity: 0.88; }
+  35%  {               transform: translateY(-32vh)  translateX(18px)  rotate(4deg);  }
+  65%  {               transform: translateY(-65vh)  translateX(-12px) rotate(-3deg); opacity: 0.65; }
+  92%  { opacity: 0.1; }
+  100% { opacity: 0;   transform: translateY(-108vh) translateX(8px)   rotate(2deg);  }
+}
+
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .ceremony-scene-left, .ceremony-scene-right { display: none; }
@@ -1115,7 +1139,8 @@
   <!-- Bapu: torana arch — deep background frame -->
   <img class="bapu-layer hero-arch-layer" src="../../assets/bapu/bapu-torana-arch.png" alt="" aria-hidden="true" loading="eager">
 
-  <!-- Bapu: couple — foreground, bridges into invitation -->
+  <!-- Floating Bapu lanterns -->
+  <div id="lanterns-container" aria-hidden="true"></div>
 
   <!-- Hero content -->
   <div class="hero-shubh" style="position:relative;z-index:2;">Shubh Vivah</div>
@@ -1155,7 +1180,7 @@
     <p class="section-subtitle">You are cordially invited to the wedding celebrations of</p>
   </div>
   <div class="bapu-blessing reveal">
-    <img src="../../assets/generated/bapu-rama-sita.jpg" alt="Rama & Sita — Bapu illustration" />
+    <img src="../../assets/bapu/bapu-couple.png" alt="Bride & Groom — Bapu illustration" />
   </div>
   <p class="bapu-caption reveal">Sri Rama &amp; Sita — with their divine blessings</p>
 
@@ -1519,6 +1544,36 @@
     }
     window.addEventListener('scroll', () => { if (!rafPending) { rafPending = true; requestAnimationFrame(update); } }, { passive: true });
     update();
+  })();
+
+  /* ── Floating Bapu Lanterns ── */
+  (function initLanterns() {
+    const container = document.getElementById('lanterns-container');
+    if (!container) return;
+    const SRC = '../../assets/bapu/bapu-lantern.png';
+    const TOTAL = 9;
+
+    for (let i = 0; i < TOTAL; i++) {
+      const img = document.createElement('img');
+      img.src = SRC;
+      img.className = 'hero-lantern';
+      img.setAttribute('aria-hidden', 'true');
+      img.setAttribute('loading', 'eager');
+
+      const size     = 38 + Math.random() * 52;      // 38–90 px
+      const xPct     = 4  + Math.random() * 92;      // 4–96 % from left
+      const duration = 9  + Math.random() * 9;       // 9–18 s per cycle
+      const delay    = -(Math.random() * duration);  // start mid-cycle so hero isn't empty
+
+      img.style.cssText = [
+        `width:${size.toFixed(1)}px`,
+        `bottom:${(-8 - Math.random() * 12).toFixed(1)}%`,
+        `left:${xPct.toFixed(1)}%`,
+        `animation:lanternRise ${duration.toFixed(2)}s ease-in ${delay.toFixed(2)}s infinite`,
+      ].join(';');
+
+      container.appendChild(img);
+    }
   })();
 
   /* ── Countdown ── */

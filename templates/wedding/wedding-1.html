@@ -911,7 +911,7 @@
 
     /* ── FOOTER ── */
     footer {
-      background: var(--navy);
+      background: #1E4D8C;
       padding: 4rem 2rem 7rem;
       text-align: center;
       border-top: 1px solid rgba(201,148,42,0.2);
@@ -1245,7 +1245,6 @@
 
 <!-- WEDDING EVENTS (id=ceremony kept for compatibility) -->
 <section id="ceremony" class="damask-bg">
-  <img class="bapu-layer bapu-strip bapu-strip-top" src="../../assets/bapu/bapu-border-1.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer ceremony-scene-left" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
   <img class="bapu-layer ceremony-scene-right" src="../../assets/bapu/bapu-sacred-fire.png" alt="" aria-hidden="true" loading="lazy">
   <div class="events-backdrop" aria-hidden="true">EVENTS</div>
@@ -1544,6 +1543,9 @@
       screen.removeEventListener('click', openInvite);
       screen.removeEventListener('touchstart', openInvite);
       screen.classList.add('hidden');
+      // Start background music
+      const music = document.getElementById('bg-music');
+      if (music) music.play().catch(() => {});
       const heroEls = document.querySelectorAll('.reveal');
       heroEls.forEach((el, i) => {
         setTimeout(() => {

@@ -963,6 +963,119 @@
       .compare-section { padding: 4rem 1rem; }
       .compare-table { font-size: 0.72rem; }
     }
+
+    /* ── WARM HERO BG ── */
+    .hero { background: #FDFAF5; }
+
+    /* ── CELEBRATION MARQUEE STRIP ── */
+    .marquee-wrap {
+      width: 100%; overflow: hidden;
+      background: #1a1a1a;
+      padding: 0.55rem 0;
+      margin-top: 0;
+    }
+    .marquee-track {
+      display: flex; gap: 0;
+      width: max-content;
+      animation: marqueeScroll 28s linear infinite;
+    }
+    .marquee-item {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      padding: 0 2.2rem;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 2.2rem;
+    }
+    .marquee-item::after {
+      content: '✦';
+      color: #c9942a;
+      font-size: 0.6rem;
+    }
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── HERO EYEBROW badge (warm) ── */
+    .hero-eyebrow {
+      background: rgba(201,148,42,0.1);
+      border: 1px solid rgba(201,148,42,0.25);
+      color: #8a6010;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── HERO CTA — warm gold accent ── */
+    .hero-cta {
+      background: #1a1a1a;
+      border: 1.5px solid transparent;
+    }
+    .hero-cta-ghost {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.9rem; font-weight: 600; color: #555;
+      padding: 0.75rem 1.4rem;
+      border-radius: 100px;
+      text-decoration: none;
+      border: 1.5px solid #e0e0e0;
+      transition: border-color 160ms, color 160ms;
+      margin-left: 0.5rem;
+    }
+    .hero-cta-ghost:hover { border-color: #1a1a1a; color: #1a1a1a; }
+
+    /* ── SECTION BAND — remove pill, use a serif label ── */
+    .section-band-label {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #c9942a;
+      background: none; padding: 0;
+      border-radius: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .section-band-line { background: #f0ebe3; }
+
+    /* ── FEATURE ROW — warm left border accent on hover ── */
+    .feature-row {
+      border-left: 3px solid transparent;
+      padding-left: 1rem;
+      transition: border-color 250ms;
+    }
+    .feature-row:hover { border-left-color: #c9942a; }
+    .feature-row:first-child { border-top: 1px solid var(--border); }
+
+    /* ── HOW SECTION — warm bg ── */
+    .how-section { background: #FDFAF5; }
+
+    /* ── COMPARE SECTION — softer ── */
+    .compare-section { background: var(--bg); }
+    .compare-table { border-color: #ede8e0; }
+    .compare-head { background: #faf7f2; border-color: #ede8e0; }
+    .compare-col-head.ours { background: #c9942a; }
+    .compare-cell.ours { background: rgba(201,148,42,0.04); }
+    .compare-good { color: #1a6e1a; }
+
+    /* ── NEWSLETTER → CTA SECTION ── */
+    .newsletter-section { background: #1a1a1a; }
+    .newsletter-heading { color: white; }
+    .newsletter-sub { color: rgba(255,255,255,0.55); }
+    .newsletter-input {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: white;
+    }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+    .newsletter-input:focus { border-color: #c9942a; }
+    .newsletter-btn { background: #c9942a; }
+    .newsletter-btn:hover { background: #b8830a; }
+
+    /* ── FOOTER — warm ── */
+    footer { background: #FDFAF5; }
   </style>
 </head>
 <body>
@@ -990,17 +1103,18 @@
 
   <!-- ── HERO ────────────────────────────────────────── -->
   <section class="hero">
-    <div class="hero-eyebrow r">Introducing</div>
+    <div class="hero-eyebrow r">Made for Indian celebrations</div>
     <h1 class="hero-heading r">
-      Website Templates for<br/>Digital Invitations
+      Your invitation,<br/>beautifully online.
     </h1>
     <p class="hero-sub r">
-      Easy-to-customise, effortless to share.<br/>
-      Website templates for your big day.
+      One link. No app. No printing.<br/>
+      Just share it on WhatsApp and let the joy begin.
     </p>
-    <a href="#templates" class="hero-cta r">
-      Choose a template
-    </a>
+    <div class="r" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.8rem;">
+      <a href="#templates" class="hero-cta">Browse invitations</a>
+      <a href="#how" class="hero-cta-ghost">See how it works</a>
+    </div>
 
     <!-- Fan spread of template cards — JS carousel cycles data-pos 0-6 -->
     <div class="hero-fan-wrap r">
@@ -1030,17 +1144,39 @@
     </div>
   </section>
 
+  <!-- ── CELEBRATION MARQUEE ── -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Weddings</span>
+      <span class="marquee-item">Birthdays</span>
+      <span class="marquee-item">Housewarmings</span>
+      <span class="marquee-item">Anniversaries</span>
+      <span class="marquee-item">Baby Showers</span>
+      <span class="marquee-item">Engagements</span>
+      <span class="marquee-item">Seemantham</span>
+      <span class="marquee-item">Pellikoduku</span>
+      <span class="marquee-item">Weddings</span>
+      <span class="marquee-item">Birthdays</span>
+      <span class="marquee-item">Housewarmings</span>
+      <span class="marquee-item">Anniversaries</span>
+      <span class="marquee-item">Baby Showers</span>
+      <span class="marquee-item">Engagements</span>
+      <span class="marquee-item">Seemantham</span>
+      <span class="marquee-item">Pellikoduku</span>
+    </div>
+  </div>
+
   <!-- ── TEMPLATE GRID ─────────────────────────────── -->
   <section class="templates-section" id="templates" style="padding-top: 6rem;">
     <!-- Section label band -->
     <div class="section-band" style="margin-bottom: 2rem;">
-      <span class="section-band-label">New Releases</span>
+      <span class="section-band-label">All Templates</span>
       <div class="section-band-line"></div>
     </div>
 
     <div class="templates-header">
-      <h2 class="templates-heading r">Designed for your BIG day.</h2>
-      <p class="templates-sub r">Easy-to-edit. Effortless to Share.</p>
+      <h2 class="templates-heading r">Pick your celebration.</h2>
+      <p class="templates-sub r">Each template is crafted for a specific occasion — just add your details and share.</p>
     </div>
 
     <!-- Category filter -->
@@ -1339,38 +1475,38 @@
   <section class="features-section" id="features">
     <div class="features-inner">
       <div class="features-left">
-        <span class="features-label">Features</span>
-        <h2 class="features-heading">The Digital<br/>Invite,<br/>Reinvented.</h2>
-        <p class="features-desc">Mobile-first, effortless to share. Costs less than printed cards, but feels far more premium.</p>
-        <a href="#templates" class="features-cta">Choose a template</a>
+        <span class="features-label">Why it works</span>
+        <h2 class="features-heading">Celebrations deserve better than a plain WhatsApp message.</h2>
+        <p class="features-desc">invite.studio templates are real websites — not PDFs, not image forwards. Your guests tap a link and land on a beautiful, animated invitation designed for your occasion.</p>
+        <a href="#templates" class="features-cta">See all templates</a>
       </div>
       <div class="features-right">
         <div class="feature-row r">
           <div class="feature-icon">🐷</div>
           <div>
-            <div class="feature-text-head">Cost</div>
-            <div class="feature-text-desc">Cheaper than printed cards and WhatsApp video invites. One-time payment, ₹500 for lifetime access.</div>
+            <div class="feature-text-head">It's a real website, not an image</div>
+            <div class="feature-text-desc">Every invite is a live webpage with animations, countdown, and RSVP — works on any phone, no app needed.</div>
           </div>
         </div>
         <div class="feature-row r">
           <div class="feature-icon">🔍</div>
           <div>
-            <div class="feature-text-head">Elder-Friendly Design</div>
-            <div class="feature-text-desc">No more squinting at tiny, low-res WhatsApp videos. Opens beautifully on any phone, no app required.</div>
+            <div class="feature-text-head">WhatsApp-ready in one tap</div>
+            <div class="feature-text-desc">Share a single link — guests open it directly in their browser. No downloads, no sign-ups, no confusion.</div>
           </div>
         </div>
         <div class="feature-row r">
           <div class="feature-icon">📷</div>
           <div>
-            <div class="feature-text-head">Pre-Wedding Gallery</div>
-            <div class="feature-text-desc">Showcase your shoot like never before. Add up to 6 photos that guests can tap to view full screen.</div>
+            <div class="feature-text-head">Your details, your names</div>
+            <div class="feature-text-desc">Fill in the customize form and every field — names, dates, venue — updates instantly across the whole invite.</div>
           </div>
         </div>
         <div class="feature-row r">
           <div class="feature-icon">⚡</div>
           <div>
-            <div class="feature-text-head">Instant Edits</div>
-            <div class="feature-text-desc">Any change? Update anything instantly even after sharing. Your link stays the same, content updates live.</div>
+            <div class="feature-text-head">One-time payment, yours forever</div>
+            <div class="feature-text-desc">Pay once, no subscription. Use it for the wedding, share again for the reception, keep it as a memory forever.</div>
           </div>
         </div>
         <div class="feature-row r">
@@ -1394,8 +1530,8 @@
   <!-- ── HOW IT WORKS ───────────────────────────────── -->
   <section class="how-section" id="how">
     <div class="how-header">
-      <h2 class="how-heading r">Create a Stunning Invite<br/>in 10 Minutes</h2>
-      <p class="how-sub r">Easily change everything — text, photos, colors — and make your love story the star.</p>
+      <h2 class="how-heading r">Three steps. That's it.</h2>
+      <p class="how-sub r">Pick a template, put in your details, share the link. Done.</p>
     </div>
     <div class="how-cards">
 
@@ -1418,9 +1554,9 @@
           </div>
         </div>
         <div class="how-card-body">
-          <div class="how-step-num">1 — Choose a template</div>
-          <div class="how-step-title">Pick your style</div>
-          <div class="how-step-desc">Choose a design that fits your wedding aesthetics from 12 premium templates.</div>
+          <div class="how-step-num">Step 01</div>
+          <div class="how-step-title">Pick your template</div>
+          <div class="how-step-desc">Browse by occasion — weddings, birthdays, housewarmings and more. Click Preview to see it live.</div>
         </div>
       </div>
 
@@ -1451,9 +1587,9 @@
           </div>
         </div>
         <div class="how-card-body">
-          <div class="how-step-num">2 — Customise &amp; Publish</div>
-          <div class="how-step-title">Add your story</div>
-          <div class="how-step-desc">Add event details, names, dates and photos. Hit publish and your invite is live instantly.</div>
+          <div class="how-step-num">Step 02</div>
+          <div class="how-step-title">Add your details</div>
+          <div class="how-step-desc">Fill in names, dates, venue and message. The invite updates live as you type.</div>
         </div>
       </div>
 
@@ -1476,9 +1612,9 @@
           </div>
         </div>
         <div class="how-card-body">
-          <div class="how-step-num">3 — Share anywhere</div>
-          <div class="how-step-title">Share with everyone</div>
-          <div class="how-step-desc">Share your invite link via WhatsApp, Instagram, or email. Guests open it instantly, no app needed.</div>
+          <div class="how-step-num">Step 03</div>
+          <div class="how-step-title">Share on WhatsApp</div>
+          <div class="how-step-desc">Copy your unique link and send it to everyone. Guests tap once — your invitation opens beautifully.</div>
         </div>
       </div>
 
@@ -1488,8 +1624,8 @@
   <!-- ── COMPARISON TABLE ──────────────────────────── -->
   <section class="compare-section">
     <div class="compare-header">
-      <h2 class="compare-heading r">What Printed Cards Can't Do<br/>(But These Templates Can)</h2>
-      <p class="compare-sub r">See how your invite can go from one-time share to a lasting experience.</p>
+      <h2 class="compare-heading r">Better than the alternatives.</h2>
+      <p class="compare-sub r">See why invite.studio beats printed cards, generic apps, and plain WhatsApp forwards.</p>
     </div>
     <div class="compare-table r">
       <div class="compare-head">
@@ -1668,12 +1804,11 @@
 
   <!-- ── NEWSLETTER ─────────────────────────────────── -->
   <section class="newsletter-section">
-    <h2 class="newsletter-heading r">Be the first to know when<br/>a new template drops</h2>
-    <p class="newsletter-sub r">Stay updated on new template and feature releases.</p>
-    <form class="newsletter-form r" onsubmit="handleNewsletter(event)">
-      <input class="newsletter-input" type="email" placeholder="Email address" required />
-      <button class="newsletter-btn" type="submit">Subscribe</button>
-    </form>
+    <h2 class="newsletter-heading r">Ready to send something beautiful?</h2>
+    <p class="newsletter-sub r">Browse 10+ templates for weddings, birthdays, and every celebration in between.</p>
+    <div class="r">
+      <a href="#templates" class="newsletter-btn" style="display:inline-block;padding:0.85rem 2.2rem;border-radius:100px;font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:700;text-decoration:none;color:white;background:#c9942a;transition:background 160ms;" onmouseover="this.style.background='#b8830a'" onmouseout="this.style.background='#c9942a'">Browse templates →</a>
+    </div>
   </section>
 
   <!-- ── FOOTER ─────────────────────────────────────── -->
@@ -1684,7 +1819,7 @@
           <div class="footer-logo-icon">✦</div>
           <span class="footer-logo-text">invite<span>.studio</span></span>
         </a>
-        <p class="footer-tagline">Website Templates for Digital Invitations.<br/>Easy to customise, effortless to share.</p>
+        <p class="footer-tagline">Digital invitations crafted for Indian celebrations.</p>
         <div class="footer-socials">
           <a href="#" class="footer-social">📸</a>
           <a href="#" class="footer-social">▶</a>

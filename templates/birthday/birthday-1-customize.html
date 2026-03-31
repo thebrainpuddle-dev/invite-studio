@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="../../css/marketplace.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
-    body { background: #faf7f2; color: #1a1310; }
+    body { background: #faf5ec; color: #2a1e10; font-family: 'Cormorant Garamond', serif; }
 
     /* ── Layout ── */
     .customize-wrap {
@@ -38,31 +38,28 @@
     }
     .cust-page-header .sec-tag { margin-bottom: 0.4rem; }
     .cust-page-title {
-      font-family: var(--font-display);
+      font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.6rem, 4vw, 2.4rem);
-      color: var(--maroon);
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: #2a1e10;
       margin-bottom: 0.5rem;
     }
     .cust-page-sub {
       font-size: 0.82rem;
-      color: var(--text-dim);
-    }
-
-    /* ── Form panel ── */
-    .customize-form-panel {
-      background: #fff;
-      border: 1px solid rgba(201,148,42,0.2);
-      padding: 2rem;
+      color: rgba(42,30,16,0.55);
+      font-family: 'Poppins', sans-serif;
     }
 
     .form-section-title {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      color: var(--maroon);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #c9942a;
       margin-bottom: 1.2rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid rgba(201,148,42,0.2);
-      letter-spacing: 0.05em;
+      font-weight: 500;
     }
 
     .form-actions {
@@ -77,17 +74,26 @@
     }
     .form-actions .btn:hover { transform: translateY(-2px) scale(1.01); }
 
+    /* ── Form panel ── */
+    .customize-form-panel {
+      background: #fff;
+      border: 1px solid rgba(201,148,42,0.2);
+      border-top: 3px solid #c9942a;
+      padding: 2rem;
+    }
+
     /* ── Save banner ── */
     .save-banner {
       display: none;
-      background: linear-gradient(135deg, var(--maroon2), var(--maroon));
-      color: var(--gold-pale);
+      background: linear-gradient(135deg, #100d0a, #1c1510);
+      color: #f5d78a;
       padding: 0.7rem 1rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
       text-align: center;
       margin-top: 1rem;
-      border-radius: 2px;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
     }
     .save-banner.show { display: block; }
 
@@ -126,108 +132,122 @@
       text-align: center;
     }
 
-    /* ── Live preview card — mini invitation ── */
+    /* ── Live preview card — mini invitation matching birthday-1 hero ── */
     #live-preview {
-      background: linear-gradient(160deg, var(--maroon2) 0%, #3d0c0c 40%, var(--maroon) 100%);
-      color: var(--gold-pale);
-      padding: 2.5rem 2rem;
+      background: linear-gradient(160deg, #100d0a 0%, #1c1510 45%, #261808 75%, #1c1510 100%);
+      color: #f5efe0;
+      padding: 2.8rem 2rem 2.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(201,148,42,0.25);
+      border: 2px solid #c9942a;
       min-height: 460px;
     }
-
-    /* Corner brackets on preview */
+    /* Gold corner brackets */
     #live-preview::before,
     #live-preview::after {
       content: '';
       position: absolute;
-      width: 22px; height: 22px;
+      width: 24px; height: 24px;
       border-color: rgba(201,148,42,0.5);
       border-style: solid;
       pointer-events: none;
     }
-    #live-preview::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-    #live-preview::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+    #live-preview::before { top: 12px; left: 12px; border-width: 1.5px 0 0 1.5px; }
+    #live-preview::after  { bottom: 12px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+    /* Watermark */
+    #live-preview .lp-watermark {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5.5rem; font-weight: 700; text-transform: uppercase;
+      color: rgba(255,255,255,0.04); letter-spacing: 0.04em;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
 
     .lp-pre {
       font-size: 0.55rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: #e8b84b;
       margin-bottom: 0.6rem;
+      font-family: 'Poppins', sans-serif;
     }
     .lp-script {
-      font-family: var(--font-script);
-      font-size: 2.8rem;
-      color: var(--gold-pale);
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.6rem;
+      color: #e8b84b;
       line-height: 1;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.25rem;
     }
     .lp-name {
-      font-family: var(--font-display);
-      font-size: 1.9rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
       font-weight: 700;
-      color: var(--gold-light);
-      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
     }
     .lp-age {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.3em;
-      color: var(--gold);
-      border: 1px solid rgba(201,148,42,0.35);
+      color: #f5d78a;
+      border: 1px solid rgba(201,148,42,0.4);
       display: inline-block;
-      padding: 0.2rem 0.8rem;
+      padding: 0.22rem 0.9rem;
       margin-bottom: 1.2rem;
+      font-family: 'Poppins', sans-serif;
     }
     .lp-divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
-      color: var(--gold);
+      gap: 0.5rem;
       margin-bottom: 1.2rem;
     }
     .lp-divider .lp-line {
       width: 40px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold));
+      background: rgba(201,148,42,0.4);
     }
     .lp-divider .lp-line.r { transform: scaleX(-1); }
     .lp-divider .lp-diamond {
       width: 6px; height: 6px;
-      background: var(--gold);
+      background: #c9942a;
       transform: rotate(45deg);
     }
     .lp-detail {
-      font-size: 0.72rem;
-      color: var(--gold-pale);
-      margin: 0.35rem 0;
+      font-size: 0.75rem;
+      color: rgba(245,215,138,0.85);
+      margin: 0.4rem 0;
       line-height: 1.5;
+      font-family: 'Cormorant Garamond', serif;
     }
     .lp-detail-label {
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: #c9942a;
       display: block;
+      font-family: 'Poppins', sans-serif;
     }
     .lp-message {
-      font-family: var(--font-display);
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 0.82rem;
-      color: var(--gold-pale);
+      font-size: 0.85rem;
+      color: rgba(245,239,224,0.7);
       margin: 1.2rem 0 1rem;
       line-height: 1.6;
       padding: 0 0.5rem;
     }
     .lp-host {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: rgba(201,148,42,0.6);
+      font-family: 'Poppins', sans-serif;
     }
-    .lp-host span { color: var(--gold); }
+    .lp-host span { color: #c9942a; }
   </style>
 </head>
 <body data-preview-template="birthday-1.html">
@@ -334,6 +354,7 @@
         <div class="preview-panel-label">Live Preview</div>
 
         <div id="live-preview">
+          <div class="lp-watermark" aria-hidden="true">CELEBRATE</div>
           <div class="lp-pre">— You Are Invited —</div>
           <div class="lp-script">Happy Birthday</div>
           <div class="lp-name">{{name}}</div>
